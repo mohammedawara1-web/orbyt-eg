@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Orbyt — AI Visual Studio · Render the impossible</title>
+<meta name="description" content="Orbyt — AI Visual Studio. نصنع لقطات سينمائية ومحتوى بصري للبراندات بسرعة الذكاء الاصطناعي ودون التضحية بحرفية السينما. شوف أعمالنا وكلّمنا على واتساب." />
+<meta property="og:title" content="Orbyt — Render the impossible" />
+<meta property="og:description" content="AI Visual Studio · لقطات سينمائية ومحتوى بصري للبراندات في 48 ساعة." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#000000" />
+
+<!-- Favicon: inline Orbyt mark -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='%23C6FF33'/%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M57.59,175.08c7.76,6.32,15.61,9.58,24.14,12.07,31.27,9.11,56.47,6.66,71.03,2.07,12.71-4,24.49-10.37,35-18.79,8.67-7.05,13.88-17.57,13.97-28.79.09-12.4-6.09-23.97-16.21-31.03-7.04-5.45-14.72-9.9-22.93-13.27-7.52-3.09-16.42-5.48-27.24-6.9-5.54-.73-11.12-1.07-16.72-1.03-7.93,0-15.76.81-23.45,2.41-9.99,2.08-18.89,5.25-24.48,8.27-9.26,5-32.8,20.14-32.59,41.72.13,13.34,9.44,25.08,19.48,33.27ZM77.41,110.6c1.19-2.46,5.42-7.88,11.9-11.89,5.2-3.23,11.06-5.25,17.24-6.03,16.49-3.48,33.7-1.78,46.38,8.1,9.48,7.38,12.48,14.76,12.59,19.31.11,4.51-1.72,10.46-8.62,17.41-3.08,3.1-11.18,8.41-22.07,10.86-11.92,2.69-22.95,1.9-32.41-1.21-18.07-5.93-25.35-13.93-27.07-21.38-1.28-5.53.11-11.13,2.07-15.17ZM0,0v240h240V0H0Z'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --obsidian:#000000;
+  --violet:#7D39EB;
+  --violet-soft:#9C66F0;
+  --violet-deep:#5A24B5;
+  --lime:#C6FF33;
+  --lime-soft:#D9FF70;
+  --white:#FFFFFF;
+  --ink-80:rgba(255,255,255,.80);
+  --ink-60:rgba(255,255,255,.60);
+  --ink-40:rgba(255,255,255,.40);
+  --ink-15:rgba(255,255,255,.15);
+  --ink-8:rgba(255,255,255,.08);
+  --display:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --body:'Inter','Cairo',ui-sans-serif,system-ui,sans-serif;
+  --ar:'Cairo','Inter',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --maxw:1240px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html,body{background:var(--obsidian);color:var(--white);font-family:var(--ar);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{position:relative}
+::selection{background:var(--lime);color:var(--obsidian)}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.lat{font-family:var(--body)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.lime{color:var(--lime)}
+
+/* ===== scrollbar ===== */
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:var(--violet-deep);border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:var(--violet)}
+
+/* ===== cursor glow ===== */
+#cursor-glow{position:fixed;top:0;left:0;width:540px;height:540px;border-radius:50%;
+  background:radial-gradient(circle,rgba(125,57,235,.16),transparent 62%);
+  transform:translate(-50%,-50%);pointer-events:none;z-index:1;transition:opacity .4s;will-change:transform}
+
+/* ===== scroll progress ===== */
+#progress{position:fixed;top:0;right:0;height:3px;width:0;background:linear-gradient(90deg,var(--violet),var(--lime));z-index:120;transition:width .1s linear}
+
+/* ===== layout ===== */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+section{position:relative;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+.eyebrow .num{color:var(--ink-40)}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--lime);display:inline-block}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.02em;line-height:1.04;direction:ltr}
+.sec-title{font-size:clamp(34px,5vw,68px);margin-bottom:20px}
+.sec-lead{font-size:clamp(16px,1.6vw,20px);color:var(--ink-60);max-width:60ch;line-height:1.7}
+
+/* ===== buttons ===== */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:15px 26px;font-family:var(--ar);
+  font-weight:600;font-size:15px;border-radius:999px;transition:transform .3s var(--ease),background .3s,color .3s,box-shadow .3s;
+  white-space:nowrap;will-change:transform;overflow:hidden}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-primary{background:var(--lime);color:#0a0a0a;box-shadow:0 0 0 rgba(198,255,51,0)}
+.btn-primary:hover{box-shadow:0 12px 40px rgba(198,255,51,.32)}
+.btn-violet{background:var(--violet);color:#fff}
+.btn-violet:hover{background:var(--violet-soft);box-shadow:0 12px 40px rgba(125,57,235,.45)}
+.btn-ghost{background:transparent;color:#fff;border:1px solid var(--ink-15)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+.btn-wa{background:#25D366;color:#06351a}
+.btn-wa:hover{background:#2ee676;box-shadow:0 12px 40px rgba(37,211,102,.4)}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;right:0;left:0;z-index:100;transition:all .4s var(--ease)}
+nav .bar{max-width:var(--maxw);margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+nav.scrolled{background:rgba(0,0,0,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--ink-8)}
+nav.scrolled .bar{padding:12px 32px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mk{width:38px;height:38px;background:var(--lime);display:flex;align-items:center;justify-content:center;color:#000;border-radius:9px;transition:transform .5s var(--ease)}
+.brand:hover .mk{transform:rotate(8deg) scale(1.06)}
+.brand .mk svg{width:24px;height:24px}
+.brand .name{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.03em}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{font-family:var(--ar);font-weight:600;font-size:14px;color:var(--ink-60);padding:8px 14px;border-radius:999px;transition:color .25s,background .25s}
+.nav-links a:hover{color:#fff;background:var(--ink-8)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* mobile menu */
+#mobile-menu{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.97);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
+#mobile-menu.open{opacity:1;visibility:visible}
+#mobile-menu a{font-family:var(--display);font-weight:600;font-size:34px;color:#fff;padding:10px;letter-spacing:-.02em}
+#mobile-menu a:hover{color:var(--lime)}
+#mobile-menu .m-cta{margin-top:24px}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:120px 32px 56px;position:relative;overflow:hidden;
+  background:radial-gradient(1200px 700px at 80% 12%,rgba(125,57,235,.38),transparent 60%),
+             radial-gradient(800px 500px at 8% 95%,rgba(198,255,51,.10),transparent 60%),#000}
+.hero .wrap{width:100%}
+.grid-overlay{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--ink-8) 1px,transparent 1px),linear-gradient(90deg,var(--ink-8) 1px,transparent 1px);
+  background-size:74px 74px;mask-image:radial-gradient(ellipse 80% 80% at 60% 40%,#000 25%,transparent 72%)}
+.hero-inner{position:relative;z-index:3}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--lime);text-transform:uppercase;
+  margin-bottom:26px;display:inline-flex;align-items:center;gap:12px}
+.kicker .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 16px var(--lime);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-size:clamp(54px,12vw,180px);letter-spacing:-.045em;line-height:.92;direction:ltr}
+.hero h1 .it{font-style:italic;font-weight:500;color:var(--violet-soft);
+  background:linear-gradient(120deg,var(--violet-soft),var(--lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(16px,1.8vw,21px);color:var(--ink-80);max-width:54ch;line-height:1.7;margin-top:30px;font-weight:400}
+.hero-cta{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap}
+.hero-meta{display:flex;gap:40px;margin-top:64px;padding-top:28px;border-top:1px solid var(--ink-15);flex-wrap:wrap}
+.hero-meta .col .n{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:-.02em;direction:ltr}
+.hero-meta .col .l{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-40);margin-top:4px}
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:3;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-40);text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-cue .line{width:1px;height:38px;background:linear-gradient(var(--lime),transparent);animation:scrolldown 1.8s var(--ease) infinite}
+@keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ===== MARQUEE ===== */
+.marquee{border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15);padding:26px 0;overflow:hidden;background:#050505}
+.marquee .track{display:flex;gap:48px;width:max-content;animation:marq 28s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes marq{to{transform:translateX(50%)}}
+.marquee .item{display:flex;align-items:center;gap:48px;font-family:var(--display);font-weight:600;
+  font-size:clamp(20px,3vw,38px);letter-spacing:-.02em;color:var(--ink-40);white-space:nowrap;direction:ltr}
+.marquee .item .s{color:var(--lime);font-size:20px}
+.marquee .item:hover{color:#fff}
+
+/* ===== SERVICES ===== */
+.services{padding:120px 0}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
+.svc{position:relative;padding:38px;border:1px solid var(--ink-15);border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);transition:transform .4s var(--ease),border-color .4s}
+.svc::after{content:"";position:absolute;inset:0;background:radial-gradient(420px 220px at var(--mx,50%) var(--my,0%),rgba(125,57,235,.18),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.svc:hover{transform:translateY(-4px);border-color:var(--violet)}
+.svc:hover::after{opacity:1}
+.svc .ico{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  background:rgba(125,57,235,.14);color:var(--lime);margin-bottom:22px}
+.svc .ico svg{width:26px;height:26px}
+.svc .num{position:absolute;top:30px;left:34px;font-family:var(--mono);font-size:12px;color:var(--ink-40);letter-spacing:.12em}
+.svc h3{font-size:25px;margin-bottom:10px;direction:rtl;font-family:var(--ar);font-weight:700;letter-spacing:0}
+.svc p{color:var(--ink-60);font-size:15px;line-height:1.7}
+.svc .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.svc .tags span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-60);border:1px solid var(--ink-15);padding:5px 11px;border-radius:999px}
+
+/* ===== WORK ===== */
+.work{padding:120px 0;border-top:1px solid var(--ink-15)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:44px}
+.filter{font-family:var(--ar);font-weight:600;font-size:13px;padding:9px 18px;border-radius:999px;
+  border:1px solid var(--ink-15);color:var(--ink-60);transition:all .25s}
+.filter:hover{color:#fff;border-color:var(--ink-40)}
+.filter.active{background:var(--white);color:#000;border-color:var(--white)}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.proj{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--ink-15);
+  aspect-ratio:4/5;cursor:pointer;transition:transform .5s var(--ease),border-color .4s;text-align:right;display:block;width:100%}
+.proj:hover{border-color:var(--lime);transform:translateY(-4px)}
+.proj .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d0d18;transition:transform .7s var(--ease)}
+.proj:hover .thumb{transform:scale(1.06)}
+.proj .glass{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.85));z-index:1}
+.proj .meta{position:absolute;inset:auto 24px 24px 24px;z-index:2}
+.proj .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);direction:ltr}
+.proj .meta h3{font-family:var(--ar);font-weight:700;letter-spacing:0;font-size:22px;margin-top:8px;direction:rtl}
+.proj .open{position:absolute;top:18px;left:18px;z-index:2;width:42px;height:42px;border-radius:50%;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border:1px solid var(--ink-15);
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);opacity:0;transform:scale(.7)}
+.proj:hover .open{opacity:1;transform:scale(1);background:var(--lime);color:#000;border-color:var(--lime)}
+.proj .open svg{width:18px;height:18px}
+.proj .frameno{position:absolute;top:18px;right:18px;z-index:2;font-family:var(--mono);font-size:10px;color:var(--white);letter-spacing:.16em;direction:ltr;mix-blend-mode:difference}
+
+/* ===== PROCESS / STATS ===== */
+.process{padding:120px 0;border-top:1px solid var(--ink-15);
+  background:radial-gradient(900px 500px at 50% 0%,rgba(125,57,235,.10),transparent 60%)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.step{padding:34px;border:1px solid var(--ink-15);border-radius:18px;transition:border-color .4s,background .4s}
+.step:hover{border-color:var(--violet);background:linear-gradient(180deg,rgba(125,57,235,.06),transparent)}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--lime);letter-spacing:.16em;direction:ltr}
+.step h3{font-family:var(--ar);font-weight:700;letter-spacing:0;font-size:24px;margin:14px 0 10px}
+.step p{color:var(--ink-60);font-size:15px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:80px}
+.stat{text-align:center;padding:28px 14px;border:1px solid var(--ink-15);border-radius:16px}
+.stat .v{font-family:var(--display);font-weight:700;font-size:clamp(38px,5vw,60px);letter-spacing:-.03em;
+  background:linear-gradient(135deg,#fff,var(--violet-soft));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
+.stat .l{font-family:var(--ar);font-size:14px;color:var(--ink-60);margin-top:6px}
+
+/* ===== CTA ===== */
+.cta{padding:120px 32px}
+.cta-box{max-width:var(--maxw);margin:0 auto;border-radius:28px;padding:clamp(48px,7vw,96px);
+  position:relative;overflow:hidden;background:linear-gradient(135deg,var(--violet),var(--violet-deep))}
+.cta-box::after{content:"";position:absolute;left:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:var(--lime);opacity:.16;filter:blur(10px)}
+.cta-box .ring{position:absolute;right:-80px;bottom:-120px;width:380px;opacity:.12;color:#fff}
+.cta-box .eyebrow{color:var(--lime-soft)}
+.cta-box h2{font-family:var(--display);font-size:clamp(34px,5vw,68px);letter-spacing:-.03em;line-height:1.02;direction:ltr;position:relative;z-index:2}
+.cta-box p{color:rgba(255,255,255,.82);font-size:18px;max-width:46ch;margin-top:20px;position:relative;z-index:2}
+.cta-box .row{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px;position:relative;z-index:2}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--ink-15);padding:80px 32px 48px;position:relative;overflow:hidden}
+.foot-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.foot-brand .name{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:-.03em;display:flex;align-items:center;gap:12px}
+.foot-brand .name .mk{width:40px;height:40px;background:var(--lime);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#000}
+.foot-brand .name .mk svg{width:25px;height:25px}
+.foot-brand p{color:var(--ink-60);font-size:15px;margin-top:18px;max-width:34ch;line-height:1.7}
+.foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-bottom:18px}
+.foot-col a{display:block;color:var(--ink-60);font-size:15px;padding:6px 0;transition:color .25s}
+.foot-col a:hover{color:var(--lime)}
+.foot-bottom{max-width:var(--maxw);margin:60px auto 0;padding-top:28px;border-top:1px solid var(--ink-15);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-40)}
+.foot-watermark{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);
+  font-family:var(--display);font-weight:700;font-size:clamp(120px,26vw,360px);letter-spacing:-.05em;
+  color:var(--ink-8);pointer-events:none;z-index:0;line-height:1}
+
+/* ===== floating WhatsApp ===== */
+#wa-float{position:fixed;bottom:26px;left:26px;z-index:90;display:flex;align-items:center;gap:0;
+  background:#25D366;color:#06351a;border-radius:999px;padding:0;height:60px;overflow:hidden;
+  box-shadow:0 14px 40px rgba(37,211,102,.4);transition:padding .4s var(--ease),transform .3s var(--ease);
+  transform:translateY(120px)}
+#wa-float.show{transform:translateY(0)}
+#wa-float:hover{transform:translateY(-3px)}
+#wa-float .ic{width:60px;height:60px;flex:none;display:flex;align-items:center;justify-content:center}
+#wa-float .ic svg{width:30px;height:30px}
+#wa-float .lbl{font-weight:700;font-size:15px;max-width:0;opacity:0;white-space:nowrap;transition:max-width .4s var(--ease),opacity .3s,padding .4s}
+#wa-float:hover .lbl{max-width:220px;opacity:1;padding-left:18px}
+
+/* ===== MODAL ===== */
+#modal{position:fixed;inset:0;z-index:130;display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
+#modal.open{opacity:1;visibility:visible}
+#modal .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(8px)}
+#modal .panel{position:relative;z-index:2;max-width:880px;width:100%;max-height:88vh;overflow:auto;
+  background:#0a0a0a;border:1px solid var(--ink-15);border-radius:22px;transform:translateY(24px) scale(.98);
+  transition:transform .4s var(--ease)}
+#modal.open .panel{transform:translateY(0) scale(1)}
+#modal .hero-img{aspect-ratio:16/10;position:relative;background:#0d0d18 center/cover no-repeat;transition:background-image .25s}
+#modal .hero-img .frameno{position:absolute;top:18px;right:18px;font-family:var(--mono);font-size:11px;color:var(--white);letter-spacing:.16em;direction:ltr;mix-blend-mode:difference}
+#modal .gnav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);border:1px solid var(--ink-15);color:#fff;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .25s}
+#modal .gnav:hover{background:var(--lime);color:#000;border-color:var(--lime)}
+#modal .gnav.next{left:14px}
+#modal .gnav.prev{right:14px}
+#modal .gcount{position:absolute;bottom:16px;left:16px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#fff;background:rgba(0,0,0,.5);padding:5px 11px;border-radius:999px;backdrop-filter:blur(8px);direction:ltr}
+#modal .gallery{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:#080808;border-bottom:1px solid var(--ink-15);scrollbar-width:thin}
+#modal .gallery::-webkit-scrollbar{height:6px}
+#modal .gallery img{width:60px;height:75px;object-fit:cover;border-radius:8px;cursor:pointer;opacity:.45;border:2px solid transparent;transition:opacity .2s,border-color .2s;flex:none}
+#modal .gallery img:hover{opacity:.8}
+#modal .gallery img.active{opacity:1;border-color:var(--lime)}
+#modal .close{position:absolute;top:16px;left:16px;z-index:3;width:44px;height:44px;border-radius:50%;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border:1px solid var(--ink-15);display:flex;align-items:center;justify-content:center;transition:all .3s}
+#modal .close:hover{background:var(--lime);color:#000}
+#modal .body{padding:38px}
+#modal .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);direction:ltr}
+#modal .body h3{font-family:var(--ar);font-weight:700;letter-spacing:0;font-size:32px;margin:12px 0 16px;direction:rtl}
+#modal .body p{color:var(--ink-60);font-size:16px;line-height:1.8}
+#modal .specs{display:flex;gap:30px;flex-wrap:wrap;margin:26px 0;padding:22px 0;border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15)}
+#modal .specs .sp .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-40)}
+#modal .specs .sp .val{font-family:var(--ar);font-weight:600;font-size:16px;margin-top:4px}
+#modal .body .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+
+/* ===== reveal ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
+
+/* ===== responsive ===== */
+@media (max-width:980px){
+  .svc-grid,.steps{grid-template-columns:1fr 1fr}
+  .work-grid{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:680px){
+  .nav-links,.nav-cta .btn{display:none}
+  .burger{display:flex}
+  .svc-grid,.steps,.work-grid,.stats,.foot-grid{grid-template-columns:1fr}
+  .hero{padding:110px 24px 48px}
+  .wrap,.cta{padding-left:24px;padding-right:24px}
+  .hero-meta{gap:28px}
+  #cursor-glow{display:none}
+  .services,.work,.process,.cta{padding-top:80px;padding-bottom:80px}
+  #wa-float{bottom:18px;left:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== inline SVG mark def ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="orbyt-mark" viewBox="0 0 240 240">
+      <path fill="currentColor" fill-rule="evenodd" d="M57.59,175.08c7.76,6.32,15.61,9.58,24.14,12.07,31.27,9.11,56.47,6.66,71.03,2.07,12.71-4,24.49-10.37,35-18.79,8.67-7.05,13.88-17.57,13.97-28.79.09-12.4-6.09-23.97-16.21-31.03-7.04-5.45-14.72-9.9-22.93-13.27-7.52-3.09-16.42-5.48-27.24-6.9-5.54-.73-11.12-1.07-16.72-1.03-7.93,0-15.76.81-23.45,2.41-9.99,2.08-18.89,5.25-24.48,8.27-9.26,5-32.8,20.14-32.59,41.72.13,13.34,9.44,25.08,19.48,33.27ZM77.41,110.6c1.19-2.46,5.42-7.88,11.9-11.89,5.2-3.23,11.06-5.25,17.24-6.03,16.49-3.48,33.7-1.78,46.38,8.1,9.48,7.38,12.48,14.76,12.59,19.31.11,4.51-1.72,10.46-8.62,17.41-3.08,3.1-11.18,8.41-22.07,10.86-11.92,2.69-22.95,1.9-32.41-1.21-18.07-5.93-25.35-13.93-27.07-21.38-1.28-5.53.11-11.13,2.07-15.17ZM0,0v240h240V0H0ZM.86.45h238.28c.06.06.11.11.17.17v87.06c-18.58-9.6-38-16.87-58.1-21.72-45.56-11.01-93.76-9.37-138.28,4.48-14.47,4.51-28.45,10.26-41.9,17.24h-.34c.06-29.07.11-58.15.17-87.23ZM239.31,191.63v6.21c-1.69,1.88-3.47,3.66-5.34,5.34-3.39,3.04-6.64,5.34-10.69,7.93-3.9,2.49-8.42,5.28-11.38,6.9-8.45,4.61-17.93,8.59-27.59,11.72-19.87,6.44-42.34,9.21-63.79,9.31-37.45,1.66-72.76-6.79-101.9-26.72-6.34-4.34-12.32-9.17-17.93-14.48.06-2.87.11-5.75.17-8.62,6.7,8.58,14.54,16.17,23.45,22.58,10.36,7.46,22.37,13.36,38.79,18.1,54.02,15.59,109.35,4.81,138.28-9.48,10.57-5.22,18.8-11.06,25.34-17.24,4.5-4.24,8.52-8.85,12.07-13.79.17-.06.34-.11.52-.17v2.41ZM34.48,111.98c3.88-5.26,8.37-10,13.45-14.14,6.02-4.9,19.68-12.29,35.86-16.55,11.53-3.04,23.42-4.64,35.52-4.83,17.53.12,34.64,3.16,50.52,9.31,16.26,6.3,26.85,14.64,32.41,21.72,9.05,11.52,11.6,21.29,11.38,29.31-.24,8.67-5.6,22.91-22.93,37.24-20.77,17.16-51.03,24.49-91.38,19.14-26.37-3.5-42.77-12.06-53.62-21.72-12.87-11.46-17.97-24.9-18.62-30.17-1.27-10.2,1.59-20.41,7.41-29.31ZM239.31,124.05h-.17c-7.3-9.03-15.79-16.97-25.34-23.62-8.93-6.21-20.52-12.09-35.17-16.89-16.65-5.46-35.85-8.67-58.87-8.62-26.49.06-49.29,4.49-68.54,12.24-12.22,4.92-21.54,10.3-29.48,16.38-8.13,6.22-15.34,13.45-21.55,21.55v-22.07c8.64-8.07,18.23-14.94,28.62-20.51,6.96-3.73,14.21-6.84,21.72-9.31,6.23-1.98,12.43-3.69,18.79-5.17,14.32-3.35,28.88-5.41,43.62-6.21,12.06-.48,24.03.03,35.86,1.55,19.23,2.47,35.81,7,47.96,12.19,14.81,6.32,28.46,14.82,40.66,25.22.69.69,1.38,1.38,2.07,2.07-.06,7.07-.11,14.14-.17,21.2Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+<div id="cursor-glow"></div>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <div class="bar">
+    <a href="#top" class="brand" aria-label="Orbyt — الصفحة الرئيسية">
+      <span class="mk"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg></span>
+      <span class="name">orbyt</span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">الخدمات</a>
+      <a href="#work">أعمالنا</a>
+      <a href="#process">طريقة شغلنا</a>
+      <a href="#contact">تواصل</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-wa magnetic" data-wa="general" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.25-8.23s8.24 3.69 8.24 8.23-3.7 8.44-8.13 8.44zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+        كلّمنا واتساب
+      </a>
+    </div>
+    <button class="burger" id="burger" aria-label="القائمة"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div id="mobile-menu">
+  <a href="#services">الخدمات</a>
+  <a href="#work">أعمالنا</a>
+  <a href="#process">طريقة شغلنا</a>
+  <a href="#contact">تواصل</a>
+  <a class="btn btn-wa m-cta" data-wa="general" href="#">كلّمنا على واتساب</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <div class="grid-overlay"></div>
+  <div class="wrap hero-inner">
+    <span class="kicker"><span class="dot"></span>Orbyt — AI Visual Studio</span>
+    <h1>Render<br>the <span class="it">impossible.</span></h1>
+    <p class="hero-sub">استوديو بصري بالذكاء الاصطناعي. بنصمّم لقطات ومحتوى بصري سينمائي للبراندات — بسرعة الـ AI ومن غير ما نتنازل عن حِرفية السينما.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary magnetic">
+        شوف أعمالنا
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-violet magnetic" data-wa="general" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.25-8.23s8.24 3.69 8.24 8.23-3.7 8.44-8.13 8.44z"/></svg>
+        اعرف التفاصيل والأسعار
+      </a>
+    </div>
+    <div class="hero-meta">
+      <div class="col"><div class="n" data-count="48" data-suffix="h">48h</div><div class="l">متوسط التسليم</div></div>
+      <div class="col"><div class="n" data-count="120" data-suffix="+">120+</div><div class="l">لقطة شهرياً</div></div>
+      <div class="col"><div class="n" data-count="30" data-suffix="+">30+</div><div class="l">براند اشتغلنا معاه</div></div>
+      <div class="col"><div class="n">∞</div><div class="l">أفكار ممكنة</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>SCROLL</span><span class="line"></span></div>
+</header>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <div class="item">Product Shots <span class="s">✦</span> Editorial <span class="s">✦</span> Motion Reels <span class="s">✦</span> Ad Creatives <span class="s">✦</span> Brand Systems <span class="s">✦</span> Campaigns <span class="s">✦</span></div>
+    <div class="item">Product Shots <span class="s">✦</span> Editorial <span class="s">✦</span> Motion Reels <span class="s">✦</span> Ad Creatives <span class="s">✦</span> Brand Systems <span class="s">✦</span> Campaigns <span class="s">✦</span></div>
+  </div>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<section class="services" id="services">
+  <div class="wrap">
+    <span class="eyebrow reveal"><span class="num">01</span> الخدمات</span>
+    <h2 class="sec-title reveal">استوديو واحد، كل صيغة بصرية يحتاجها البراند.</h2>
+    <p class="sec-lead reveal d1">من صورة المنتج للحملة الكاملة — بنشتغل بالـ AI كأداة في إيد مخرج، مش سلوت ماشين. كل لقطة بتعدي على عين مخرج قبل ما تطلع.</p>
+    <div class="svc-grid">
+      <div class="svc magnetic-soft reveal d1">
+        <span class="num">S/01</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div>
+        <h3>تصوير المنتجات</h3>
+        <p>لقطات منتج وlifestyle بإضاءة سينمائية، متطابقة مع هوية البراند، جاهزة للمتجر والإعلانات في يومين.</p>
+        <div class="tags"><span>Hero Shots</span><span>Lifestyle</span><span>E-commerce</span></div>
+      </div>
+      <div class="svc magnetic-soft reveal d2">
+        <span class="num">S/02</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>محتوى تحريري وحملات</h3>
+        <p>كونسبت كامل للحملة من الفكرة للتنفيذ — editorial visuals بطابع المخرج لإطلاقات المنتجات والمواسم.</p>
+        <div class="tags"><span>Campaigns</span><span>Editorial</span><span>Launch</span></div>
+      </div>
+      <div class="svc magnetic-soft reveal d3">
+        <span class="num">S/03</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <h3>موشن وريلز</h3>
+        <p>فيديوهات وريلز قصيرة للسوشيال، UGC، وإعلانات — حركة كاميرا محسوبة وقطعات على البيت.</p>
+        <div class="tags"><span>Reels 9:16</span><span>UGC</span><span>Ads</span></div>
+      </div>
+      <div class="svc magnetic-soft reveal d4">
+        <span class="num">S/04</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+        <h3>أنظمة البراند البصرية</h3>
+        <p>هوية بصرية كاملة وقوالب — موشن، سوشيال، ديكات — متّسقة عبر كل قناة بمعايير الوكالات.</p>
+        <div class="tags"><span>Identity</span><span>Templates</span><span>Guidelines</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORK ===== -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <span class="eyebrow reveal"><span class="num">02</span> أعمالنا</span>
+        <h2 class="sec-title reveal" style="margin-bottom:0">اضغط على أي عمل تشوف التفاصيل.</h2>
+      </div>
+      <p class="sec-lead reveal d1" style="max-width:34ch">مجموعة من اللي صمّمناه. كل كرت بيفتحلك تفاصيل المشروع — وزرار يكلّمنا على واتساب لو حابب حاجة زيه.</p>
+    </div>
+
+    <div class="filters reveal d1">
+      <button class="filter active" data-filter="all">الكل</button>
+      <button class="filter" data-filter="product">منتجات</button>
+      <button class="filter" data-filter="campaign">حملات</button>
+      <button class="filter" data-filter="motion">موشن</button>
+    </div>
+
+    <div class="work-grid" id="work-grid"><!-- injected by JS --></div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="process" id="process">
+  <div class="wrap">
+    <span class="eyebrow reveal"><span class="num">03</span> طريقة شغلنا</span>
+    <h2 class="sec-title reveal">من البريف للتسليم — في أيام، مش أسابيع.</h2>
+    <div class="steps">
+      <div class="step reveal d1">
+        <span class="n">/ 01 — DIRECT</span>
+        <h3>نفهم ونوجّه</h3>
+        <p>نسمع البريف، نحدّد الـ mood والمرجعيات، ونبني خط بصري واضح قبل أول لقطة.</p>
+      </div>
+      <div class="step reveal d2">
+        <span class="n">/ 02 — RENDER</span>
+        <h3>نصمّم ونرندر</h3>
+        <p>نشتغل على أحدث أدوات الـ generative، وكل مخرج بيراجع كل فريم قبل ما يعدّي.</p>
+      </div>
+      <div class="step reveal d3">
+        <span class="n">/ 03 — DELIVER</span>
+        <h3>نسلّم ونظبّط</h3>
+        <p>تسليم بكل المقاسات والصيغ، وتعديلات لحد ما تطلع مظبوطة 100%.</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat reveal d1"><div class="v" data-count="48" data-suffix="h">48h</div><div class="l">أسرع تسليم</div></div>
+      <div class="stat reveal d2"><div class="v" data-count="120" data-suffix="+">120+</div><div class="l">لقطة شهرياً</div></div>
+      <div class="stat reveal d3"><div class="v" data-count="30" data-suffix="+">30+</div><div class="l">براند</div></div>
+      <div class="stat reveal d4"><div class="v" data-count="98" data-suffix="%">98%</div><div class="l">رضا العملاء</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="contact">
+  <div class="cta-box reveal">
+    <svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg>
+    <span class="eyebrow">جاهزين نبدأ؟</span>
+    <h2>Let's render<br>something impossible.</h2>
+    <p>قولنا فكرتك، وإحنا نطلّعها. كلّمنا على واتساب دلوقتي تعرف التفاصيل والأسعار وتبدأ مشروعك.</p>
+    <div class="row">
+      <a class="btn btn-wa magnetic" data-wa="general" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.25-8.23s8.24 3.69 8.24 8.23-3.7 8.44-8.13 8.44z"/></svg>
+        كلّمنا على واتساب
+      </a>
+      <a class="btn btn-ghost magnetic" href="#work" style="color:#fff;border-color:rgba(255,255,255,.3)">شوف الأعمال الأول</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="name"><span class="mk"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg></span> orbyt</div>
+      <p>AI Visual Studio. نرندر المستحيل للبراندات اللي بتتحرّك بسرعة الذكاء الاصطناعي.</p>
+    </div>
+    <div class="foot-col">
+      <h4>الموقع</h4>
+      <a href="#services">الخدمات</a>
+      <a href="#work">أعمالنا</a>
+      <a href="#process">طريقة شغلنا</a>
+      <a href="#contact">تواصل</a>
+    </div>
+    <div class="foot-col">
+      <h4>تواصل</h4>
+      <a data-wa="general" href="#">واتساب</a>
+      <a href="mailto:hello@orbyt.studio" class="lat">hello@orbyt.studio</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="lat">Instagram</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© 2026 Orbyt Studio · All Rights Reserved</div>
+    <div>Render the impossible.</div>
+  </div>
+  <div class="foot-watermark" aria-hidden="true">orbyt</div>
+</footer>
+
+<!-- ===== floating WhatsApp ===== -->
+<a id="wa-float" data-wa="general" href="#" aria-label="كلّمنا على واتساب">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.25-8.23s8.24 3.69 8.24 8.23-3.7 8.44-8.13 8.44zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg></span>
+  <span class="lbl">كلّمنا على واتساب</span>
+</a>
+
+<!-- ===== MODAL ===== -->
+<div id="modal" role="dialog" aria-modal="true" aria-label="تفاصيل المشروع">
+  <div class="backdrop" data-close></div>
+  <div class="panel">
+    <button class="close" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="hero-img" id="m-img">
+      <span class="frameno" id="m-frame"></span>
+      <button class="gnav next" id="m-next" aria-label="الصورة اللي بعدها"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="gnav prev" id="m-prev" aria-label="الصورة اللي قبلها"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+      <span class="gcount" id="m-count"></span>
+    </div>
+    <div class="gallery" id="m-gallery"></div>
+    <div class="body">
+      <span class="tag" id="m-tag"></span>
+      <h3 id="m-title"></h3>
+      <p id="m-desc"></p>
+      <div class="specs" id="m-specs"></div>
+      <div class="row">
+        <a class="btn btn-wa magnetic" id="m-wa" href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          اطلب مشروع زي ده
+        </a>
+        <button class="btn btn-ghost" data-close>إغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ⚙️  الإعدادات — بدّل الرقم ده برقم الواتساب الحقيقي
+   الصيغة: كود الدولة + الرقم من غير + أو أصفار أو مسافات
+   مثال مصر: 201001234567   |   السعودية: 9665XXXXXXXX
+   ============================================================ */
+const WHATSAPP_NUMBER = "201229726229";
+
+const waLink = (msg) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+const WA_MESSAGES = {
+  general: "السلام عليكم 👋 شفت موقع Orbyt وحابب أعرف التفاصيل والأسعار.",
+  project: (title) => `السلام عليكم 👋 عجبني مشروع "${title}" على موقع Orbyt، وحابب أعمل حاجة شبهه. ممكن التفاصيل والأسعار؟`
+};
+
+/* ---- projects data ---- */
+const PROJECTS = [
+  {id:1, cat:"campaign", slug:"scarf", shots:6, frame:"01", tag:"Editorial · Fashion", title:"Scarf — حملة إيديتوريال",
+   desc:"حملة بصرية لبراند شيلان وإيشاربات — موديلز بإضاءة سينمائية وخلفيات صحراوية، بطابع إيديتوريال راقي يبيع الإحساس قبل المنتج.",
+   specs:[["المجال","Fashion"],["نوع العمل","Editorial Campaign"],["الصيغ","4:5 · 9:16"]]},
+  {id:2, cat:"campaign", slug:"piano", shots:6, frame:"02", tag:"Rebrand · Fashion", title:"Piano — ريبراند أزياء",
+   desc:"ريبراند كامل لبراند أزياء — لغة بصرية جديدة وكلوزب أقمشة بإضاءة ناعمة وقصة لونية دافئة تبرز خامة المنتج.",
+   specs:[["المجال","Fashion"],["نوع العمل","Brand Rebrand"],["النطاق","Identity + Visuals"]]},
+  {id:3, cat:"campaign", slug:"dubetta", shots:6, frame:"03", tag:"Luxury · Rebrand", title:"Dubetta — فخامة",
+   desc:"هوية فخامة لبراند عبايات — لقطات موديل بطابع هادئ ومدروس، تركيب نظيف وإحساس بريميوم في كل فريم.",
+   specs:[["المجال","Modest Fashion"],["نوع العمل","Luxury Rebrand"],["الصيغ","16:9 · 4:5"]]},
+  {id:4, cat:"product", slug:"grillx", shots:5, frame:"04", tag:"Product · Industrial", title:"Grill X — تصوير منتج",
+   desc:"تصوير منتج لشواية ستانلس — لقطات من زوايا متعددة بإضاءة استوديو نظيفة، تبرز التفاصيل والتصميم الصناعي.",
+   specs:[["المجال","Product"],["اللقطات","5 زوايا"],["الاستخدام","متجر + إعلانات"]]},
+  {id:5, cat:"product", slug:"grande", shots:5, frame:"05", tag:"Product · Fragrance", title:"Grande — عطور",
+   desc:"تصوير عطور Grande — زجاجة بإضاءة نظيفة على خلفية فاتحة، جاهزة للمتجر والـ catalog.",
+   specs:[["المجال","Fragrance"],["نوع العمل","Packshot"],["الصيغ","1:1 · 4:5"]]},
+  {id:6, cat:"campaign", slug:"fashion", shots:6, frame:"06", tag:"Editorial · Menswear", title:"Fashion — لوكبوك",
+   desc:"لوكبوك رجالي — موديل في استوديو بإضاءة درامية، لقطات إيديتوريال تبني مود البراند.",
+   specs:[["المجال","Menswear"],["نوع العمل","Lookbook"],["الصيغ","4:5 · 9:16"]]},
+  {id:7, cat:"product", slug:"lucinte", shots:8, frame:"07", tag:"Product · Apparel", title:"Lucinte — كتالوج",
+   desc:"كتالوج منتجات لبراند بولو — لقطات نظيفة على خلفية بيضاء بألوان وخامات متعددة، جاهزة للمتجر.",
+   specs:[["المجال","Apparel"],["اللقطات","50+ قطعة"],["الاستخدام","E-commerce"]]},
+  {id:8, cat:"product", slug:"perfumes", shots:6, frame:"08", tag:"Cinematic · Fragrance", title:"Torath — عطور سينمائية",
+   desc:"تصوير عطور بطابع سينمائي — إضاءة دافئة، رخام، وانعكاسات ذهبية تدّي إحساس فخامة وحكاية.",
+   specs:[["المجال","Fragrance"],["نوع العمل","Cinematic Product"],["الصيغ","4:5 · 9:16"]]},
+  {id:9, cat:"campaign", slug:"madad", shots:6, frame:"09", tag:"Brand · Content", title:"مداد الهدى — هوية ومحتوى",
+   desc:"هوية ومحتوى بصري لبراند مصاحف — لقطات منتج وإنفوجرافيك متّسق مع طابع روحاني راقي.",
+   specs:[["المجال","Publishing"],["نوع العمل","Identity + Content"],["النطاق","Social + Product"]]},
+  {id:10, cat:"motion", slug:"storytelling", shots:6, frame:"10", tag:"Motion · Story", title:"Storytelling — موشن",
+   desc:"سلسلة موشن قصصية — فريمات سينمائية متحركة بانتقالات على البيت، تحكي قصة البراند في حلقات.",
+   specs:[["المجال","Motion"],["نوع العمل","Story Series"],["الصيغ","9:16 · 16:9"]]}
+];
+const shot = (p,i)=>`images/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`;
+
+/* ---- render projects ---- */
+const grid = document.getElementById('work-grid');
+function cardHTML(p, i){
+  return `<button class="proj reveal d${(i%3)+1}" data-cat="${p.cat}" data-id="${p.id}" aria-label="${p.title}">
+    <img class="thumb" src="${shot(p,0)}" alt="${p.title}" loading="lazy" decoding="async">
+    <div class="glass"></div>
+    <span class="frameno">FRAME · ${p.frame}</span>
+    <span class="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+    <div class="meta"><span class="tag">${p.tag}</span><h3>${p.title}</h3></div>
+  </button>`;
+}
+grid.innerHTML = PROJECTS.map(cardHTML).join('');
+
+/* ---- filters ---- */
+document.querySelectorAll('.filter').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.proj').forEach(card=>{
+      const show = f==='all' || card.dataset.cat===f;
+      card.style.display = show ? '' : 'none';
+    });
+  });
+});
+
+/* ---- modal ---- */
+const modal = document.getElementById('modal');
+const mImg = document.getElementById('m-img');
+const mGallery = document.getElementById('m-gallery');
+const mCount = document.getElementById('m-count');
+let galShots = [], galIdx = 0;
+function galShow(i){
+  if(!galShots.length) return;
+  galIdx = (i + galShots.length) % galShots.length;
+  mImg.style.backgroundImage = `url(${galShots[galIdx]})`;
+  mCount.textContent = `${galIdx+1} / ${galShots.length}`;
+  [...mGallery.children].forEach((t,j)=>t.classList.toggle('active', j===galIdx));
+  mGallery.children[galIdx]?.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+}
+function openModal(p){
+  galShots = Array.from({length:p.shots}, (_,i)=>shot(p,i));
+  mGallery.innerHTML = galShots.map((s,i)=>`<img src="${s}" alt="${p.title} — ${i+1}" loading="lazy" data-i="${i}">`).join('');
+  [...mGallery.children].forEach(t=>t.addEventListener('click',()=>galShow(+t.dataset.i)));
+  const multi = p.shots > 1;
+  mGallery.style.display = multi ? 'flex' : 'none';
+  document.getElementById('m-prev').style.display = multi ? 'flex' : 'none';
+  document.getElementById('m-next').style.display = multi ? 'flex' : 'none';
+  mCount.style.display = multi ? 'block' : 'none';
+  galShow(0);
+  document.getElementById('m-frame').textContent = 'FRAME · ' + p.frame;
+  document.getElementById('m-tag').textContent = p.tag;
+  document.getElementById('m-title').textContent = p.title;
+  document.getElementById('m-desc').textContent = p.desc;
+  document.getElementById('m-specs').innerHTML = p.specs.map(s=>`<div class="sp"><div class="k">${s[0]}</div><div class="val">${s[1]}</div></div>`).join('');
+  document.getElementById('m-wa').href = waLink(WA_MESSAGES.project(p.title));
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+document.getElementById('m-next').addEventListener('click',()=>galShow(galIdx+1));
+document.getElementById('m-prev').addEventListener('click',()=>galShow(galIdx-1));
+function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+grid.addEventListener('click', e=>{
+  const card = e.target.closest('.proj');
+  if(!card) return;
+  const p = PROJECTS.find(x=>x.id==card.dataset.id);
+  if(p) openModal(p);
+});
+modal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click', closeModal));
+document.addEventListener('keydown', e=>{
+  if(!modal.classList.contains('open')) return;
+  if(e.key==='Escape') closeModal();
+  else if(e.key==='ArrowLeft') galShow(galIdx+1);
+  else if(e.key==='ArrowRight') galShow(galIdx-1);
+});
+
+/* ---- wire all whatsapp links ---- */
+document.querySelectorAll('[data-wa="general"]').forEach(el=>{
+  el.setAttribute('href', waLink(WA_MESSAGES.general));
+  el.setAttribute('target','_blank');
+  el.setAttribute('rel','noopener');
+});
+
+/* ---- nav scroll state ---- */
+const nav = document.getElementById('nav');
+const progress = document.getElementById('progress');
+function onScroll(){
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (window.scrollY / h * 100) + '%';
+  document.getElementById('wa-float').classList.toggle('show', window.scrollY > 500);
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ---- mobile menu ---- */
+const burger = document.getElementById('burger');
+const mmenu = document.getElementById('mobile-menu');
+burger.addEventListener('click', ()=>{
+  const open = mmenu.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  mmenu.classList.remove('open'); burger.classList.remove('open'); document.body.style.overflow='';
+}));
+
+/* ---- reveal on scroll ---- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+},{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---- count up ---- */
+const countIO = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(!en.isIntersecting) return;
+    const el = en.target;
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    let cur = 0;
+    const dur = 1400, start = performance.now();
+    function tick(now){
+      const t = Math.min((now-start)/dur, 1);
+      const eased = 1 - Math.pow(1-t, 3);
+      el.textContent = Math.round(eased*target) + suffix;
+      if(t<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    countIO.unobserve(el);
+  });
+},{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
+
+/* ---- cursor glow ---- */
+const glow = document.getElementById('cursor-glow');
+let gx=innerWidth/2, gy=innerHeight/2, cx=gx, cy=gy;
+const fine = window.matchMedia('(pointer:fine)').matches;
+if(fine){
+  window.addEventListener('mousemove', e=>{ gx=e.clientX; gy=e.clientY; });
+  (function loop(){ cx+=(gx-cx)*.12; cy+=(gy-cy)*.12;
+    glow.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`; requestAnimationFrame(loop); })();
+} else { glow.style.display='none'; }
+
+/* ---- magnetic buttons ---- */
+if(fine){
+  document.querySelectorAll('.magnetic').forEach(el=>{
+    el.addEventListener('mousemove', e=>{
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width/2);
+      const y = e.clientY - (r.top + r.height/2);
+      el.style.transform = `translate(${x*.25}px, ${y*.35}px)`;
+    });
+    el.addEventListener('mouseleave', ()=>{ el.style.transform=''; });
+  });
+}
+
+/* ---- service card spotlight ---- */
+document.querySelectorAll('.svc').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX-r.left)+'px');
+    card.style.setProperty('--my', (e.clientY-r.top)+'px');
+  });
+});
+</script>
+</body>
+</html>

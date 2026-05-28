@@ -1,0 +1,8 @@
+# Only the static site (index.html + images/) is published.
+# Exclude raw source assets and local tooling.
+Ended Projects/
+Orbyt/
+*.psd
+.DS_Store
+**/.DS_Store
+.claude/
