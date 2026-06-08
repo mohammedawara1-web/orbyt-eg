@@ -377,6 +377,39 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 .reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
 
+/* ===== scroll animations (word reveal · hero exit · cta grow · dots) ===== */
+.split-words{display:block}
+.word-row{display:inline-flex;overflow:hidden;vertical-align:top;padding-bottom:.06em;line-height:inherit}
+.word-row + .word-row{margin-left:.22em}
+.word{display:inline-block;transform:translateY(110%);opacity:0;
+  transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .85s ease;
+  will-change:transform,opacity}
+.split-words.in .word{transform:translateY(0);opacity:1}
+
+/* hero exit (driven by JS, but keep transitions snappy) */
+.hero-content{transition:opacity .12s linear}
+
+/* CTA grow on enter */
+.cta-box{transform:scale(.96);transition:transform 1.2s var(--ease);will-change:transform}
+.cta-box.cta-in{transform:scale(1)}
+
+/* scroll-section dots (right side nav) */
+#scroll-dots{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:90;
+  display:flex;flex-direction:column;gap:14px;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
+#scroll-dots.show{opacity:1;visibility:visible}
+#scroll-dots a{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);
+  transition:all .35s var(--ease);position:relative;display:block}
+#scroll-dots a:hover{background:var(--lime);transform:scale(1.35)}
+#scroll-dots a.active{background:var(--lime);transform:scale(1.45);box-shadow:0 0 14px rgba(198,255,51,.55)}
+#scroll-dots a::after{content:attr(data-label);position:absolute;right:20px;top:50%;
+  transform:translateY(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:#fff;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);
+  padding:6px 11px;border-radius:6px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+#scroll-dots a:hover::after{opacity:1;transform:translateY(-50%) translateX(-4px)}
+@media (max-width:680px){#scroll-dots{display:none}}
+
 /* ===== responsive ===== */
 @media (max-width:980px){
   .svc-head{grid-template-columns:1fr;gap:18px}
@@ -1060,6 +1093,102 @@ if(fine){
     requestAnimationFrame(update);
     setTimeout(()=>{if(ticking){update();}},20); /* setTimeout fallback if rAF stalls */
   },{passive:true});
+  update();
+})();
+
+/* ---- split section headings into words for stagger reveal ---- */
+(function(){
+  const sel = '.sec-title, .work-head h2, .svc-head h2, .reels-head h2, .cta-box h2';
+  document.querySelectorAll(sel).forEach(el=>{
+    if(el.dataset.split) return;
+    el.dataset.split='1';
+    el.classList.add('split-words');
+    const parts = el.innerHTML.split(/<br\s*\/?>/i);
+    el.innerHTML = parts.map(p=>{
+      const words = p.replace(/<[^>]+>/g,' ').trim().split(/\s+/).filter(Boolean);
+      return words.map(w=>`<span class="word-row"><span class="word">${w}</span></span>`).join(' ');
+    }).join('<br>');
+    el.querySelectorAll('.word').forEach((w,i)=>{
+      w.style.transitionDelay = (40 + i*70) + 'ms';
+    });
+  });
+  const wordsIO = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ en.target.classList.add('in'); wordsIO.unobserve(en.target); }
+    });
+  },{threshold:.18, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.split-words').forEach(el=>wordsIO.observe(el));
+})();
+
+/* ---- hero scroll-exit (content fades + slides as you scroll past) ---- */
+(function(){
+  const hc = document.querySelector('.hero-content');
+  const hero = document.querySelector('.hero');
+  if(!hc || !hero) return;
+  let pending = false;
+  function update(){
+    const y = window.scrollY;
+    const h = hero.offsetHeight;
+    if(y > h*1.2){ pending = false; return; }
+    const p = Math.min(y / (h*0.7), 1);
+    hc.style.transform = `translate3d(0, ${-y*0.22}px, 0)`;
+    hc.style.opacity = String(1 - p*0.85);
+    pending = false;
+  }
+  window.addEventListener('scroll', ()=>{
+    if(pending) return;
+    pending = true;
+    requestAnimationFrame(update);
+    setTimeout(()=>{ if(pending){ update(); } }, 24);
+  }, {passive:true});
+  update();
+})();
+
+/* ---- CTA box scale-up on enter ---- */
+(function(){
+  const box = document.querySelector('.cta-box');
+  if(!box) return;
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ box.classList.add('cta-in'); io.unobserve(box); }
+    });
+  },{threshold:.2});
+  io.observe(box);
+})();
+
+/* ---- floating scroll-section dots (right-side nav) ---- */
+(function(){
+  const sections = [
+    {id:'top', label:'Hero'},
+    {id:'services', label:'Services'},
+    {id:'reels', label:'Reels'},
+    {id:'work', label:'Work'},
+    {id:'process', label:'Process'},
+    {id:'contact', label:'Contact'}
+  ];
+  const dots = document.createElement('nav');
+  dots.id = 'scroll-dots';
+  dots.setAttribute('aria-label','Section navigation');
+  dots.innerHTML = sections.map(s=>`<a href="#${s.id}" data-id="${s.id}" data-label="${s.label}" aria-label="${s.label}"></a>`).join('');
+  document.body.appendChild(dots);
+  const allDots = dots.querySelectorAll('a');
+  function update(){
+    dots.classList.toggle('show', window.scrollY > 320);
+    let active = sections[0].id;
+    for(const s of sections){
+      const el = document.getElementById(s.id);
+      if(!el) continue;
+      if(el.getBoundingClientRect().top <= window.innerHeight*0.4) active = s.id;
+    }
+    allDots.forEach(d=>d.classList.toggle('active', d.dataset.id===active));
+  }
+  let pending = false;
+  window.addEventListener('scroll', ()=>{
+    if(pending) return;
+    pending = true;
+    requestAnimationFrame(()=>{ update(); pending = false; });
+    setTimeout(()=>{ if(pending){ update(); pending = false; } }, 30);
+  }, {passive:true});
   update();
 })();
 
