@@ -377,6 +377,26 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 .reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
 
+/* ===== whole-section enter on scroll (slide up + fade) ===== */
+.sec-reveal{opacity:0;transform:translateY(72px);
+  transition:opacity 1s var(--ease),transform 1.15s var(--ease);will-change:transform,opacity}
+.sec-reveal.in{opacity:1;transform:none}
+
+/* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
+.services,.reels-section,.work,.process,footer{
+  position:relative;
+  border-top-left-radius:36px;
+  border-top-right-radius:36px}
+.reels-section{margin-top:-36px;z-index:3}
+.work{margin-top:-36px;z-index:4}
+.process{margin-top:-36px;z-index:5}
+.cta{position:relative;z-index:6}
+footer{margin-top:-36px;z-index:7;border-top:none}
+@media (max-width:680px){
+  .services,.reels-section,.work,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
+  .reels-section,.work,.process,footer{margin-top:-24px}
+}
+
 /* ===== scroll animations (word reveal · hero exit · cta grow · dots) ===== */
 .split-words{display:block}
 .word-row{display:inline-flex;overflow:hidden;vertical-align:top;padding-bottom:.06em;line-height:inherit}
@@ -532,7 +552,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </div>
 
 <!-- ===== SERVICES (light editorial section) ===== -->
-<section class="services on-cream" id="services">
+<section class="services on-cream sec-reveal" id="services">
   <div class="wrap">
     <div class="svc-head">
       <div>
@@ -575,7 +595,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </section>
 
 <!-- ===== REELS (Instagram embeds, swipeable) ===== -->
-<section class="reels-section" id="reels">
+<section class="reels-section sec-reveal" id="reels">
   <div class="wrap">
     <div class="reels-head">
       <div>
@@ -605,7 +625,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </section>
 
 <!-- ===== WORK (dark, horizontal scroll-snap carousel) ===== -->
-<section class="work" id="work">
+<section class="work sec-reveal" id="work">
   <div class="wrap">
     <div class="work-head">
       <div>
@@ -634,7 +654,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </section>
 
 <!-- ===== PROCESS ===== -->
-<section class="process" id="process">
+<section class="process sec-reveal" id="process">
   <div class="wrap">
     <span class="eyebrow reveal"><span class="num">04</span> Process</span>
     <h2 class="sec-title reveal">Brief to delivery — in days, not weeks.</h2>
@@ -665,7 +685,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="cta" id="contact">
+<section class="cta sec-reveal" id="contact">
   <div class="cta-box reveal">
     <svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg>
     <span class="eyebrow">Ready to start?</span>
@@ -682,7 +702,7 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 </section>
 
 <!-- ===== FOOTER ===== -->
-<footer>
+<footer class="sec-reveal">
   <div class="foot-grid">
     <div class="foot-brand">
       <div class="name"><span class="mk"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg></span> orbyt</div>
@@ -1094,6 +1114,16 @@ if(fine){
     setTimeout(()=>{if(ticking){update();}},20); /* setTimeout fallback if rAF stalls */
   },{passive:true});
   update();
+})();
+
+/* ---- whole-section enter reveal (slide up + fade) ---- */
+(function(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:.06, rootMargin:'0px 0px -10% 0px'});
+  document.querySelectorAll('.sec-reveal').forEach(el=>io.observe(el));
 })();
 
 /* ---- split section headings into words for stagger reveal ---- */
