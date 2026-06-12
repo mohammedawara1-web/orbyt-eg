@@ -1,0 +1,234 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "cat": "campaign",
+      "slug": "scarf",
+      "shots": 6,
+      "tag": "Editorial · Fashion",
+      "title": "Scarf — Editorial Campaign",
+      "desc": "Visual campaign for a scarf and shawl brand — models in cinematic light against desert horizons, edited to sell feeling before product.",
+      "specs": [
+        [
+          "Industry",
+          "Fashion"
+        ],
+        [
+          "Format",
+          "Editorial Campaign"
+        ],
+        [
+          "Aspect",
+          "4:5 · 9:16"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "cat": "campaign",
+      "slug": "piano",
+      "shots": 6,
+      "tag": "Rebrand · Fashion",
+      "title": "Piano — Fashion Rebrand",
+      "desc": "Full rebrand for a fashion line — a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.",
+      "specs": [
+        [
+          "Industry",
+          "Fashion"
+        ],
+        [
+          "Format",
+          "Brand Rebrand"
+        ],
+        [
+          "Scope",
+          "Identity + Visuals"
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "cat": "campaign",
+      "slug": "dubetta",
+      "shots": 6,
+      "tag": "Luxury · Rebrand",
+      "title": "Dubetta — Luxury",
+      "desc": "Luxury identity for a modest fashion house — quiet, deliberate model shots with premium framing on every frame.",
+      "specs": [
+        [
+          "Industry",
+          "Modest Fashion"
+        ],
+        [
+          "Format",
+          "Luxury Rebrand"
+        ],
+        [
+          "Aspect",
+          "16:9 · 4:5"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "cat": "product",
+      "slug": "grillx",
+      "shots": 5,
+      "tag": "Product · Industrial",
+      "title": "Grill X — Product Shots",
+      "desc": "Industrial product shoot for a stainless grill — multiple angles in clean studio light, engineered to make hardware look beautiful.",
+      "specs": [
+        [
+          "Industry",
+          "Product"
+        ],
+        [
+          "Shots",
+          "5 angles"
+        ],
+        [
+          "Use",
+          "Store + Ads"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "cat": "product",
+      "slug": "grande",
+      "shots": 5,
+      "tag": "Product · Fragrance",
+      "title": "Grande — Fragrance",
+      "desc": "Fragrance shoot for Grande — bottles framed against bronze silk and a clean palette. Ready for storefront and catalog.",
+      "specs": [
+        [
+          "Industry",
+          "Fragrance"
+        ],
+        [
+          "Format",
+          "Packshot"
+        ],
+        [
+          "Aspect",
+          "1:1 · 4:5"
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "cat": "campaign",
+      "slug": "fashion",
+      "shots": 6,
+      "tag": "Editorial · Menswear",
+      "title": "Fashion — Lookbook",
+      "desc": "Menswear lookbook — model in studio with dramatic light. Editorial frames that set the mood and own the channel.",
+      "specs": [
+        [
+          "Industry",
+          "Menswear"
+        ],
+        [
+          "Format",
+          "Lookbook"
+        ],
+        [
+          "Aspect",
+          "4:5 · 9:16"
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "cat": "product",
+      "slug": "lucinte",
+      "shots": 8,
+      "tag": "Product · Apparel",
+      "title": "Lucinte — Catalog",
+      "desc": "Catalog for a polo brand — clean shots across colorways and textures. Built for e-commerce and ready to ship.",
+      "specs": [
+        [
+          "Industry",
+          "Apparel"
+        ],
+        [
+          "Pieces",
+          "50+"
+        ],
+        [
+          "Use",
+          "E-commerce"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "cat": "product",
+      "slug": "perfumes",
+      "shots": 6,
+      "tag": "Cinematic · Fragrance",
+      "title": "Torath — Cinematic Fragrance",
+      "desc": "Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
+      "specs": [
+        [
+          "Industry",
+          "Fragrance"
+        ],
+        [
+          "Format",
+          "Cinematic Product"
+        ],
+        [
+          "Aspect",
+          "4:5 · 9:16"
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "cat": "campaign",
+      "slug": "madad",
+      "shots": 6,
+      "tag": "Brand · Content",
+      "title": "Madad Al-Huda — Brand & Content",
+      "desc": "Identity and content for a Qur'an publisher — product frames and infographics with a quiet, reverent tone.",
+      "specs": [
+        [
+          "Industry",
+          "Publishing"
+        ],
+        [
+          "Format",
+          "Identity + Content"
+        ],
+        [
+          "Scope",
+          "Social + Product"
+        ]
+      ]
+    },
+    {
+      "id": 10,
+      "cat": "motion",
+      "slug": "storytelling",
+      "shots": 6,
+      "tag": "Motion · Story",
+      "title": "Storytelling — Motion Series",
+      "desc": "Episodic motion series — cinematic frames cut on the beat, telling brand stories in chapters.",
+      "specs": [
+        [
+          "Industry",
+          "Motion"
+        ],
+        [
+          "Format",
+          "Story Series"
+        ],
+        [
+          "Aspect",
+          "9:16 · 16:9"
+        ]
+      ]
+    }
+  ]
+}

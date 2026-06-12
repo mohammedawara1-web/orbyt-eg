@@ -380,30 +380,34 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 #modal .specs .sp .val{font-family:var(--body);font-weight:600;font-size:16px;margin-top:5px}
 #modal .body .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
 
-/* ===== reveal ===== */
-.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.reveal.in{opacity:1;transform:none}
+/* ===== reveal — formation-card entrance (rise + scale + settle-from-tilt) ===== */
+.reveal{opacity:0;
+  transform:translateY(38px) scale(.88) rotate(var(--rev-rot,0deg));
+  transition:opacity .7s var(--ease),transform .85s var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 .reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
 
-/* ===== whole-section enter on scroll (slide up + fade) ===== */
-.sec-reveal{opacity:0;transform:translateY(40px);
-  transition:opacity .6s var(--ease),transform .7s var(--ease);will-change:transform,opacity}
-.sec-reveal.in{opacity:1;transform:none}
+/* ===== whole-section enter on scroll (card-style: rise + scale + settle) ===== */
+.sec-reveal{opacity:0;
+  transform:translateY(46px) scale(.97) rotate(var(--sec-rot,0deg));
+  transition:opacity .6s var(--ease),transform .75s var(--ease);will-change:transform,opacity}
+.sec-reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
 
 /* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
-.services,.reels-section,.work,.process,footer{
+.hero,.services,.reels-section,.process,footer{
   position:relative;
   border-top-left-radius:36px;
   border-top-right-radius:36px}
-.reels-section{margin-top:-36px;z-index:3}
-.work{margin-top:-36px;z-index:4}
+.hero{margin-top:-36px;z-index:2;overflow:hidden}
+.services{margin-top:-36px;z-index:3}
+.reels-section{margin-top:-36px;z-index:4}
 .process{margin-top:-36px;z-index:5}
 .cta{position:relative;z-index:6}
 footer{margin-top:-36px;z-index:7;border-top:none}
 @media (max-width:680px){
-  .services,.reels-section,.work,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
-  .reels-section,.work,.process,footer{margin-top:-24px}
+  .hero,.services,.reels-section,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
+  .hero,.services,.reels-section,.process,footer{margin-top:-24px}
 }
 
 /* ===== scroll animations (word reveal · hero exit · cta grow · dots) ===== */
@@ -486,14 +490,15 @@ footer{margin-top:-36px;z-index:7;border-top:none}
 <!-- ===== NAV ===== -->
 <nav id="nav">
   <div class="bar">
-    <a href="#top" class="brand" aria-label="Orbyt — Home">
+    <a href="#work" class="brand" aria-label="Orbyt — Home">
       <span class="mk"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg></span>
       <span class="name">orbyt</span>
     </a>
     <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#studio">Studio</a>
       <a href="#services">Services</a>
       <a href="#reels">Reels</a>
-      <a href="#work">Work</a>
       <a href="#process">Process</a>
       <a href="#contact">Contact</a>
     </div>
@@ -508,16 +513,55 @@ footer{margin-top:-36px;z-index:7;border-top:none}
 </nav>
 
 <div id="mobile-menu">
+  <a href="#work">Work</a>
+  <a href="#studio">Studio</a>
   <a href="#services">Services</a>
   <a href="#reels">Reels</a>
-  <a href="#work">Work</a>
   <a href="#process">Process</a>
   <a href="#contact">Contact</a>
   <a class="btn btn-wa m-cta" data-wa="general" href="#">Talk to us on WhatsApp</a>
 </div>
 
+<!-- ===== WORK — the opening scene (interactive formation) ===== -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <span class="eyebrow reveal"><span class="num">01</span> Selected work</span>
+        <h2 class="reveal">Tap a card to flip through.</h2>
+        <p class="lead reveal d1" style="margin-top:16px">Our renders, in formation. Drag to spin, switch the view, tap any card for the full set.</p>
+      </div>
+      <div class="work-tools reveal d2">
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="product">Product</button>
+          <button class="filter" data-filter="campaign">Campaign</button>
+          <button class="filter" data-filter="motion">Motion</button>
+        </div>
+        <div class="car-nav">
+          <button id="work-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button id="work-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="formation-stage" id="formation-stage" aria-label="Interactive 3D gallery — drag to spin">
+      <span class="f-hint">Drag to spin · Tap a card to open</span>
+      <div class="f-center" id="formation"></div>
+      <div class="f-modes">
+        <button class="f-mode active" data-mode="flat">Flat</button>
+        <button class="f-mode" data-mode="tilt">Tilt</button>
+        <button class="f-mode" data-mode="ring">Ring</button>
+        <button class="f-mode" data-mode="gallery">Gallery</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== HERO (founder portrait + ORBYT name) ===== -->
-<header class="hero" id="top">
+<header class="hero" id="studio">
   <div class="hero-portrait" aria-hidden="true">
     <picture>
       <source media="(max-width: 680px)" srcset="images/founder-sm.jpg">
@@ -549,7 +593,6 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     </div>
   </div>
 
-  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
 <!-- ===== MARQUEE ===== -->
@@ -565,7 +608,7 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   <div class="wrap">
     <div class="svc-head">
       <div>
-        <span class="eyebrow reveal"><span class="num">01</span> Services</span>
+        <span class="eyebrow reveal"><span class="num">02</span> Services</span>
         <h2 class="reveal">One studio.<br>Every visual format.</h2>
       </div>
       <p class="lead reveal d1">From a single product shot to a full campaign — AI is our brush, not the artist. Every frame passes a director's eye before it ships.</p>
@@ -608,7 +651,7 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   <div class="wrap">
     <div class="reels-head">
       <div>
-        <span class="eyebrow reveal"><span class="num">02</span> Reels</span>
+        <span class="eyebrow reveal"><span class="num">03</span> Reels</span>
         <h2 class="reveal">Motion in the wild.</h2>
         <p class="lead reveal d1" style="margin-top:14px">Recent reels — swipe and tap any one to play.</p>
       </div>
@@ -628,44 +671,6 @@ footer{margin-top:-36px;z-index:7;border-top:none}
       </div>
       <div class="reel">
         <iframe src="https://www.instagram.com/p/DXmYHoRNTdO/embed/" loading="lazy" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share" title="Orbyt reel 2"></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== WORK (dark, horizontal scroll-snap carousel) ===== -->
-<section class="work sec-reveal" id="work">
-  <div class="wrap">
-    <div class="work-head">
-      <div>
-        <span class="eyebrow reveal"><span class="num">03</span> Selected work</span>
-        <h2 class="reveal">Tap a card to flip through.</h2>
-        <p class="lead reveal d1" style="margin-top:16px">Our renders, in formation. Drag to spin, switch the view, tap any card for the full set.</p>
-      </div>
-      <div class="work-tools reveal d2">
-        <div class="filters">
-          <button class="filter active" data-filter="all">All</button>
-          <button class="filter" data-filter="product">Product</button>
-          <button class="filter" data-filter="campaign">Campaign</button>
-          <button class="filter" data-filter="motion">Motion</button>
-        </div>
-        <div class="car-nav">
-          <button id="work-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button id="work-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <div class="formation-stage" id="formation-stage" aria-label="Interactive 3D gallery — drag to spin">
-      <span class="f-hint">Drag to spin · Tap a card to open</span>
-      <div class="f-center" id="formation"></div>
-      <div class="f-modes">
-        <button class="f-mode active" data-mode="flat">Flat</button>
-        <button class="f-mode" data-mode="tilt">Tilt</button>
-        <button class="f-mode" data-mode="ring">Ring</button>
-        <button class="f-mode" data-mode="gallery">Gallery</button>
       </div>
     </div>
   </div>
@@ -728,8 +733,9 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     </div>
     <div class="foot-col">
       <h4>Site</h4>
-      <a href="#services">Services</a>
       <a href="#work">Work</a>
+      <a href="#studio">Studio</a>
+      <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#contact">Contact</a>
     </div>
@@ -799,47 +805,27 @@ const WA_MESSAGES = {
   project: (title) => `Hi! 👋 I loved the "${title}" project on Orbyt and I'd like to do something similar. Could you share details and pricing?`
 };
 
-/* ---- projects data ---- */
-const PROJECTS = [
-  {id:1, cat:"campaign", slug:"scarf", shots:6, frame:"01", tag:"Editorial · Fashion", title:"Scarf — Editorial Campaign",
-   desc:"Visual campaign for a scarf and shawl brand — models in cinematic light against desert horizons, edited to sell feeling before product.",
-   specs:[["Industry","Fashion"],["Format","Editorial Campaign"],["Aspect","4:5 · 9:16"]]},
-  {id:2, cat:"campaign", slug:"piano", shots:6, frame:"02", tag:"Rebrand · Fashion", title:"Piano — Fashion Rebrand",
-   desc:"Full rebrand for a fashion line — a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.",
-   specs:[["Industry","Fashion"],["Format","Brand Rebrand"],["Scope","Identity + Visuals"]]},
-  {id:3, cat:"campaign", slug:"dubetta", shots:6, frame:"03", tag:"Luxury · Rebrand", title:"Dubetta — Luxury",
-   desc:"Luxury identity for a modest fashion house — quiet, deliberate model shots with premium framing on every frame.",
-   specs:[["Industry","Modest Fashion"],["Format","Luxury Rebrand"],["Aspect","16:9 · 4:5"]]},
-  {id:4, cat:"product", slug:"grillx", shots:5, frame:"04", tag:"Product · Industrial", title:"Grill X — Product Shots",
-   desc:"Industrial product shoot for a stainless grill — multiple angles in clean studio light, engineered to make hardware look beautiful.",
-   specs:[["Industry","Product"],["Shots","5 angles"],["Use","Store + Ads"]]},
-  {id:5, cat:"product", slug:"grande", shots:5, frame:"05", tag:"Product · Fragrance", title:"Grande — Fragrance",
-   desc:"Fragrance shoot for Grande — bottles framed against bronze silk and a clean palette. Ready for storefront and catalog.",
-   specs:[["Industry","Fragrance"],["Format","Packshot"],["Aspect","1:1 · 4:5"]]},
-  {id:6, cat:"campaign", slug:"fashion", shots:6, frame:"06", tag:"Editorial · Menswear", title:"Fashion — Lookbook",
-   desc:"Menswear lookbook — model in studio with dramatic light. Editorial frames that set the mood and own the channel.",
-   specs:[["Industry","Menswear"],["Format","Lookbook"],["Aspect","4:5 · 9:16"]]},
-  {id:7, cat:"product", slug:"lucinte", shots:8, frame:"07", tag:"Product · Apparel", title:"Lucinte — Catalog",
-   desc:"Catalog for a polo brand — clean shots across colorways and textures. Built for e-commerce and ready to ship.",
-   specs:[["Industry","Apparel"],["Pieces","50+"],["Use","E-commerce"]]},
-  {id:8, cat:"product", slug:"perfumes", shots:6, frame:"08", tag:"Cinematic · Fragrance", title:"Torath — Cinematic Fragrance",
-   desc:"Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
-   specs:[["Industry","Fragrance"],["Format","Cinematic Product"],["Aspect","4:5 · 9:16"]]},
-  {id:9, cat:"campaign", slug:"madad", shots:6, frame:"09", tag:"Brand · Content", title:"Madad Al-Huda — Brand & Content",
-   desc:"Identity and content for a Qur'an publisher — product frames and infographics with a quiet, reverent tone.",
-   specs:[["Industry","Publishing"],["Format","Identity + Content"],["Scope","Social + Product"]]},
-  {id:10, cat:"motion", slug:"storytelling", shots:6, frame:"10", tag:"Motion · Story", title:"Storytelling — Motion Series",
-   desc:"Episodic motion series — cinematic frames cut on the beat, telling brand stories in chapters.",
-   specs:[["Industry","Motion"],["Format","Story Series"],["Aspect","9:16 · 16:9"]]}
-];
+/* ---- projects data: loaded from projects.json (editable via the local Admin Studio) ---- */
+let PROJECTS = [];
+let formation = null;
 const shot = (p,i)=>`images/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`;
+const frameNo = (p)=>String(PROJECTS.indexOf(p)+1).padStart(2,'0');
+
+fetch('projects.json?v=' + Date.now())
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(data=>{
+    PROJECTS = data.projects || [];
+    formation = buildFormation();
+  })
+  .catch(err=>console.error('projects.json failed to load:', err));
 
 /* ============================================================
    FORMATION — interactive 3D work gallery (vanilla port of UI/)
    Drag to spin · mode pills · click card → project modal.
    Page scroll is never hijacked (touch-action: pan-y).
+   Called once projects.json has loaded.
    ============================================================ */
-const formation = (function(){
+function buildFormation(){
   const stage  = document.getElementById('formation-stage');
   const center = document.getElementById('formation');
   if(!stage || !center) return null;
@@ -973,7 +959,7 @@ const formation = (function(){
 
   window.addEventListener('resize', ()=>kick(1200));
   return {cards, kick, snap};
-})();
+}
 
 /* ---- filters → hide cards, re-layout the formation ---- */
 document.querySelectorAll('.filter').forEach(btn=>{
@@ -1090,7 +1076,7 @@ function openModal(p){
   document.getElementById('m-next').style.display = multi ? 'flex' : 'none';
   mCount.style.display = multi ? 'block' : 'none';
 
-  document.getElementById('m-frame').textContent = 'FRAME · ' + p.frame;
+  document.getElementById('m-frame').textContent = 'FRAME · ' + frameNo(p);
   document.getElementById('m-tag').textContent = p.tag;
   document.getElementById('m-title').textContent = p.title;
   document.getElementById('m-desc').textContent = p.desc;
@@ -1150,11 +1136,17 @@ mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
   mmenu.classList.remove('open'); burger.classList.remove('open'); document.body.style.overflow='';
 }));
 
-/* ---- reveal on scroll ---- */
+/* ---- reveal on scroll (formation-card style: each element settles from its own tilt) ---- */
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
 },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.setProperty('--rev-rot', ((i%2 ? 1 : -1) * (1.4 + (i%3)*.7)).toFixed(1) + 'deg');
+  io.observe(el);
+});
+document.querySelectorAll('.sec-reveal').forEach((el,i)=>{
+  el.style.setProperty('--sec-rot', ((i%2 ? -1 : 1) * .7).toFixed(1) + 'deg');
+});
 
 /* ---- count up ---- */
 const countIO = new IntersectionObserver((entries)=>{
@@ -1210,25 +1202,27 @@ if(fine){
   setTimeout(()=>t.classList.add('in'),50);
 })();
 
-/* ---- hero: combined parallax + gentle content fade ---- */
+/* ---- hero: combined parallax + gentle content fade (mid-page aware) ---- */
 (()=>{
   const img = document.querySelector('.hero-portrait img');
   const hc  = document.querySelector('.hero-content');
   const hero = document.querySelector('.hero');
   if(!hero) return;
-  let pending = false;
+  let pending = false, hTop = 0;
+  function measure(){ hTop = hero.offsetTop; }
   function update(){
     pending = false;
-    const y = window.scrollY;
     const h = hero.offsetHeight;
-    if(y > h * 1.3) return;
+    /* progress only counts once the hero is actually in play */
+    const y = Math.max(0, window.scrollY - hTop + window.innerHeight * .6);
+    if(y > h * 2) return;
     if(img){
-      img.style.transform = `translate3d(0,${y*0.12}px,0) scale(${1 + Math.min(y/8000, 0.04)})`;
+      img.style.transform = `translate3d(0,${(y*0.10).toFixed(1)}px,0) scale(${1 + Math.min(y/9000, 0.04)})`;
     }
     if(hc){
-      const p = Math.min(y / h, 1);
-      hc.style.transform = `translate3d(0,${-y*0.06}px,0)`;
-      hc.style.opacity = String(Math.max(0.2, 1 - p * 0.55));
+      const past = Math.max(0, window.scrollY - hTop);   /* scrolled beyond hero top */
+      hc.style.transform = `translate3d(0,${(-past*0.06).toFixed(1)}px,0)`;
+      hc.style.opacity = String(Math.max(0.2, 1 - (past/h) * 0.55));
     }
   }
   window.addEventListener('scroll', () => {
@@ -1236,7 +1230,9 @@ if(fine){
     pending = true;
     requestAnimationFrame(update);
   }, {passive:true});
-  update();
+  window.addEventListener('resize', ()=>{ measure(); update(); });
+  window.addEventListener('load',   ()=>{ measure(); update(); });
+  measure(); update();
 })();
 
 /* ---- whole-section enter reveal (slide up + fade) ---- */
@@ -1295,10 +1291,10 @@ if(fine){
 /* ---- floating scroll-section dots (right-side nav) ---- */
 (function(){
   const sections = [
-    {id:'top', label:'Hero'},
+    {id:'work', label:'Work'},
+    {id:'studio', label:'Studio'},
     {id:'services', label:'Services'},
     {id:'reels', label:'Reels'},
-    {id:'work', label:'Work'},
     {id:'process', label:'Process'},
     {id:'contact', label:'Contact'}
   ];
