@@ -346,14 +346,17 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 #modal .close:hover{background:var(--lime);color:#000;border-color:var(--lime)}
 
 /* swipe stage */
-.swipe-stage{position:relative;aspect-ratio:16/10;background:#0d0d18;overflow:hidden}
+.swipe-stage{position:relative;height:min(62vh,640px);background:#0d0d18;overflow:hidden}
 .swipe-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;cursor:grab;scrollbar-width:none}
 .swipe-track::-webkit-scrollbar{display:none}
 .swipe-track.dragging{cursor:grabbing;scroll-snap-type:none}
 .swipe-slide{flex:none;width:100%;height:100%;scroll-snap-align:center;
-  background:center/cover no-repeat #0d0d18;position:relative}
-.swipe-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;-webkit-user-drag:none}
+  background:#0d0d18;position:relative}
+.swipe-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
+@media (max-width:680px){
+  .swipe-stage{height:min(56vh,520px)}
+}
 
 #modal .gnav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;
   background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:1px solid var(--ink-15);color:#fff;
