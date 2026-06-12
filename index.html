@@ -268,6 +268,18 @@ nav.scrolled .bar{padding:12px 32px}
 .proj .open svg{width:18px;height:18px}
 .proj .frameno{position:absolute;top:18px;left:18px;z-index:2;font-family:var(--mono);font-size:10px;color:var(--white);letter-spacing:.16em;mix-blend-mode:difference}
 
+/* === 3D mouse-tracked tilt on project cards === */
+.work-carousel{perspective:1500px;perspective-origin:50% 55%}
+.proj{transform-style:preserve-3d;transform-origin:center center}
+.proj.tilting{transition:transform .14s ease-out}
+.proj .thumb,.proj .glass,.proj .meta,.proj .frameno,.proj .open{
+  transition:transform .55s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;backface-visibility:hidden}
+.proj.tilting .thumb{transform:translateZ(22px) scale(1.06)}
+.proj.tilting .glass{transform:translateZ(28px)}
+.proj.tilting .meta{transform:translateZ(55px)}
+.proj.tilting .frameno,.proj.tilting .open{transform:translateZ(75px)}
+
 /* ===== PROCESS / STATS ===== */
 .process{padding:130px 0;background:#06060a;
   background-image:radial-gradient(900px 500px at 50% 0%,rgba(125,57,235,.12),transparent 60%)}
@@ -1207,6 +1219,36 @@ if(fine){
     requestAnimationFrame(()=>{ update(); pending = false; });
   }, {passive:true});
   update();
+})();
+
+/* ---- 3D mouse-tracked tilt on project cards (PC only) ---- */
+(function(){
+  if(!window.matchMedia('(pointer: fine)').matches) return;
+  const MAX = 10; // max tilt in degrees
+  document.querySelectorAll('.proj').forEach(card=>{
+    let raf = null, ex = 0, ey = 0, inside = false;
+    card.addEventListener('pointerenter', ()=>{
+      inside = true;
+      card.classList.add('tilting');
+    });
+    card.addEventListener('pointermove', e=>{
+      ex = e.clientX; ey = e.clientY;
+      if(!inside || raf) return;
+      raf = requestAnimationFrame(()=>{
+        raf = null;
+        if(!inside) return;
+        const r = card.getBoundingClientRect();
+        const x = (ex - r.left) / r.width - 0.5;
+        const y = (ey - r.top) / r.height - 0.5;
+        card.style.transform = `perspective(1200px) rotateY(${x*MAX}deg) rotateX(${-y*MAX}deg) translateY(-4px)`;
+      });
+    });
+    card.addEventListener('pointerleave', ()=>{
+      inside = false;
+      card.classList.remove('tilting');
+      card.style.transform = '';
+    });
+  });
 })();
 
 /* ---- service card spotlight ---- */
