@@ -1,29 +1,6 @@
 {
   "projects": [
     {
-      "id": 1,
-      "cat": "campaign",
-      "slug": "scarf",
-      "shots": 6,
-      "tag": "Editorial · Fashion",
-      "title": "Scarf — Editorial Campaign",
-      "desc": "Visual campaign for a scarf and shawl brand — models in cinematic light against desert horizons, edited to sell feeling before product.",
-      "specs": [
-        [
-          "Industry",
-          "Fashion"
-        ],
-        [
-          "Format",
-          "Editorial Campaign"
-        ],
-        [
-          "Aspect",
-          "4:5 · 9:16"
-        ]
-      ]
-    },
-    {
       "id": 2,
       "cat": "campaign",
       "slug": "piano",
@@ -50,7 +27,7 @@
       "id": 3,
       "cat": "campaign",
       "slug": "dubetta",
-      "shots": 6,
+      "shots": 5,
       "tag": "Luxury · Rebrand",
       "title": "Dubetta — Luxury",
       "desc": "Luxury identity for a modest fashion house — quiet, deliberate model shots with premium framing on every frame.",
@@ -211,7 +188,7 @@
       "id": 10,
       "cat": "motion",
       "slug": "storytelling",
-      "shots": 6,
+      "shots": 13,
       "tag": "Motion · Story",
       "title": "Storytelling — Motion Series",
       "desc": "Episodic motion series — cinematic frames cut on the beat, telling brand stories in chapters.",
@@ -227,6 +204,29 @@
         [
           "Aspect",
           "9:16 · 16:9"
+        ]
+      ]
+    },
+    {
+      "id": 11,
+      "cat": "product",
+      "slug": "ather",
+      "shots": 3,
+      "tag": "Product · New",
+      "title": "Ather — New Album",
+      "desc": "Describe this project…",
+      "specs": [
+        [
+          "Industry",
+          "—"
+        ],
+        [
+          "Format",
+          "—"
+        ],
+        [
+          "Aspect",
+          "4:5"
         ]
       ]
     }
