@@ -395,19 +395,19 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .sec-reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
 
 /* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
-.hero,.services,.reels-section,.process,footer{
+.work,.services,.reels-section,.process,footer{
   position:relative;
   border-top-left-radius:36px;
   border-top-right-radius:36px}
-.hero{margin-top:-36px;z-index:2;overflow:hidden}
+.work{margin-top:-36px;z-index:2;background:var(--obsidian)}
 .services{margin-top:-36px;z-index:3}
 .reels-section{margin-top:-36px;z-index:4}
 .process{margin-top:-36px;z-index:5}
 .cta{position:relative;z-index:6}
 footer{margin-top:-36px;z-index:7;border-top:none}
 @media (max-width:680px){
-  .hero,.services,.reels-section,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
-  .hero,.services,.reels-section,.process,footer{margin-top:-24px}
+  .work,.services,.reels-section,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
+  .work,.services,.reels-section,.process,footer{margin-top:-24px}
 }
 
 /* ===== scroll animations (word reveal · hero exit · cta grow · dots) ===== */
@@ -490,13 +490,12 @@ footer{margin-top:-36px;z-index:7;border-top:none}
 <!-- ===== NAV ===== -->
 <nav id="nav">
   <div class="bar">
-    <a href="#work" class="brand" aria-label="Orbyt — Home">
+    <a href="#studio" class="brand" aria-label="Orbyt — Home">
       <span class="mk"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#orbyt-mark"/></svg></span>
       <span class="name">orbyt</span>
     </a>
     <div class="nav-links">
       <a href="#work">Work</a>
-      <a href="#studio">Studio</a>
       <a href="#services">Services</a>
       <a href="#reels">Reels</a>
       <a href="#process">Process</a>
@@ -514,51 +513,12 @@ footer{margin-top:-36px;z-index:7;border-top:none}
 
 <div id="mobile-menu">
   <a href="#work">Work</a>
-  <a href="#studio">Studio</a>
   <a href="#services">Services</a>
   <a href="#reels">Reels</a>
   <a href="#process">Process</a>
   <a href="#contact">Contact</a>
   <a class="btn btn-wa m-cta" data-wa="general" href="#">Talk to us on WhatsApp</a>
 </div>
-
-<!-- ===== WORK — the opening scene (interactive formation) ===== -->
-<section class="work" id="work">
-  <div class="wrap">
-    <div class="work-head">
-      <div>
-        <span class="eyebrow reveal"><span class="num">01</span> Selected work</span>
-        <h2 class="reveal">Tap a card to flip through.</h2>
-        <p class="lead reveal d1" style="margin-top:16px">Our renders, in formation. Drag to spin, switch the view, tap any card for the full set.</p>
-      </div>
-      <div class="work-tools reveal d2">
-        <div class="filters">
-          <button class="filter active" data-filter="all">All</button>
-          <button class="filter" data-filter="product">Product</button>
-          <button class="filter" data-filter="campaign">Campaign</button>
-          <button class="filter" data-filter="motion">Motion</button>
-        </div>
-        <div class="car-nav">
-          <button id="work-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button id="work-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <div class="formation-stage" id="formation-stage" aria-label="Interactive 3D gallery — drag to spin">
-      <span class="f-hint">Drag to spin · Tap a card to open</span>
-      <div class="f-center" id="formation"></div>
-      <div class="f-modes">
-        <button class="f-mode active" data-mode="flat">Flat</button>
-        <button class="f-mode" data-mode="tilt">Tilt</button>
-        <button class="f-mode" data-mode="ring">Ring</button>
-        <button class="f-mode" data-mode="gallery">Gallery</button>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ===== HERO (founder portrait + ORBYT name) ===== -->
 <header class="hero" id="studio">
@@ -594,6 +554,44 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   </div>
 
 </header>
+
+<!-- ===== WORK — interactive formation (right after the hero) ===== -->
+<section class="work sec-reveal" id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <span class="eyebrow reveal"><span class="num">01</span> Selected work</span>
+        <h2 class="reveal">Tap a card to flip through.</h2>
+        <p class="lead reveal d1" style="margin-top:16px">Our renders, in formation. Drag to spin, switch the view, tap any card for the full set.</p>
+      </div>
+      <div class="work-tools reveal d2">
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="product">Product</button>
+          <button class="filter" data-filter="campaign">Campaign</button>
+          <button class="filter" data-filter="motion">Motion</button>
+        </div>
+        <div class="car-nav">
+          <button id="work-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button id="work-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="formation-stage" id="formation-stage" aria-label="Interactive 3D gallery — drag to spin">
+      <span class="f-hint">Drag to spin · Tap a card to open</span>
+      <div class="f-center" id="formation"></div>
+      <div class="f-modes">
+        <button class="f-mode active" data-mode="flat">Flat</button>
+        <button class="f-mode" data-mode="tilt">Tilt</button>
+        <button class="f-mode" data-mode="ring">Ring</button>
+        <button class="f-mode" data-mode="gallery">Gallery</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ===== MARQUEE ===== -->
 <div class="marquee" aria-hidden="true">
@@ -733,8 +731,8 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     </div>
     <div class="foot-col">
       <h4>Site</h4>
+      <a href="#studio">Home</a>
       <a href="#work">Work</a>
-      <a href="#studio">Studio</a>
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#contact">Contact</a>
@@ -1213,14 +1211,12 @@ if(fine){
   function update(){
     pending = false;
     const h = hero.offsetHeight;
-    /* progress only counts once the hero is actually in play */
-    const y = Math.max(0, window.scrollY - hTop + window.innerHeight * .6);
-    if(y > h * 2) return;
+    const past = Math.max(0, window.scrollY - hTop);   /* scrolled beyond hero top */
+    if(past > h * 1.4) return;
     if(img){
-      img.style.transform = `translate3d(0,${(y*0.10).toFixed(1)}px,0) scale(${1 + Math.min(y/9000, 0.04)})`;
+      img.style.transform = `translate3d(0,${(past*0.10).toFixed(1)}px,0) scale(${1 + Math.min(past/9000, 0.04)})`;
     }
     if(hc){
-      const past = Math.max(0, window.scrollY - hTop);   /* scrolled beyond hero top */
       hc.style.transform = `translate3d(0,${(-past*0.06).toFixed(1)}px,0)`;
       hc.style.opacity = String(Math.max(0.2, 1 - (past/h) * 0.55));
     }
@@ -1291,8 +1287,8 @@ if(fine){
 /* ---- floating scroll-section dots (right-side nav) ---- */
 (function(){
   const sections = [
+    {id:'studio', label:'Home'},
     {id:'work', label:'Work'},
-    {id:'studio', label:'Studio'},
     {id:'services', label:'Services'},
     {id:'reels', label:'Reels'},
     {id:'process', label:'Process'},
