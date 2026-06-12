@@ -239,56 +239,43 @@ nav.scrolled .bar{padding:12px 32px}
 .car-nav button:disabled{opacity:.35;cursor:not-allowed}
 .car-nav svg{width:20px;height:20px}
 
-.work-rail{position:relative;margin:0 -32px}
-.work-rail::before,.work-rail::after{content:"";position:absolute;top:0;bottom:0;width:32px;z-index:3;pointer-events:none}
-.work-rail::before{left:0;background:linear-gradient(90deg,var(--obsidian),transparent)}
-.work-rail::after{right:0;background:linear-gradient(-90deg,var(--obsidian),transparent)}
-.work-carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
-  scroll-padding:32px;padding:8px 32px;-webkit-overflow-scrolling:touch;cursor:grab;
-  scrollbar-width:none}
-.work-carousel::-webkit-scrollbar{display:none}
-.work-carousel.dragging{cursor:grabbing;scroll-snap-type:none}
-
-.proj{position:relative;flex:none;width:min(78vw,360px);aspect-ratio:4/5;
-  border-radius:20px;overflow:hidden;border:1px solid var(--ink-15);background:#0d0d18;
-  scroll-snap-align:center;cursor:pointer;text-align:left;display:block;
-  transform:rotate(var(--paper-rot,0deg));
-  clip-path:circle(72% at 50% 50%);
-  box-shadow:0 10px 28px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05);
-  transition:transform .55s cubic-bezier(.2,.8,.2,1),
-             clip-path .9s cubic-bezier(.65,0,.35,1),
-             border-color .4s, box-shadow .5s}
-.proj.lens-closed{clip-path:circle(0% at 50% 50%)}
-.proj:hover{border-color:var(--lime);
-  transform:rotate(0deg) translateY(-8px);
-  clip-path:circle(100% at 50% 50%);
-  box-shadow:0 32px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
-  z-index:5}
-.proj .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  background:#0d0d18;transition:transform .7s var(--ease);pointer-events:none}
-.proj:hover .thumb{transform:scale(1.06)}
-.proj .glass{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.86));z-index:1;pointer-events:none}
-.proj .meta{position:absolute;inset:auto 24px 24px 24px;z-index:2;pointer-events:none}
-.proj .tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime)}
-.proj .meta h3{font-family:var(--display);font-weight:700;letter-spacing:-.025em;font-size:24px;margin-top:8px;line-height:1.1;color:#fff}
-.proj .open{position:absolute;top:18px;right:18px;z-index:2;width:42px;height:42px;border-radius:50%;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border:1px solid var(--ink-15);
-  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);opacity:0;transform:scale(.7)}
-.proj:hover .open{opacity:1;transform:scale(1);background:var(--lime);color:#000;border-color:var(--lime)}
-.proj .open svg{width:18px;height:18px}
-.proj .frameno{position:absolute;top:18px;left:18px;z-index:2;font-family:var(--mono);font-size:10px;color:var(--white);letter-spacing:.16em;mix-blend-mode:difference}
-
-/* === 3D mouse-tracked tilt on project cards === */
-.work-carousel{perspective:1500px;perspective-origin:50% 55%}
-.proj{transform-style:preserve-3d;transform-origin:center center}
-.proj.tilting{transition:transform .14s ease-out}
-.proj .thumb,.proj .glass,.proj .meta,.proj .frameno,.proj .open{
-  transition:transform .55s cubic-bezier(.2,.8,.2,1);
-  transform-style:preserve-3d;backface-visibility:hidden}
-.proj.tilting .thumb{transform:translateZ(22px) scale(1.06)}
-.proj.tilting .glass{transform:translateZ(28px)}
-.proj.tilting .meta{transform:translateZ(55px)}
-.proj.tilting .frameno,.proj.tilting .open{transform:translateZ(75px)}
+/* === FORMATION — interactive 3D work gallery === */
+.formation-stage{--fw:clamp(104px,13vw,164px);
+  position:relative;margin-top:4px;height:min(72vh,620px);
+  perspective:1400px;touch-action:pan-y;cursor:grab;
+  user-select:none;-webkit-user-select:none}
+.formation-stage.dragging{cursor:grabbing}
+.f-center{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+.fcard{position:absolute;left:0;top:0;width:var(--fw);height:calc(var(--fw)*1.25);
+  margin-left:calc(var(--fw)/-2);margin-top:calc(var(--fw)*-.625);
+  border-radius:14px;overflow:hidden;border:1px solid var(--ink-15);background:#0d0d18;
+  cursor:pointer;padding:0;display:block;will-change:transform,opacity;
+  box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.fcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  pointer-events:none;user-select:none;-webkit-user-drag:none}
+.fcard .f-label{position:absolute;inset:auto 0 0 0;padding:20px 8px 9px;z-index:2;
+  background:linear-gradient(transparent,rgba(0,0,0,.88));
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;opacity:0;transition:opacity .25s;text-align:center;pointer-events:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard::after{content:"";position:absolute;inset:0;border-radius:14px;
+  box-shadow:inset 0 0 0 2px var(--lime);opacity:0;transition:opacity .25s;pointer-events:none}
+.fcard:hover .f-label,.fcard:hover::after{opacity:1}
+.f-hint{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:20;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-40);white-space:nowrap;pointer-events:none}
+.f-modes{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:20;
+  display:flex;gap:8px}
+.f-mode{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 17px;border-radius:999px;border:1px solid var(--ink-15);color:var(--ink-60);
+  background:rgba(10,10,12,.72);backdrop-filter:blur(10px);transition:all .25s}
+.f-mode:hover{color:#fff;border-color:var(--ink-40)}
+.f-mode.active{background:var(--lime);color:#000;border-color:var(--lime)}
+@media (max-width:680px){
+  .formation-stage{--fw:clamp(92px,23vw,124px);height:min(62vh,500px)}
+  .f-modes{gap:6px}
+  .f-mode{padding:8px 12px;font-size:9px}
+}
 
 /* ===== PROCESS / STATS ===== */
 .process{padding:130px 0;background:#06060a;
@@ -653,7 +640,7 @@ footer{margin-top:-36px;z-index:7;border-top:none}
       <div>
         <span class="eyebrow reveal"><span class="num">03</span> Selected work</span>
         <h2 class="reveal">Tap a card to flip through.</h2>
-        <p class="lead reveal d1" style="margin-top:16px">A few pieces we've shipped. Swipe right to explore — open any project to see the full set.</p>
+        <p class="lead reveal d1" style="margin-top:16px">Our renders, in formation. Drag to spin, switch the view, tap any card for the full set.</p>
       </div>
       <div class="work-tools reveal d2">
         <div class="filters">
@@ -670,8 +657,17 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     </div>
   </div>
 
-  <div class="work-rail">
-    <div class="work-carousel" id="work-carousel"></div>
+  <div class="wrap">
+    <div class="formation-stage" id="formation-stage" aria-label="Interactive 3D gallery — drag to spin">
+      <span class="f-hint">Drag to spin · Tap a card to open</span>
+      <div class="f-center" id="formation"></div>
+      <div class="f-modes">
+        <button class="f-mode active" data-mode="flat">Flat</button>
+        <button class="f-mode" data-mode="tilt">Tilt</button>
+        <button class="f-mode" data-mode="ring">Ring</button>
+        <button class="f-mode" data-mode="gallery">Gallery</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -838,31 +834,157 @@ const PROJECTS = [
 ];
 const shot = (p,i)=>`images/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`;
 
-/* ---- render project cards into work carousel ---- */
-const workCar = document.getElementById('work-carousel');
-function cardHTML(p){
-  return `<button class="proj" data-cat="${p.cat}" data-id="${p.id}" aria-label="${p.title}">
-    <img class="thumb" src="${shot(p,0)}" alt="${p.title}" loading="lazy" decoding="async" draggable="false">
-    <div class="glass"></div>
-    <span class="frameno">FRAME · ${p.frame}</span>
-    <span class="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-    <div class="meta"><span class="tag">${p.tag}</span><h3>${p.title}</h3></div>
-  </button>`;
-}
-workCar.innerHTML = PROJECTS.map(cardHTML).join('');
+/* ============================================================
+   FORMATION — interactive 3D work gallery (vanilla port of UI/)
+   Drag to spin · mode pills · click card → project modal.
+   Page scroll is never hijacked (touch-action: pan-y).
+   ============================================================ */
+const formation = (function(){
+  const stage  = document.getElementById('formation-stage');
+  const center = document.getElementById('formation');
+  if(!stage || !center) return null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---- filters ---- */
+  /* cards from real project data */
+  center.innerHTML = PROJECTS.map(p =>
+    `<button class="fcard" data-id="${p.id}" data-cat="${p.cat}" aria-label="${p.title}">
+       <img src="${shot(p,0)}" alt="" draggable="false">
+       <span class="f-label">${p.title}</span>
+     </button>`).join('');
+  const cards = [...center.children];
+  const cur = cards.map(()=>({x:0,y:0,z:0,s:.5,ry:0,rz:0}));
+
+  let mode = 'flat', rot = 0, vel = 0, dragging = false;
+  let runUntil = performance.now() + 2500;
+
+  const visible = ()=>cards.filter(c=>c.style.display!=='none');
+
+  function layout(i, n, w, h){
+    const a = (i/n)*Math.PI*2 + rot;
+    if(mode==='flat'){
+      const rx = Math.min(w*.36, 470), ry = Math.min(h*.38, 240);
+      return {x:Math.sin(a)*rx, y:-Math.cos(a)*ry, z:0, s:1, ry:0, rz:Math.sin(a)*6};
+    }
+    if(mode==='ring'){
+      const rx = Math.min(w*.36, 480), rz = Math.min(w*.3, 420);
+      const z = -Math.sin(a)*rz;
+      return {x:Math.cos(a)*rx, y:-Math.sin(a)*Math.min(h*.28,190), z,
+              s:.68 + (1-(z+rz)/(rz*2))*.5, ry:0, rz:Math.cos(a)*8};
+    }
+    if(mode==='tilt'){
+      const cw = cards[0].offsetWidth || 140, spacing = cw*1.14, total = n*spacing;
+      let px = ((i*spacing + (rot/(Math.PI*2))*total) % total + total) % total - total/2;
+      const dist = Math.abs(px)/(w*.5);
+      return {x:px, y:Math.sin(px*.004)*16, z:-dist*150,
+              s:1-Math.min(dist*.13,.32),
+              ry:Math.max(-30,Math.min(30,-px*.05)), rz:0};
+    }
+    /* gallery — loose drifting grid */
+    const cols = Math.max(2, Math.round(Math.sqrt(n*1.8)));
+    const rows = Math.ceil(n/cols);
+    const col = i%cols, row = Math.floor(i/cols);
+    const gw = Math.min(w*.8, 880), gh = Math.min(h*.6, 380);
+    const jx = Math.sin(i*12.9898)*26, jy = Math.cos(i*78.233)*18;
+    return {x:(col/Math.max(cols-1,1)-.5)*gw + jx + Math.sin(rot+i)*10,
+            y:(row/Math.max(rows-1,1)-.5)*gh + jy + Math.cos(rot*1.3+i)*8,
+            z:0, s:.94, ry:0, rz:Math.sin(i*3.7)*5};
+  }
+
+  function apply(card, c){
+    card.style.transform =
+      `translate3d(${c.x.toFixed(1)}px,${c.y.toFixed(1)}px,${c.z.toFixed(1)}px) `+
+      `rotateY(${c.ry.toFixed(2)}deg) rotateZ(${c.rz.toFixed(2)}deg) scale(${c.s.toFixed(3)})`;
+    card.style.zIndex = String(1000 + Math.round(c.z));
+  }
+
+  let raf = null;
+  function frame(){
+    raf = null;
+    const w = stage.clientWidth, h = stage.clientHeight;
+    const vis = visible(), n = vis.length || 1;
+    if(!dragging){
+      rot += vel; vel *= .94;
+      if(!reduced) rot += .0014;            /* slow idle spin */
+    }
+    vis.forEach((card, vi)=>{
+      const t = layout(vi, n, w, h);
+      const c = cur[cards.indexOf(card)], k = .12;
+      c.x+=(t.x-c.x)*k; c.y+=(t.y-c.y)*k; c.z+=(t.z-c.z)*k;
+      c.s+=(t.s-c.s)*k; c.ry+=(t.ry-c.ry)*k; c.rz+=(t.rz-c.rz)*k;
+      apply(card, c);
+    });
+    if(!reduced || dragging || performance.now() < runUntil)
+      raf = requestAnimationFrame(frame);
+  }
+  function kick(ms=1800){ runUntil = performance.now()+ms; if(!raf) raf = requestAnimationFrame(frame); }
+
+  /* first paint: place cards instantly (also covers no-rAF environments) */
+  function snap(){
+    const w = stage.clientWidth, h = stage.clientHeight;
+    const vis = visible(), n = vis.length || 1;
+    vis.forEach((card, vi)=>{
+      const t = layout(vi, n, w, h);
+      Object.assign(cur[cards.indexOf(card)], t);
+      apply(card, t);
+    });
+  }
+  snap(); kick(2500);
+
+  /* drag to spin — horizontal only; vertical swipes keep scrolling the page */
+  let lastX = 0, movedPx = 0;
+  stage.addEventListener('pointerdown', e=>{
+    dragging = true; movedPx = 0; lastX = e.clientX; vel = 0;
+    stage.classList.add('dragging'); kick();
+  });
+  window.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx = e.clientX - lastX; lastX = e.clientX;
+    movedPx += Math.abs(dx);
+    rot += dx*.0045; vel = dx*.0009; kick();
+  });
+  window.addEventListener('pointerup', ()=>{
+    if(!dragging) return;
+    dragging = false; stage.classList.remove('dragging'); kick();
+  });
+  /* a real drag must not open a card */
+  center.addEventListener('click', e=>{
+    if(movedPx > 6){ e.stopPropagation(); e.preventDefault(); movedPx = 0; }
+  }, true);
+
+  /* click card → existing project modal */
+  center.addEventListener('click', e=>{
+    const card = e.target.closest('.fcard');
+    if(!card) return;
+    const p = PROJECTS.find(x=>x.id==card.dataset.id);
+    if(p) openModal(p);
+  });
+
+  /* arrows = rotate one card-step */
+  function step(dir){ rot += dir*(Math.PI*2/(visible().length||1)); kick(); }
+  document.getElementById('work-next').addEventListener('click', ()=>step(1));
+  document.getElementById('work-prev').addEventListener('click', ()=>step(-1));
+
+  /* mode pills */
+  document.querySelectorAll('.f-mode').forEach(b=>b.addEventListener('click', ()=>{
+    document.querySelectorAll('.f-mode').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    mode = b.dataset.mode; kick(2200);
+  }));
+
+  window.addEventListener('resize', ()=>kick(1200));
+  return {cards, kick, snap};
+})();
+
+/* ---- filters → hide cards, re-layout the formation ---- */
 document.querySelectorAll('.filter').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const f = btn.dataset.filter;
-    workCar.querySelectorAll('.proj').forEach(card=>{
-      const show = f==='all' || card.dataset.cat===f;
-      card.style.display = show ? '' : 'none';
+    document.querySelectorAll('#formation .fcard').forEach(card=>{
+      card.style.display = (f==='all' || card.dataset.cat===f) ? '' : 'none';
     });
-    smoothScrollX(workCar, 0);
-    setTimeout(updateCarArrows, 420);
+    if(formation){ formation.snap(); formation.kick(2200); }
   });
 });
 
@@ -892,26 +1014,6 @@ function attachDragScroll(el){
   el.addEventListener('pointercancel', end);
   el.addEventListener('pointerleave', end);
 }
-attachDragScroll(workCar);
-
-/* ---- work carousel arrows ---- */
-function carScrollBy(dir){
-  const card = workCar.querySelector('.proj');
-  const step = card ? card.offsetWidth + 18 : 360;
-  smoothScrollX(workCar, workCar.scrollLeft + dir*step);
-}
-document.getElementById('work-next').addEventListener('click', ()=>carScrollBy(1));
-document.getElementById('work-prev').addEventListener('click', ()=>carScrollBy(-1));
-function updateCarArrows(){
-  const prev = document.getElementById('work-prev');
-  const next = document.getElementById('work-next');
-  prev.disabled = workCar.scrollLeft <= 2;
-  next.disabled = workCar.scrollLeft + workCar.clientWidth >= workCar.scrollWidth - 2;
-}
-workCar.addEventListener('scroll', ()=>requestAnimationFrame(updateCarArrows), {passive:true});
-window.addEventListener('resize', updateCarArrows);
-updateCarArrows();
-
 /* ---- reels carousel (Instagram embeds) ---- */
 const reelsCar = document.getElementById('reels-carousel');
 const reelsPrev = document.getElementById('reels-prev');
@@ -1009,12 +1111,6 @@ document.getElementById('m-next').addEventListener('click', ()=>snapTo(galIdx+1)
 document.getElementById('m-prev').addEventListener('click', ()=>snapTo(galIdx-1));
 attachDragScroll(mTrack);
 
-workCar.addEventListener('click', e=>{
-  const card = e.target.closest('.proj');
-  if(!card) return;
-  const p = PROJECTS.find(x=>x.id==card.dataset.id);
-  if(p) openModal(p);
-});
 modal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click', closeModal));
 document.addEventListener('keydown', e=>{
   if(!modal.classList.contains('open')) return;
@@ -1229,62 +1325,6 @@ if(fine){
     requestAnimationFrame(()=>{ update(); pending = false; });
   }, {passive:true});
   update();
-})();
-
-/* ---- Aperture Deck: paper rotation + lens-open on viewport entry ---- */
-(function(){
-  const cards = document.querySelectorAll('.proj');
-  if(!cards.length) return;
-  /* Natural, hand-placed rotations — looks like prints on a table */
-  const rotations = [-2.4, 1.7, -1.3, 2.5, -2.7, 1.2, -1.9, 2.6, -1.5, 2.1];
-  cards.forEach((card,i)=>{
-    card.style.setProperty('--paper-rot', rotations[i % rotations.length] + 'deg');
-    card.classList.add('lens-closed'); /* start with aperture shut */
-  });
-  /* Aperture opens as each card enters viewport */
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(en=>{
-      if(en.isIntersecting){
-        en.target.classList.remove('lens-closed');
-        io.unobserve(en.target);
-      }
-    });
-  },{threshold:.18, rootMargin:'0px 0px 120px 0px'});
-  cards.forEach(c=>io.observe(c));
-  /* Safety: open all after 1.5s if the observer hasn't fired */
-  setTimeout(()=>{
-    cards.forEach(c=>c.classList.remove('lens-closed'));
-  }, 1500);
-})();
-
-/* ---- 3D mouse-tracked tilt on project cards (PC only) ---- */
-(function(){
-  if(!window.matchMedia('(pointer: fine)').matches) return;
-  const MAX = 10; // max tilt in degrees
-  document.querySelectorAll('.proj').forEach(card=>{
-    let raf = null, ex = 0, ey = 0, inside = false;
-    card.addEventListener('pointerenter', ()=>{
-      inside = true;
-      card.classList.add('tilting');
-    });
-    card.addEventListener('pointermove', e=>{
-      ex = e.clientX; ey = e.clientY;
-      if(!inside || raf) return;
-      raf = requestAnimationFrame(()=>{
-        raf = null;
-        if(!inside) return;
-        const r = card.getBoundingClientRect();
-        const x = (ex - r.left) / r.width - 0.5;
-        const y = (ey - r.top) / r.height - 0.5;
-        card.style.transform = `perspective(1200px) rotateY(${x*MAX}deg) rotateX(${-y*MAX}deg) translateY(-4px)`;
-      });
-    });
-    card.addEventListener('pointerleave', ()=>{
-      inside = false;
-      card.classList.remove('tilting');
-      card.style.transform = '';
-    });
-  });
 })();
 
 /* ---- service card spotlight ---- */
