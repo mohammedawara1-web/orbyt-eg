@@ -229,6 +229,29 @@
           "4:5"
         ]
       ]
+    },
+    {
+      "id": 12,
+      "cat": "product",
+      "slug": "coatology",
+      "shots": 10,
+      "tag": "Product · New",
+      "title": "Coatology — New Album",
+      "desc": "Describe this project…",
+      "specs": [
+        [
+          "Industry",
+          "—"
+        ],
+        [
+          "Format",
+          "—"
+        ],
+        [
+          "Aspect",
+          "4:5"
+        ]
+      ]
     }
   ]
 }
