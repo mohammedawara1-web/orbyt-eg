@@ -64,7 +64,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:translate(-50%,-50%);pointer-events:none;z-index:1;transition:opacity .4s;will-change:transform}
 
 /* ===== scroll progress ===== */
-#progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--violet),var(--lime));z-index:120;transition:width .1s linear}
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;background:linear-gradient(90deg,var(--violet),var(--lime));z-index:120;transform:scaleX(0);transform-origin:0 50%;will-change:transform}
 
 /* ===== layout ===== */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
@@ -470,6 +470,18 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   .work-tools{width:100%}
   .car-nav{margin-left:0}
 }
+/* ===== mobile scroll-performance: kill blurs, lighten entrances ===== */
+@media (max-width:680px){
+  nav.scrolled{backdrop-filter:none;background:rgba(0,0,0,.95)}
+  .f-mode{backdrop-filter:none;background:rgba(10,10,12,.92)}
+  #modal .gnav,#modal .gcount,#modal .close{backdrop-filter:none;background:rgba(0,0,0,.75)}
+  .proj .open{backdrop-filter:none}
+  .hero-portrait img{will-change:auto}
+  .reveal{transform:translateY(26px);transition:opacity .5s var(--ease),transform .55s var(--ease)}
+  .sec-reveal{transform:translateY(30px);transition:opacity .45s var(--ease),transform .5s var(--ease)}
+  .reveal.in,.sec-reveal.in{transform:none}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto}
   .reveal{opacity:1;transform:none}
@@ -817,6 +829,9 @@ fetch('projects.json?v=' + Date.now())
   .then(data=>{
     PROJECTS = data.projects || [];
     formation = buildFormation();
+    /* refresh every cached measurement (doc height, dots offsets, stage size) */
+    window.dispatchEvent(new Event('resize'));
+    setTimeout(()=>window.dispatchEvent(new Event('resize')), 1000);
   })
   .catch(err=>console.error('projects.json failed to load:', err));
 
@@ -831,6 +846,8 @@ function buildFormation(){
   const center = document.getElementById('formation');
   if(!stage || !center) return null;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ambient auto-rotate only on desktop pointers; phones animate on interaction only */
+  const AUTO = !reduced && window.matchMedia('(pointer: fine)').matches;
 
   /* cards from real project data */
   center.innerHTML = PROJECTS.map(p =>
@@ -843,6 +860,13 @@ function buildFormation(){
 
   let mode = 'flat', rot = 0, vel = 0, dragging = false;
   let runUntil = performance.now() + 2500;
+
+  /* cached layout metrics — never read the DOM inside the frame loop */
+  let W = 0, H = 0, CW = 140, inView = true;
+  function measureStage(){
+    W = stage.clientWidth; H = stage.clientHeight;
+    CW = cards[0] ? (cards[0].offsetWidth || 140) : 140;
+  }
 
   const visible = ()=>cards.filter(c=>c.style.display!=='none');
 
@@ -859,7 +883,7 @@ function buildFormation(){
               s:.68 + (1-(z+rz)/(rz*2))*.5, ry:0, rz:Math.cos(a)*8};
     }
     if(mode==='tilt'){
-      const cw = cards[0].offsetWidth || 140, spacing = cw*1.14, total = n*spacing;
+      const spacing = CW*1.14, total = n*spacing;
       let px = ((i*spacing + (rot/(Math.PI*2))*total) % total + total) % total - total/2;
       const dist = Math.abs(px)/(w*.5);
       return {x:px, y:Math.sin(px*.004)*16, z:-dist*150,
@@ -887,30 +911,37 @@ function buildFormation(){
   let raf = null;
   function frame(){
     raf = null;
-    const w = stage.clientWidth, h = stage.clientHeight;
     const vis = visible(), n = vis.length || 1;
     if(!dragging){
       rot += vel; vel *= .94;
-      if(!reduced) rot += .0014;            /* slow idle spin */
+      if(AUTO && inView) rot += .0014;      /* ambient spin — desktop + on-screen only */
     }
     vis.forEach((card, vi)=>{
-      const t = layout(vi, n, w, h);
+      const t = layout(vi, n, W, H);
       const c = cur[cards.indexOf(card)], k = .12;
       c.x+=(t.x-c.x)*k; c.y+=(t.y-c.y)*k; c.z+=(t.z-c.z)*k;
       c.s+=(t.s-c.s)*k; c.ry+=(t.ry-c.ry)*k; c.rz+=(t.rz-c.rz)*k;
       apply(card, c);
     });
-    if(!reduced || dragging || performance.now() < runUntil)
+    /* keep animating only while there is a reason to — otherwise the loop
+       sleeps and costs the phone nothing during page scroll */
+    if(dragging || performance.now() < runUntil || (AUTO && inView))
       raf = requestAnimationFrame(frame);
   }
   function kick(ms=1800){ runUntil = performance.now()+ms; if(!raf) raf = requestAnimationFrame(frame); }
 
+  /* wake/sleep with viewport visibility */
+  new IntersectionObserver(entries=>{
+    inView = entries[0].isIntersecting;
+    if(inView) kick(900);
+  },{threshold:.05}).observe(stage);
+
   /* first paint: place cards instantly (also covers no-rAF environments) */
   function snap(){
-    const w = stage.clientWidth, h = stage.clientHeight;
+    measureStage();
     const vis = visible(), n = vis.length || 1;
     vis.forEach((card, vi)=>{
-      const t = layout(vi, n, w, h);
+      const t = layout(vi, n, W, H);
       Object.assign(cur[cards.indexOf(card)], t);
       apply(card, t);
     });
@@ -958,7 +989,7 @@ function buildFormation(){
     mode = b.dataset.mode; kick(2200);
   }));
 
-  window.addEventListener('resize', ()=>kick(1200));
+  window.addEventListener('resize', ()=>{ measureStage(); kick(1200); });
   return {cards, kick, snap};
 }
 
@@ -1113,17 +1144,29 @@ document.querySelectorAll('[data-wa="general"]').forEach(el=>{
   el.setAttribute('rel','noopener');
 });
 
-/* ---- nav scroll state + progress + float ---- */
+/* ---- nav scroll state + progress + float (rAF-throttled, cached, change-only) ---- */
 const nav = document.getElementById('nav');
 const progress = document.getElementById('progress');
+const waFloat = document.getElementById('wa-float');
+let docH = 1, navOn = null, waOn = null, scrollPending = false;
+function measureDoc(){ docH = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); }
 function onScroll(){
-  nav.classList.toggle('scrolled', window.scrollY > 30);
-  const h = document.documentElement.scrollHeight - window.innerHeight;
-  progress.style.width = (window.scrollY / h * 100) + '%';
-  document.getElementById('wa-float').classList.toggle('show', window.scrollY > 500);
+  scrollPending = false;
+  const y = window.scrollY;
+  const nOn = y > 30;
+  if(nOn !== navOn){ navOn = nOn; nav.classList.toggle('scrolled', nOn); }
+  progress.style.transform = `scaleX(${Math.min(1, y / docH).toFixed(4)})`;
+  const wOn = y > 500;
+  if(wOn !== waOn){ waOn = wOn; waFloat.classList.toggle('show', wOn); }
 }
-window.addEventListener('scroll', onScroll, {passive:true});
-onScroll();
+window.addEventListener('scroll', ()=>{
+  if(scrollPending) return;
+  scrollPending = true;
+  requestAnimationFrame(onScroll);
+}, {passive:true});
+window.addEventListener('resize', measureDoc);
+window.addEventListener('load', ()=>{ measureDoc(); onScroll(); });
+measureDoc(); onScroll();
 
 /* ---- mobile menu ---- */
 const burger = document.getElementById('burger');
@@ -1203,8 +1246,10 @@ if(fine){
   setTimeout(()=>t.classList.add('in'),50);
 })();
 
-/* ---- hero: combined parallax + gentle content fade (mid-page aware) ---- */
+/* ---- hero: combined parallax + gentle content fade (desktop only —
+        transforming a full-viewport image per frame janks phones) ---- */
 (()=>{
+  if(window.matchMedia('(max-width: 680px)').matches) return;
   const img = document.querySelector('.hero-portrait img');
   const hc  = document.querySelector('.hero-content');
   const hero = document.querySelector('.hero');
@@ -1303,23 +1348,37 @@ if(fine){
   dots.innerHTML = sections.map(s=>`<a href="#${s.id}" data-id="${s.id}" data-label="${s.label}" aria-label="${s.label}"></a>`).join('');
   document.body.appendChild(dots);
   const allDots = dots.querySelectorAll('a');
-  function update(){
-    dots.classList.toggle('show', window.scrollY > 320);
-    let active = sections[0].id;
-    for(const s of sections){
+  /* dots are hidden on phones — skip all the work there */
+  const mobile = ()=>window.innerWidth <= 680;
+  let tops = [], activeId = null, shown = null;
+  function measure(){
+    tops = sections.map(s=>{
       const el = document.getElementById(s.id);
-      if(!el) continue;
-      if(el.getBoundingClientRect().top <= window.innerHeight*0.4) active = s.id;
+      return {id:s.id, top: el ? el.getBoundingClientRect().top + window.scrollY : 0};
+    });
+  }
+  function update(){
+    if(mobile()) return;
+    const y = window.scrollY;
+    const sOn = y > 320;
+    if(sOn !== shown){ shown = sOn; dots.classList.toggle('show', sOn); }
+    const line = y + window.innerHeight*0.4;
+    let active = tops.length ? tops[0].id : null;
+    for(const t of tops) if(t.top <= line) active = t.id;
+    if(active !== activeId){
+      activeId = active;
+      allDots.forEach(d=>d.classList.toggle('active', d.dataset.id===active));
     }
-    allDots.forEach(d=>d.classList.toggle('active', d.dataset.id===active));
   }
   let pending = false;
   window.addEventListener('scroll', ()=>{
-    if(pending) return;
+    if(pending || mobile()) return;
     pending = true;
     requestAnimationFrame(()=>{ update(); pending = false; });
   }, {passive:true});
-  update();
+  window.addEventListener('resize', ()=>{ measure(); update(); });
+  window.addEventListener('load', ()=>{ measure(); update(); });
+  measure(); update();
 })();
 
 /* ---- service card spotlight ---- */
