@@ -199,6 +199,7 @@ nav.scrolled .bar{padding:12px 32px}
 /* ===== MARQUEE ===== */
 .marquee{border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15);padding:26px 0;overflow:hidden;background:#050505}
 .marquee .track{display:flex;gap:48px;width:max-content;animation:marq 32s linear infinite}
+.marquee.off .track{animation-play-state:paused}
 .marquee:hover .track{animation-play-state:paused}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .marquee .item{display:flex;align-items:center;gap:48px;font-family:var(--display);font-weight:600;
@@ -420,15 +421,25 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .reveal{opacity:0;
   transform:translateY(38px) scale(.88) rotate(var(--rev-rot,0deg));
   transition:opacity .7s var(--ease),transform .85s var(--ease)}
-.reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
+.reveal.in{opacity:1;transform:none}  /* none (not 0-values) releases the compositor layer */
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 .reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
 
 /* ===== whole-section enter on scroll (card-style: rise + scale + settle) ===== */
 .sec-reveal{opacity:0;
   transform:translateY(46px) scale(.97) rotate(var(--sec-rot,0deg));
-  transition:opacity .6s var(--ease),transform .75s var(--ease);will-change:transform,opacity}
-.sec-reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
+  transition:opacity .6s var(--ease),transform .75s var(--ease)}
+.sec-reveal.in{opacity:1;transform:none}  /* release the layer once settled */
+
+/* ===== lazy rendering: off-screen sections cost ~nothing during scroll ===== */
+#services,#clients,#about,#pricing,#faq,footer{content-visibility:auto}
+#services{contain-intrinsic-size:auto 1300px}
+#clients{contain-intrinsic-size:auto 950px}
+#about{contain-intrinsic-size:auto 850px}
+#pricing{contain-intrinsic-size:auto 1000px}
+#faq{contain-intrinsic-size:auto 950px}
+footer{contain-intrinsic-size:auto 620px}
+.pf-wrap{content-visibility:auto;contain-intrinsic-size:auto 1900px}
 
 /* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
 .work,.services,.tst,.reels-section,.process,.about,.pricing,.faq,footer{
@@ -775,7 +786,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
     </div>
     <div class="pf-grid">
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/piano/01.jpg" alt="Piano fashion rebrand visuals" loading="lazy"></div>
+        <div class="pf-media"><img src="images/piano/01.jpg" alt="Piano fashion rebrand visuals" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Rebrand · Fashion</span>
           <h3>Piano — Fashion Rebrand</h3>
@@ -784,7 +795,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/dubetta/01.jpg" alt="Dubetta luxury modest-fashion visuals" loading="lazy"></div>
+        <div class="pf-media"><img src="images/dubetta/01.jpg" alt="Dubetta luxury modest-fashion visuals" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Luxury · Rebrand</span>
           <h3>Dubetta — Luxury</h3>
@@ -793,7 +804,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/grillx/01.jpg" alt="Grill X industrial product shots" loading="lazy"></div>
+        <div class="pf-media"><img src="images/grillx/01.jpg" alt="Grill X industrial product shots" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Product · Industrial</span>
           <h3>Grill X — Product Shots</h3>
@@ -802,7 +813,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/grande/01.jpg" alt="Grande fragrance packshots" loading="lazy"></div>
+        <div class="pf-media"><img src="images/grande/01.jpg" alt="Grande fragrance packshots" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Product · Fragrance</span>
           <h3>Grande — Fragrance</h3>
@@ -811,7 +822,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/fashion/01.jpg" alt="Menswear editorial lookbook" loading="lazy"></div>
+        <div class="pf-media"><img src="images/fashion/01.jpg" alt="Menswear editorial lookbook" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Editorial · Menswear</span>
           <h3>Fashion — Lookbook</h3>
@@ -820,7 +831,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/lucinte/01.jpg" alt="Lucinte apparel catalog shots" loading="lazy"></div>
+        <div class="pf-media"><img src="images/lucinte/01.jpg" alt="Lucinte apparel catalog shots" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Product · Apparel</span>
           <h3>Lucinte — Catalog</h3>
@@ -829,7 +840,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/perfumes/01.jpg" alt="Torath cinematic fragrance visuals" loading="lazy"></div>
+        <div class="pf-media"><img src="images/perfumes/01.jpg" alt="Torath cinematic fragrance visuals" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Cinematic · Fragrance</span>
           <h3>Torath — Cinematic Fragrance</h3>
@@ -838,7 +849,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/madad/01.jpg" alt="Madad Al-Huda brand and content" loading="lazy"></div>
+        <div class="pf-media"><img src="images/madad/01.jpg" alt="Madad Al-Huda brand and content" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Brand · Content</span>
           <h3>Madad Al-Huda — Brand &amp; Content</h3>
@@ -847,7 +858,7 @@ footer{margin-top:-36px;z-index:11;border-top:none}
         </div>
       </article>
       <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/storytelling/01.jpg" alt="Episodic brand motion series" loading="lazy"></div>
+        <div class="pf-media"><img src="images/storytelling/01.jpg" alt="Episodic brand motion series" loading="lazy" decoding="async"></div>
         <div class="pf-body">
           <span class="pf-cat mono">Motion · Story</span>
           <h3>Storytelling — Motion Series</h3>
@@ -1289,8 +1300,10 @@ function rearmReveals(scope){
 }
 
 function renderSiteContent(S){
-  /* pricing */
+  /* pricing — an empty list hides the whole section */
   const pg = document.querySelector('.price-grid');
+  const pricingSec = document.getElementById('pricing');
+  if(pricingSec && Array.isArray(S.pricing)) pricingSec.style.display = S.pricing.length ? '' : 'none';
   if(pg && Array.isArray(S.pricing) && S.pricing.length){
     pg.innerHTML = S.pricing.map((c,i)=>{
       const btn = c.featured ? 'btn-primary' : (i===2 ? 'btn-violet' : 'btn-dark');
@@ -1306,8 +1319,11 @@ function renderSiteContent(S){
     }).join('');
     rearmReveals(pg);
   }
-  /* reviews */
+  /* reviews — an empty list hides the whole section */
   const tg = document.querySelector('.tst-grid');
+  const clientsSec = document.getElementById('clients');
+  if(clientsSec && Array.isArray(S.reviews) && !S.reviews.length) clientsSec.style.display = 'none';
+  if(clientsSec && Array.isArray(S.reviews) && S.reviews.length) clientsSec.style.display = '';
   if(tg && Array.isArray(S.reviews) && S.reviews.length){
     tg.innerHTML = S.reviews.map((r,i)=>{
       const brand = (r.role||'').split('·').pop().trim();
@@ -1324,8 +1340,10 @@ function renderSiteContent(S){
     }).join('');
     rearmReveals(tg);
   }
-  /* FAQ */
+  /* FAQ — an empty list hides the whole section */
   const fl = document.querySelector('.faq-list');
+  const faqSec = document.getElementById('faq');
+  if(faqSec && Array.isArray(S.faq)) faqSec.style.display = S.faq.length ? '' : 'none';
   if(fl && Array.isArray(S.faq) && S.faq.length){
     fl.innerHTML = S.faq.map((f,i)=>
       `<details class="faq-item"${i===0?' open':''}><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
@@ -1435,9 +1453,17 @@ function buildFormation(){
     card.style.zIndex = String(1000 + Math.round(c.z));
   }
 
+  /* while the page itself is scrolling, give the main thread to the scroll */
+  let scrollHold = 0;
+  window.addEventListener('scroll', ()=>{ scrollHold = performance.now() + 140; }, {passive:true});
+
   let raf = null;
   function frame(){
     raf = null;
+    if(!dragging && performance.now() < scrollHold){
+      raf = requestAnimationFrame(frame);   /* stay alive, do zero work this frame */
+      return;
+    }
     const vis = visible(), n = vis.length || 1;
     if(!dragging){
       rot += vel; vel *= .94;
@@ -1949,6 +1975,15 @@ if(fine){
   window.addEventListener('resize', ()=>{ measure(); update(); });
   window.addEventListener('load', ()=>{ measure(); update(); });
   measure(); update();
+})();
+
+/* ---- pause the marquee animation while it is off-screen ---- */
+(function(){
+  const m = document.querySelector('.marquee');
+  if(!m) return;
+  new IntersectionObserver(entries=>{
+    m.classList.toggle('off', !entries[0].isIntersecting);
+  },{threshold:0}).observe(m);
 })();
 
 /* ---- service card spotlight ---- */
