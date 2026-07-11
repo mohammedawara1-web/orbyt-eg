@@ -2,7 +2,7 @@
   "pricing": [
     {
       "name": "Starter Shoot",
-      "badge": "Starting point",
+      "badge": "Basic Starting point",
       "featured": true,
       "prefix": "from",
       "amount": "3,000",
@@ -17,23 +17,23 @@
       "cta": "Start a shoot"
     },
     {
-      "name": "Monthly Retainer",
+      "name": "Premium Package",
       "badge": "",
       "featured": false,
       "prefix": "",
-      "amount": "custom",
-      "unit": "",
-      "per": "/mo",
+      "amount": "5400",
+      "unit": "EGP",
+      "per": "",
       "features": [
-        "Monthly shots & reels, scoped to you",
-        "Priority queue, faster turnaround",
-        "Consistent brand-locked look",
-        "A dedicated director on your account"
+        "30 finished shots",
+        "Hero + lifestyle angles",
+        "Store & ad-ready exports",
+        "48-hour delivery"
       ],
       "cta": "Talk to us"
     },
     {
-      "name": "Full Campaign",
+      "name": "Elite Package",
       "badge": "",
       "featured": false,
       "prefix": "",
@@ -49,29 +49,7 @@
       "cta": "Plan a campaign"
     }
   ],
-  "reviews": [
-    {
-      "quote": "[ضع رأي العميل الحقيقي هنا: جملة أو اتنين عن التجربة والنتيجة، بأسلوبه هو.]",
-      "metric": "+34%",
-      "metricLabel": "Ad CTR after new visuals",
-      "name": "[اسم العميل]",
-      "role": "Founder · Piano"
-    },
-    {
-      "quote": "[Real client quote goes here. One or two sentences, in their own voice, naming what changed.]",
-      "metric": "3 days",
-      "metricLabel": "From brief to full campaign",
-      "name": "[Client name]",
-      "role": "Marketing Lead · Dubetta"
-    },
-    {
-      "quote": "[ضع رأي العميل الحقيقي هنا. النتيجة الملموسة أهم من المديح العام.]",
-      "metric": "×3",
-      "metricLabel": "Cheaper than a studio shoot",
-      "name": "[اسم العميل]",
-      "role": "Owner · Grill X"
-    }
-  ],
+  "reviews": [],
   "faq": [
     {
       "q": "Is this real photography or AI?",
