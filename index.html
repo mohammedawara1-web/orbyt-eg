@@ -1275,6 +1275,94 @@ fetch('projects.json?v=' + Date.now())
   .catch(err=>console.error('projects.json failed to load:', err));
 
 /* ============================================================
+   SITE CONTENT — pricing / reviews / FAQ / marquee / about /
+   social are editable from the Admin Studio via site.json.
+   The static HTML stays as the crawlable default; JSON wins.
+   ============================================================ */
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function rearmReveals(scope){
+  scope.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.setProperty('--rev-rot', ((i%2?1:-1)*(1.4+(i%3)*.7)).toFixed(1)+'deg');
+    el.classList.add('in');   /* rendered post-load; show immediately */
+  });
+}
+
+function renderSiteContent(S){
+  /* pricing */
+  const pg = document.querySelector('.price-grid');
+  if(pg && Array.isArray(S.pricing) && S.pricing.length){
+    pg.innerHTML = S.pricing.map((c,i)=>{
+      const btn = c.featured ? 'btn-primary' : (i===2 ? 'btn-violet' : 'btn-dark');
+      const fig = (c.prefix?esc(c.prefix)+' ':'') + `<b>${esc(c.amount)}</b>` +
+                  (c.unit?' '+esc(c.unit):'') + (c.per?`<small>${esc(c.per)}</small>`:'');
+      return `<div class="price-card${c.featured?' featured':''} reveal d${i+1}">
+        ${c.badge?`<span class="price-tag mono">${esc(c.badge)}</span>`:''}
+        <span class="price-name mono">${esc(c.name)}</span>
+        <div class="price-fig">${fig}</div>
+        <ul class="price-list">${(c.features||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+        <a class="btn ${btn} magnetic" data-wa="general" href="${waLink(WA_MESSAGES.general)}" target="_blank" rel="noopener">${esc(c.cta||'Talk to us')}</a>
+      </div>`;
+    }).join('');
+    rearmReveals(pg);
+  }
+  /* reviews */
+  const tg = document.querySelector('.tst-grid');
+  if(tg && Array.isArray(S.reviews) && S.reviews.length){
+    tg.innerHTML = S.reviews.map((r,i)=>{
+      const brand = (r.role||'').split('·').pop().trim();
+      const initial = (brand || r.name || 'O').trim().charAt(0).toUpperCase();
+      return `<figure class="tst-card reveal d${(i%3)+1}">
+        <div class="quotemark" aria-hidden="true">"</div>
+        <blockquote>${esc(r.quote)}</blockquote>
+        ${r.metric?`<div class="tst-metric"><b>${esc(r.metric)}</b><span>${esc(r.metricLabel||'')}</span></div>`:''}
+        <figcaption>
+          <span class="tst-avatar" aria-hidden="true">${esc(initial)}</span>
+          <span class="tst-who"><b>${esc(r.name)}</b><small>${esc(r.role||'')}</small></span>
+        </figcaption>
+      </figure>`;
+    }).join('');
+    rearmReveals(tg);
+  }
+  /* FAQ */
+  const fl = document.querySelector('.faq-list');
+  if(fl && Array.isArray(S.faq) && S.faq.length){
+    fl.innerHTML = S.faq.map((f,i)=>
+      `<details class="faq-item"${i===0?' open':''}><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
+  }
+  /* marquee (same content twice for the seamless loop) */
+  if(Array.isArray(S.marquee) && S.marquee.length){
+    const line = S.marquee.map(esc).join(' <span class="s">✦</span> ') + ' <span class="s">✦</span>';
+    document.querySelectorAll('.marquee .item').forEach(el=>el.innerHTML = line);
+  }
+  /* about facts */
+  if(S.about){
+    const facts = document.querySelectorAll('.about-facts .fact');
+    const vals = [[S.about.fact1,S.about.fact1Note],[S.about.fact2,S.about.fact2Note],[S.about.since,S.about.sinceNote]];
+    facts.forEach((el,i)=>{ if(vals[i] && vals[i][0]) el.innerHTML = `<b>${esc(vals[i][0])}</b><span>${esc(vals[i][1]||'')}</span>`; });
+  }
+  /* social links (footer) */
+  if(S.social){
+    if(S.social.instagram){
+      document.querySelectorAll('a[href*="instagram.com/"]').forEach(a=>{
+        if(!a.closest('#reels') && !a.closest('#modal')) a.href = 'https://instagram.com/' + S.social.instagram.replace(/^@/,'');
+      });
+    }
+    if(S.social.email){
+      document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{
+        a.href = 'mailto:' + S.social.email;
+        if(a.textContent.includes('@')) a.textContent = S.social.email;
+      });
+    }
+  }
+}
+
+fetch('site.json?v=' + Date.now())
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(renderSiteContent)
+  .catch(err=>console.warn('site.json not loaded — static defaults shown:', err));
+
+/* ============================================================
    FORMATION — interactive 3D work gallery (vanilla port of UI/)
    Drag to spin · mode pills · click card → project modal.
    Page scroll is never hijacked (touch-action: pan-y).

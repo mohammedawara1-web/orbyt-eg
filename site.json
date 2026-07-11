@@ -1,0 +1,126 @@
+{
+  "pricing": [
+    {
+      "name": "Starter Shoot",
+      "badge": "Starting point",
+      "featured": true,
+      "prefix": "from",
+      "amount": "3,000",
+      "unit": "EGP",
+      "per": "",
+      "features": [
+        "15 finished shots",
+        "Hero + lifestyle angles",
+        "Store & ad-ready exports",
+        "48-hour delivery"
+      ],
+      "cta": "Start a shoot"
+    },
+    {
+      "name": "Monthly Retainer",
+      "badge": "",
+      "featured": false,
+      "prefix": "",
+      "amount": "custom",
+      "unit": "",
+      "per": "/mo",
+      "features": [
+        "Monthly shots & reels, scoped to you",
+        "Priority queue, faster turnaround",
+        "Consistent brand-locked look",
+        "A dedicated director on your account"
+      ],
+      "cta": "Talk to us"
+    },
+    {
+      "name": "Full Campaign",
+      "badge": "",
+      "featured": false,
+      "prefix": "",
+      "amount": "custom",
+      "unit": "",
+      "per": "",
+      "features": [
+        "Key visual + every cut-down",
+        "Editorial photography + motion",
+        "Rollout kit for your team",
+        "Scoped to your launch timeline"
+      ],
+      "cta": "Plan a campaign"
+    }
+  ],
+  "reviews": [
+    {
+      "quote": "[ضع رأي العميل الحقيقي هنا: جملة أو اتنين عن التجربة والنتيجة، بأسلوبه هو.]",
+      "metric": "+34%",
+      "metricLabel": "Ad CTR after new visuals",
+      "name": "[اسم العميل]",
+      "role": "Founder · Piano"
+    },
+    {
+      "quote": "[Real client quote goes here. One or two sentences, in their own voice, naming what changed.]",
+      "metric": "3 days",
+      "metricLabel": "From brief to full campaign",
+      "name": "[Client name]",
+      "role": "Marketing Lead · Dubetta"
+    },
+    {
+      "quote": "[ضع رأي العميل الحقيقي هنا. النتيجة الملموسة أهم من المديح العام.]",
+      "metric": "×3",
+      "metricLabel": "Cheaper than a studio shoot",
+      "name": "[اسم العميل]",
+      "role": "Owner · Grill X"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is this real photography or AI?",
+      "a": "Both worlds, the best of each. We create with the leading AI tools, but a human director frames, lights, and reviews every shot. You get studio-grade polish without the studio logistics."
+    },
+    {
+      "q": "How fast do I get my shots?",
+      "a": "A single product shoot is delivered in 48 hours. Larger campaigns are scoped to your launch date and usually land in a few days, not weeks."
+    },
+    {
+      "q": "How many revisions do I get?",
+      "a": "We refine until the frames are right for your brand. Revision rounds are included in every package."
+    },
+    {
+      "q": "What formats and sizes do you deliver?",
+      "a": "Every aspect ratio your channels need: 1:1 and 4:5 for feed, 9:16 for reels and stories, 16:9 for landing pages and YouTube. High-resolution exports, ready to post."
+    },
+    {
+      "q": "Do I own the images? Can I run them in paid ads?",
+      "a": "Yes. You receive full commercial usage rights for the visuals we deliver, cleared for organic and paid campaigns."
+    },
+    {
+      "q": "What do you need from me to start?",
+      "a": "Your product details, any brand assets or references, and a sentence on the vibe you want. That is enough for us to build the shot list and get moving."
+    },
+    {
+      "q": "How do payments work?",
+      "a": "We confirm the quote on WhatsApp, take a deposit to start, and settle the balance on delivery."
+    }
+  ],
+  "marquee": [
+    "Piano",
+    "Dubetta",
+    "Grill X",
+    "Grande",
+    "Lucinte",
+    "Torath",
+    "Madad Al-Huda"
+  ],
+  "about": {
+    "fact1": "Director-led",
+    "fact1Note": "Every frame reviewed by a person",
+    "fact2": "Egypt-based",
+    "fact2Note": "Working with brands across MENA",
+    "since": "Since 2024",
+    "sinceNote": "Founded in Cairo"
+  },
+  "social": {
+    "instagram": "REPLACE_WITH_REAL_HANDLE",
+    "email": "hello@orbyt-eg.org"
+  }
+}
