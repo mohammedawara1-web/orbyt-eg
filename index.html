@@ -3,12 +3,40 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Orbyt — AI Visual Studio · Render the impossible</title>
-<meta name="description" content="Orbyt is an AI visual studio. We engineer cinema-grade shots and motion for brands moving at the speed of AI — without surrendering the craft of cinema." />
-<meta property="og:title" content="Orbyt — Render the impossible" />
-<meta property="og:description" content="AI Visual Studio · Cinematic shots and motion in 48 hours." />
+<title>Orbyt — AI Visual Studio in Egypt · Product & Motion in 48h</title>
+<meta name="description" content="Orbyt is an AI visual studio based in Egypt. Cinema-grade product shots, editorial campaigns, and vertical reels — director-reviewed, delivered in 48 hours." />
+<link rel="canonical" href="https://orbyt-eg.org/" />
+<meta name="geo.region" content="EG" />
+<meta property="og:title" content="Orbyt — AI Visual Studio · Render the impossible" />
+<meta property="og:description" content="Cinema-grade product shots and motion for brands — director-reviewed, delivered in 48 hours." />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://orbyt-eg.org/" />
+<meta property="og:image" content="https://orbyt-eg.org/images/og-cover.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Orbyt — AI Visual Studio" />
+<meta name="twitter:description" content="Cinema-grade product shots and motion — delivered in 48 hours." />
+<meta name="twitter:image" content="https://orbyt-eg.org/images/og-cover.jpg" />
 <meta name="theme-color" content="#000000" />
+
+<!-- ✏️ ORBYT: structured data — helps Google show you as a real studio -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Orbyt",
+  "alternateName": "Orbyt Studio",
+  "url": "https://orbyt-eg.org/",
+  "email": "hello@orbyt-eg.org",
+  "description": "AI visual studio in Egypt — product photography, editorial campaigns, and motion reels.",
+  "areaServed": { "@type": "Country", "name": "Egypt" },
+  "founder": { "@type": "Person", "name": "Mohammed H. Awara" },
+  "sameAs": [
+    "https://instagram.com/REPLACE_WITH_REAL_HANDLE"
+  ]
+}
+</script>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='%23C6FF33'/%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M57.59,175.08c7.76,6.32,15.61,9.58,24.14,12.07,31.27,9.11,56.47,6.66,71.03,2.07,12.71-4,24.49-10.37,35-18.79,8.67-7.05,13.88-17.57,13.97-28.79.09-12.4-6.09-23.97-16.21-31.03-7.04-5.45-14.72-9.9-22.93-13.27-7.52-3.09-16.42-5.48-27.24-6.9-5.54-.73-11.12-1.07-16.72-1.03-7.93,0-15.76.81-23.45,2.41-9.99,2.08-18.89,5.25-24.48,8.27-9.26,5-32.8,20.14-32.59,41.72.13,13.34,9.44,25.08,19.48,33.27ZM77.41,110.6c1.19-2.46,5.42-7.88,11.9-11.89,5.2-3.23,11.06-5.25,17.24-6.03,16.49-3.48,33.7-1.78,46.38,8.1,9.48,7.38,12.48,14.76,12.59,19.31.11,4.51-1.72,10.46-8.62,17.41-3.08,3.1-11.18,8.41-22.07,10.86-11.92,2.69-22.95,1.9-32.41-1.21-18.07-5.93-25.35-13.93-27.07-21.38-1.28-5.53.11-11.13,2.07-15.17ZM0,0v240h240V0H0Z'/%3E%3C/svg%3E" />
 
@@ -354,6 +382,11 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .swipe-slide{flex:none;width:100%;height:100%;scroll-snap-align:center;
   background:#0d0d18;position:relative}
 .swipe-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.swipe-slide.video-slide iframe,.swipe-slide.video-slide video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+#modal .gallery .g-vid{width:60px;height:75px;flex:none;border-radius:8px;border:2px solid transparent;
+  background:#1a1030;color:var(--lime);font-size:18px;cursor:pointer;opacity:.5;transition:opacity .2s,border-color .2s}
+#modal .gallery .g-vid:hover{opacity:.85}
+#modal .gallery .g-vid.active{opacity:1;border-color:var(--lime)}
 @media (max-width:680px){
   .swipe-stage{height:min(56vh,520px)}
 }
@@ -398,19 +431,23 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
 .sec-reveal.in{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}
 
 /* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
-.work,.services,.reels-section,.process,footer{
+.work,.services,.tst,.reels-section,.process,.about,.pricing,.faq,footer{
   position:relative;
   border-top-left-radius:36px;
   border-top-right-radius:36px}
 .work{margin-top:-36px;z-index:2;background:var(--obsidian)}
 .services{margin-top:-36px;z-index:3}
-.reels-section{margin-top:-36px;z-index:4}
-.process{margin-top:-36px;z-index:5}
-.cta{position:relative;z-index:6}
-footer{margin-top:-36px;z-index:7;border-top:none}
+.tst{margin-top:-36px;z-index:4}
+.reels-section{margin-top:-36px;z-index:5}
+.process{margin-top:-36px;z-index:6}
+.about{margin-top:-36px;z-index:7}
+.pricing{margin-top:-36px;z-index:8}
+.faq{margin-top:-36px;z-index:9}
+.cta{position:relative;z-index:10}
+footer{margin-top:-36px;z-index:11;border-top:none}
 @media (max-width:680px){
-  .work,.services,.reels-section,.process,footer{border-top-left-radius:24px;border-top-right-radius:24px}
-  .work,.services,.reels-section,.process,footer{margin-top:-24px}
+  .work,.services,.tst,.reels-section,.process,.about,.pricing,.faq,footer{border-top-left-radius:24px;border-top-right-radius:24px}
+  .work,.services,.tst,.reels-section,.process,.about,.pricing,.faq,footer{margin-top:-24px}
 }
 
 /* ===== scroll animations (word reveal · hero exit · cta grow · dots) ===== */
@@ -445,6 +482,122 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
 #scroll-dots a:hover::after{opacity:1;transform:translateY(-50%) translateX(-4px)}
 @media (max-width:680px){#scroll-dots{display:none}}
+
+/* ============================================================
+   NEW SECTIONS (added in the credibility pass) — all reuse the
+   existing design tokens so they match the rest of the site.
+   ============================================================ */
+
+/* hero arabic subline */
+.hero-tag-ar{font-family:var(--body);font-size:clamp(15px,1.4vw,18px);color:var(--ink-60);
+  max-width:52ch;line-height:1.7;margin-top:12px;font-weight:400}
+
+/* trusted-by strip */
+.marquee{display:flex;align-items:center;gap:28px}
+.marquee-label{flex:none;padding-left:32px;color:var(--ink-40);letter-spacing:.18em}
+@media (max-width:680px){.marquee-label{display:none}}
+
+/* testimonials */
+.tst{padding:130px 0;background:#06060a;
+  background-image:radial-gradient(900px 500px at 20% 0%,rgba(125,57,235,.10),transparent 60%)}
+.tst-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:56px}
+.tst-head .lead{font-size:clamp(16px,1.4vw,19px);color:var(--ink-60);line-height:1.55;font-weight:300;max-width:40ch;justify-self:end}
+.tst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tst-card{position:relative;padding:36px 32px;border:1px solid var(--ink-15);border-radius:22px;
+  background:#0d0d18;display:flex;flex-direction:column;gap:22px;overflow:hidden;
+  transition:transform .4s var(--ease),border-color .4s}
+.tst-card:hover{transform:translateY(-3px);border-color:rgba(125,57,235,.5)}
+.tst-card .quotemark{position:absolute;top:6px;right:22px;font-family:var(--display);font-weight:700;
+  font-size:96px;line-height:1;color:var(--ink-8);pointer-events:none}
+.tst-card blockquote{font-family:var(--display);font-weight:500;font-size:19px;line-height:1.45;
+  letter-spacing:-.02em;color:var(--white);position:relative;z-index:1}
+.tst-metric{display:flex;flex-direction:column;gap:2px;padding-top:18px;border-top:1px solid var(--ink-15);margin-top:auto}
+.tst-metric b{font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:-.03em;color:var(--lime)}
+.tst-metric span{font-size:13px;color:var(--ink-60)}
+.tst-card figcaption{display:flex;align-items:center;gap:12px}
+.tst-avatar{width:42px;height:42px;flex:none;border-radius:50%;background:var(--violet);
+  display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:#fff}
+.tst-who b{display:block;font-size:14px;font-weight:600}
+.tst-who small{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-40)}
+@media (max-width:980px){.tst-head{grid-template-columns:1fr;gap:16px}.tst-head .lead{justify-self:start}.tst-grid{grid-template-columns:1fr}}
+
+/* about */
+.about{padding:130px 0;background:var(--cream);color:var(--obsidian)}
+.about-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center}
+.about-portrait{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:#e3ddd0}
+.about-portrait img{width:100%;height:100%;object-fit:cover;filter:saturate(.96)}
+.about-badge{position:absolute;left:16px;bottom:16px;background:rgba(0,0,0,.72);color:#fff;
+  padding:8px 14px;border-radius:999px;letter-spacing:.14em}
+.about-facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.about-facts .fact{flex:1 1 150px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--on-cream-12)}
+.about-facts .fact b{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.02em;display:block}
+.about-facts .fact span{font-size:12.5px;color:var(--on-cream-60);margin-top:4px;display:block}
+@media (max-width:980px){.about-wrap{grid-template-columns:1fr;gap:32px}.about-portrait{max-width:360px}}
+
+/* pricing */
+.pricing{padding:130px 0;background:var(--obsidian)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;align-items:stretch}
+.price-card{display:flex;flex-direction:column;gap:18px;padding:38px 32px;border-radius:24px;
+  border:1px solid var(--ink-15);background:#0a0a0c;position:relative;
+  transition:transform .4s var(--ease),border-color .4s}
+.price-card:hover{transform:translateY(-4px);border-color:var(--ink-40)}
+.price-card.featured{border-color:var(--lime);background:linear-gradient(180deg,rgba(198,255,51,.06),transparent)}
+.price-tag{position:absolute;top:-12px;left:32px;background:var(--lime);color:#0a0a0a;
+  padding:6px 14px;border-radius:999px;letter-spacing:.12em}
+.price-name{color:var(--ink-60);letter-spacing:.14em}
+.price-fig{font-family:var(--display);font-weight:400;font-size:20px;color:var(--ink-60)}
+.price-fig b{font-weight:700;font-size:42px;letter-spacing:-.04em;color:var(--white)}
+.price-fig small{font-size:15px;color:var(--ink-40);font-weight:400}
+.price-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin:4px 0 8px}
+.price-list li{position:relative;padding-left:26px;font-size:15px;color:var(--ink-80);line-height:1.4}
+.price-list li::before{content:"";position:absolute;left:2px;top:5px;width:12px;height:7px;
+  border-left:2px solid var(--lime);border-bottom:2px solid var(--lime);transform:rotate(-45deg)}
+.price-card .btn{margin-top:auto;justify-content:center}
+@media (max-width:980px){.price-grid{grid-template-columns:1fr;max-width:440px}.price-card.featured{margin-top:12px}}
+@media (max-width:680px){.tst,.about,.pricing,.faq{padding:80px 0}}
+
+/* portfolio / case grid (static + crawlable, inside #work) */
+.pf-wrap{margin-top:64px}
+.pf-subhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:26px;
+  padding-bottom:16px;border-bottom:1px solid var(--ink-15)}
+.pf-subhead .mono{color:var(--ink-40);letter-spacing:.16em}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pf-card{border:1px solid var(--ink-15);border-radius:20px;overflow:hidden;background:#0d0d18;
+  display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .4s}
+.pf-card:hover{transform:translateY(-3px);border-color:var(--lime)}
+.pf-media{aspect-ratio:4/5;overflow:hidden;background:#111}
+.pf-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.pf-card:hover .pf-media img{transform:scale(1.05)}
+.pf-body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:10px}
+.pf-cat{color:var(--lime);letter-spacing:.12em}
+.pf-body h3{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em;line-height:1.1}
+.pf-body p{font-size:14px;color:var(--ink-60);line-height:1.55;font-weight:300}
+.pf-specs{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}
+.pf-specs span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-60);border:1px solid var(--ink-15);padding:4px 9px;border-radius:999px}
+@media (max-width:980px){.pf-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.pf-grid{grid-template-columns:1fr}}
+
+/* process step detail list */
+.step-list{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.step-list li{position:relative;padding-left:20px;font-size:13.5px;color:var(--ink-60);line-height:1.45}
+.step-list li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--violet-soft)}
+
+/* FAQ accordion (native <details>, no JS) */
+.faq{padding:130px 0;background:#06060a}
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.faq-list{display:flex;flex-direction:column}
+.faq-item{border-top:1px solid var(--ink-15)}
+.faq-item:last-child{border-bottom:1px solid var(--ink-15)}
+.faq-item summary{list-style:none;cursor:pointer;padding:24px 42px 24px 0;position:relative;
+  font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.02em;color:var(--white)}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:2px;top:20px;font-size:26px;line-height:1;
+  color:var(--lime);transition:transform .3s var(--ease)}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item summary:focus-visible{outline:2px solid var(--lime);outline-offset:4px;border-radius:4px}
+.faq-item p{color:var(--ink-60);font-size:15px;line-height:1.65;font-weight:300;padding:0 42px 26px 0;margin-top:-2px}
+@media (max-width:900px){.faq-wrap{grid-template-columns:1fr;gap:18px}.faq-item summary{font-size:17px}}
 
 /* ===== responsive ===== */
 @media (max-width:980px){
@@ -512,8 +665,9 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     <div class="nav-links">
       <a href="#work">Work</a>
       <a href="#services">Services</a>
-      <a href="#reels">Reels</a>
-      <a href="#process">Process</a>
+      <a href="#clients">Clients</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">Studio</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-cta">
@@ -529,8 +683,11 @@ footer{margin-top:-36px;z-index:7;border-top:none}
 <div id="mobile-menu">
   <a href="#work">Work</a>
   <a href="#services">Services</a>
+  <a href="#clients">Clients</a>
   <a href="#reels">Reels</a>
-  <a href="#process">Process</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#about">Studio</a>
+  <a href="#faq">FAQ</a>
   <a href="#contact">Contact</a>
   <a class="btn btn-wa m-cta" data-wa="general" href="#">Talk to us on WhatsApp</a>
 </div>
@@ -549,7 +706,8 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   <div class="hero-content">
     <p class="hero-by reveal">— by Mohammed H. Awara</p>
     <h1 class="hero-title" data-text="ORBYT">ORBYT</h1>
-    <p class="hero-tag reveal d2">AI Visual Studio · We render the impossible — cinema-grade shots and motion for brands moving at the speed of AI.</p>
+    <p class="hero-tag reveal d2">Product shots, campaigns, and motion reels for ambitious brands. Every frame reviewed by a director. Delivered in 48 hours.</p>
+    <p class="hero-tag-ar reveal d2" dir="rtl" lang="ar">شوت منتجات وحملات وريلز موشن للبراندات الطموحة. بإشراف مخرج على كل فريم، وتسليم في ٤٨ ساعة.</p>
     <div class="hero-cta reveal d3">
       <a href="#work" class="btn btn-primary magnetic">
         See the work
@@ -606,13 +764,109 @@ footer{margin-top:-36px;z-index:7;border-top:none}
       </div>
     </div>
   </div>
+
+  <!-- ✏️ ORBYT: static, crawlable case grid (real projects from projects.json).
+       The 3D gallery above is JS-only and invisible to Google; this grid fixes that.
+       Add Ather + Coatology here once they have real descriptions. -->
+  <div class="wrap pf-wrap">
+    <div class="pf-subhead">
+      <span class="mono">The case work</span>
+      <span class="mono">/ 09 selected projects</span>
+    </div>
+    <div class="pf-grid">
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/piano/01.jpg" alt="Piano fashion rebrand visuals" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Rebrand · Fashion</span>
+          <h3>Piano — Fashion Rebrand</h3>
+          <p>Full rebrand for a fashion line: a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.</p>
+          <div class="pf-specs"><span>Fashion</span><span>Brand Rebrand</span><span>Identity + Visuals</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/dubetta/01.jpg" alt="Dubetta luxury modest-fashion visuals" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Luxury · Rebrand</span>
+          <h3>Dubetta — Luxury</h3>
+          <p>Luxury identity for a modest fashion house. Quiet, deliberate model shots with premium framing on every frame.</p>
+          <div class="pf-specs"><span>Modest Fashion</span><span>Luxury Rebrand</span><span>16:9 · 4:5</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/grillx/01.jpg" alt="Grill X industrial product shots" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Product · Industrial</span>
+          <h3>Grill X — Product Shots</h3>
+          <p>Industrial product shoot for a stainless grill. Multiple angles in clean studio light, engineered to make hardware look beautiful.</p>
+          <div class="pf-specs"><span>Product</span><span>5 angles</span><span>Store + Ads</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/grande/01.jpg" alt="Grande fragrance packshots" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Product · Fragrance</span>
+          <h3>Grande — Fragrance</h3>
+          <p>Fragrance shoot for Grande. Bottles framed against bronze silk and a clean palette, ready for storefront and catalog.</p>
+          <div class="pf-specs"><span>Fragrance</span><span>Packshot</span><span>1:1 · 4:5</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/fashion/01.jpg" alt="Menswear editorial lookbook" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Editorial · Menswear</span>
+          <h3>Fashion — Lookbook</h3>
+          <p>Menswear lookbook with a model in studio under dramatic light. Editorial frames that set the mood and own the channel.</p>
+          <div class="pf-specs"><span>Menswear</span><span>Lookbook</span><span>4:5 · 9:16</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/lucinte/01.jpg" alt="Lucinte apparel catalog shots" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Product · Apparel</span>
+          <h3>Lucinte — Catalog</h3>
+          <p>Catalog for a polo brand: clean shots across colorways and textures, built for e-commerce and ready to ship.</p>
+          <div class="pf-specs"><span>Apparel</span><span>50+ pieces</span><span>E-commerce</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/perfumes/01.jpg" alt="Torath cinematic fragrance visuals" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Cinematic · Fragrance</span>
+          <h3>Torath — Cinematic Fragrance</h3>
+          <p>Cinematic fragrance shoot. Warm light on marble, golden reflections, and a story in every bottle.</p>
+          <div class="pf-specs"><span>Fragrance</span><span>Cinematic Product</span><span>4:5 · 9:16</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/madad/01.jpg" alt="Madad Al-Huda brand and content" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Brand · Content</span>
+          <h3>Madad Al-Huda — Brand &amp; Content</h3>
+          <p>Identity and content for a Qur'an publisher. Product frames and infographics with a quiet, reverent tone.</p>
+          <div class="pf-specs"><span>Publishing</span><span>Identity + Content</span><span>Social + Product</span></div>
+        </div>
+      </article>
+      <article class="pf-card reveal">
+        <div class="pf-media"><img src="images/storytelling/01.jpg" alt="Episodic brand motion series" loading="lazy"></div>
+        <div class="pf-body">
+          <span class="pf-cat mono">Motion · Story</span>
+          <h3>Storytelling — Motion Series</h3>
+          <p>Episodic motion series: cinematic frames cut on the beat, telling brand stories in chapters.</p>
+          <div class="pf-specs"><span>Motion</span><span>Story Series</span><span>9:16 · 16:9</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>
 
 <!-- ===== MARQUEE ===== -->
-<div class="marquee" aria-hidden="true">
+<!-- ✏️ ORBYT: TRUSTED-BY strip — real client/brand names beat generic service words.
+     Replace these with your actual clients (ideally add real logo images later). -->
+<div class="marquee" id="trusted" aria-label="Brands we've worked with">
+  <span class="marquee-label mono">Trusted&nbsp;by</span>
   <div class="track">
-    <div class="item">Product Shots <span class="s">✦</span> Editorial <span class="s">✦</span> Motion Reels <span class="s">✦</span> Ad Creatives <span class="s">✦</span> Brand Systems <span class="s">✦</span> Campaigns <span class="s">✦</span></div>
-    <div class="item">Product Shots <span class="s">✦</span> Editorial <span class="s">✦</span> Motion Reels <span class="s">✦</span> Ad Creatives <span class="s">✦</span> Brand Systems <span class="s">✦</span> Campaigns <span class="s">✦</span></div>
+    <div class="item">Piano <span class="s">✦</span> Dubetta <span class="s">✦</span> Grill X <span class="s">✦</span> Grande <span class="s">✦</span> Lucinte <span class="s">✦</span> Torath <span class="s">✦</span> Madad Al-Huda <span class="s">✦</span></div>
+    <div class="item">Piano <span class="s">✦</span> Dubetta <span class="s">✦</span> Grill X <span class="s">✦</span> Grande <span class="s">✦</span> Lucinte <span class="s">✦</span> Torath <span class="s">✦</span> Madad Al-Huda <span class="s">✦</span></div>
   </div>
 </div>
 
@@ -659,6 +913,53 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   </div>
 </section>
 
+<!-- ===== TESTIMONIALS / CLIENTS (the #1 thing that kills the "AI look") =====
+     ✏️ ORBYT: replace every bracketed placeholder with a REAL quote + name + brand.
+     A named, specific result is what makes the studio feel human and trusted. -->
+<section class="tst sec-reveal" id="clients">
+  <div class="wrap">
+    <div class="tst-head">
+      <div>
+        <span class="eyebrow reveal"><span class="num">05</span> Clients</span>
+        <h2 class="sec-title reveal">Brands who shipped with us.</h2>
+      </div>
+      <p class="lead reveal d1">Real words from the founders and marketers we deliver for. Their results, in their language.</p>
+    </div>
+
+    <div class="tst-grid">
+      <figure class="tst-card reveal d1">
+        <div class="quotemark" aria-hidden="true">"</div>
+        <blockquote>[ضع رأي العميل الحقيقي هنا: جملة أو اتنين عن التجربة والنتيجة، بأسلوبه هو.]</blockquote>
+        <div class="tst-metric"><b>+34%</b><span>Ad CTR after new visuals</span></div>
+        <figcaption>
+          <span class="tst-avatar" aria-hidden="true">P</span>
+          <span class="tst-who"><b>[اسم العميل]</b><small>Founder · Piano</small></span>
+        </figcaption>
+      </figure>
+
+      <figure class="tst-card reveal d2">
+        <div class="quotemark" aria-hidden="true">"</div>
+        <blockquote>[Real client quote goes here. One or two sentences, in their own voice, naming what changed.]</blockquote>
+        <div class="tst-metric"><b>3 days</b><span>From brief to full campaign</span></div>
+        <figcaption>
+          <span class="tst-avatar" aria-hidden="true">D</span>
+          <span class="tst-who"><b>[Client name]</b><small>Marketing Lead · Dubetta</small></span>
+        </figcaption>
+      </figure>
+
+      <figure class="tst-card reveal d3">
+        <div class="quotemark" aria-hidden="true">"</div>
+        <blockquote>[ضع رأي العميل الحقيقي هنا. النتيجة الملموسة أهم من المديح العام.]</blockquote>
+        <div class="tst-metric"><b>×3</b><span>Cheaper than a studio shoot</span></div>
+        <figcaption>
+          <span class="tst-avatar" aria-hidden="true">G</span>
+          <span class="tst-who"><b>[اسم العميل]</b><small>Owner · Grill X</small></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- ===== REELS (Instagram embeds, swipeable) ===== -->
 <section class="reels-section sec-reveal" id="reels">
   <div class="wrap">
@@ -678,14 +979,8 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   </div>
 
   <div class="reels-rail">
-    <div class="reels-carousel" id="reels-carousel">
-      <div class="reel">
-        <iframe src="https://www.instagram.com/p/DY99-EDN4Y_/embed/" loading="lazy" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share" title="Orbyt reel 1"></iframe>
-      </div>
-      <div class="reel">
-        <iframe src="https://www.instagram.com/p/DXmYHoRNTdO/embed/" loading="lazy" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share" title="Orbyt reel 2"></iframe>
-      </div>
-    </div>
+    <!-- filled from projects.json — every album with a Video URL shows here -->
+    <div class="reels-carousel" id="reels-carousel"></div>
   </div>
 </section>
 
@@ -694,21 +989,34 @@ footer{margin-top:-36px;z-index:7;border-top:none}
   <div class="wrap">
     <span class="eyebrow reveal"><span class="num">04</span> Process</span>
     <h2 class="sec-title reveal">Brief to delivery — in days, not weeks.</h2>
+    <p class="sec-lead reveal d1" style="margin-bottom:8px">A tight three-step loop. A single product shoot runs Day 0 to Day 2. Bigger campaigns keep the same rhythm on a longer timeline.</p>
     <div class="steps">
       <div class="step reveal d1">
-        <span class="n">/ 01 — Direct</span>
-        <h3>We listen & frame.</h3>
-        <p>Brief, mood, and references locked into a clear visual line before the first frame.</p>
+        <span class="n">/ 01 · Direct · Day 0</span>
+        <h3>We listen &amp; frame.</h3>
+        <p>A 10-minute WhatsApp brief, then we lock the mood, references, and shot list into one clear visual direction before a single frame is made.</p>
+        <ul class="step-list">
+          <li>You send: product info, references, brand assets</li>
+          <li>You get: a shot list and visual direction</li>
+        </ul>
       </div>
       <div class="step reveal d2">
-        <span class="n">/ 02 — Render</span>
-        <h3>We render & cut.</h3>
-        <p>The best generative tools, run by a director — every frame reviewed before it ships.</p>
+        <span class="n">/ 02 · Render · Day 1</span>
+        <h3>We render &amp; cut.</h3>
+        <p>Our director drives the best generative tools and reviews every frame against the brief. Nothing ships on autopilot.</p>
+        <ul class="step-list">
+          <li>Cinematic lighting, brand-locked palette</li>
+          <li>A first look sent for your notes</li>
+        </ul>
       </div>
       <div class="step reveal d3">
-        <span class="n">/ 03 — Deliver</span>
-        <h3>We ship & refine.</h3>
-        <p>Every aspect ratio and format delivered, with edits until it's pixel-right.</p>
+        <span class="n">/ 03 · Deliver · Day 2</span>
+        <h3>We ship &amp; refine.</h3>
+        <p>Every aspect ratio and format, delivered ready to post. Then we refine over revision rounds until it is pixel-right.</p>
+        <ul class="step-list">
+          <li>All formats: 1:1 · 4:5 · 9:16 · 16:9</li>
+          <li>Revisions included until you approve <!-- ✏️ ORBYT: set your revision limit if any --></li>
+        </ul>
       </div>
     </div>
     <div class="stats">
@@ -716,6 +1024,117 @@ footer{margin-top:-36px;z-index:7;border-top:none}
       <div class="stat reveal d2"><div class="v" data-count="120" data-suffix="+">120+</div><div class="l">Shots / month</div></div>
       <div class="stat reveal d3"><div class="v" data-count="30" data-suffix="+">30+</div><div class="l">Brands shipped</div></div>
       <div class="stat reveal d4"><div class="v" data-count="98" data-suffix="%">98%</div><div class="l">Client satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT — the human layer (a studio has a face, an AI page doesn't) =====
+     ✏️ ORBYT: fill in the real founding year, city, and any team members. -->
+<section class="about on-cream sec-reveal" id="about">
+  <div class="wrap about-wrap">
+    <div class="about-portrait reveal">
+      <img src="images/founder.jpg" alt="Mohammed H. Awara, founder of Orbyt" loading="lazy">
+      <span class="about-badge mono">Cairo, Egypt</span>
+    </div>
+    <div class="about-body">
+      <span class="eyebrow reveal"><span class="num">06</span> The studio</span>
+      <h2 class="sec-title reveal">Not a prompt farm.<br>A studio with a director.</h2>
+      <p class="sec-lead reveal d1">Orbyt is run by Mohammed H. Awara out of Egypt. We use the best generative tools, but a human director frames, reviews, and signs off on every frame before it reaches you. That is the whole difference.</p>
+      <div class="about-facts reveal d2">
+        <div class="fact"><b>Director-led</b><span>Every frame reviewed by a person</span></div>
+        <div class="fact"><b>Egypt-based</b><span>Working with brands across MENA</span></div>
+        <div class="fact"><b>Since 2024</b><span>✏️ set your real founding year</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING — kills "message us for pricing" mystery =====
+     ✏️ ORBYT: set your real prices/ranges in EGP. Ranges are fine; silence is not. -->
+<section class="pricing sec-reveal" id="pricing">
+  <div class="wrap">
+    <span class="eyebrow reveal"><span class="num">07</span> Pricing</span>
+    <h2 class="sec-title reveal">Clear pricing. No back-and-forth.</h2>
+    <p class="sec-lead reveal d1">Pick a starting point. We confirm the exact quote after a 10-minute brief on WhatsApp.</p>
+    <div class="price-grid">
+      <div class="price-card featured reveal d1">
+        <span class="price-tag mono">Starting point</span>
+        <span class="price-name mono">Starter Shoot</span>
+        <div class="price-fig">from <b>3,000</b> EGP</div>
+        <ul class="price-list">
+          <li><b>15 finished shots</b></li>
+          <li>Hero + lifestyle angles</li>
+          <li>Store &amp; ad-ready exports</li>
+          <li>48-hour delivery</li>
+        </ul>
+        <a class="btn btn-primary magnetic" data-wa="general" href="#">Start a shoot</a>
+      </div>
+
+      <div class="price-card reveal d2">
+        <span class="price-name mono">Monthly Retainer</span>
+        <div class="price-fig">custom<small> /mo</small></div>
+        <ul class="price-list">
+          <li>Monthly shots &amp; reels, scoped to you</li>
+          <li>Priority queue, faster turnaround</li>
+          <li>Consistent brand-locked look</li>
+          <li>A dedicated director on your account</li>
+        </ul>
+        <a class="btn btn-dark magnetic" data-wa="general" href="#">Talk to us</a>
+      </div>
+
+      <div class="price-card reveal d3">
+        <span class="price-name mono">Full Campaign</span>
+        <div class="price-fig">custom</div>
+        <ul class="price-list">
+          <li>Key visual + every cut-down</li>
+          <li>Editorial photography + motion</li>
+          <li>Rollout kit for your team</li>
+          <li>Scoped to your launch timeline</li>
+        </ul>
+        <a class="btn btn-violet magnetic" data-wa="general" href="#">Plan a campaign</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ — the trust questions every services buyer asks =====
+     ✏️ ORBYT: confirm the revision limit, usage rights, and payment terms match your real policy. -->
+<section class="faq sec-reveal" id="faq">
+  <div class="wrap faq-wrap">
+    <div class="faq-head">
+      <span class="eyebrow reveal"><span class="num">08</span> FAQ</span>
+      <h2 class="sec-title reveal">Questions, answered.</h2>
+      <p class="sec-lead reveal d1">If yours is not here, message us on WhatsApp. We usually reply within minutes.</p>
+    </div>
+    <div class="faq-list reveal d1">
+      <details class="faq-item" open>
+        <summary>Is this real photography or AI?</summary>
+        <p>Both worlds, the best of each. We create with the leading AI tools, but a human director frames, lights, and reviews every shot. You get studio-grade polish without the studio logistics.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How fast do I get my shots?</summary>
+        <p>A single product shoot is delivered in 48 hours. Larger campaigns are scoped to your launch date and usually land in a few days, not weeks.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How many revisions do I get?</summary>
+        <p>We refine until the frames are right for your brand. Revision rounds are included in every package. <!-- ✏️ ORBYT: state your exact policy, e.g. "2 rounds included" --></p>
+      </details>
+      <details class="faq-item">
+        <summary>What formats and sizes do you deliver?</summary>
+        <p>Every aspect ratio your channels need: 1:1 and 4:5 for feed, 9:16 for reels and stories, 16:9 for landing pages and YouTube. High-resolution exports, ready to post.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I own the images? Can I run them in paid ads?</summary>
+        <p>Yes. You receive full commercial usage rights for the visuals we deliver, cleared for organic and paid campaigns. <!-- ✏️ ORBYT: confirm this matches your terms --></p>
+      </details>
+      <details class="faq-item">
+        <summary>What do you need from me to start?</summary>
+        <p>Your product details, any brand assets or references, and a sentence on the vibe you want. That is enough for us to build the shot list and get moving.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do payments work?</summary>
+        <p>We confirm the quote on WhatsApp, take a deposit to start, and settle the balance on delivery. <!-- ✏️ ORBYT: set your real payment terms and methods --></p>
+      </details>
     </div>
   </div>
 </section>
@@ -754,9 +1173,11 @@ footer{margin-top:-36px;z-index:7;border-top:none}
     </div>
     <div class="foot-col">
       <h4>Reach us</h4>
-      <a data-wa="general" href="#">WhatsApp</a>
-      <a href="mailto:hello@orbyt.studio">hello@orbyt.studio</a>
-      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a data-wa="general" href="#">WhatsApp · +20 122 972 6229</a>
+      <!-- ✏️ ORBYT: use an address on your own domain, not orbyt.studio -->
+      <a href="mailto:hello@orbyt-eg.org">hello@orbyt-eg.org</a>
+      <!-- ✏️ ORBYT: put your REAL Instagram handle here (not the generic instagram.com) -->
+      <a href="https://instagram.com/REPLACE_WITH_REAL_HANDLE" target="_blank" rel="noopener">Instagram</a>
     </div>
   </div>
   <div class="foot-bottom">
@@ -824,11 +1245,29 @@ let formation = null;
 const shot = (p,i)=>`images/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`;
 const frameNo = (p)=>String(PROJECTS.indexOf(p)+1).padStart(2,'0');
 
+/* videos strip — every album with a Video URL gets a card here */
+function renderVideos(){
+  const strip = document.getElementById('reels-carousel');
+  const section = document.getElementById('reels');
+  if(!strip || !section) return;
+  const vids = PROJECTS.filter(p=>p.video);
+  if(!vids.length){ section.style.display = 'none'; return; }
+  section.style.display = '';
+  strip.innerHTML = vids.map(p=>{
+    const v = toEmbed(p.video);
+    return `<div class="reel" data-id="${p.id}">` + (v.kind === 'video'
+      ? `<video src="${v.src}" controls playsinline preload="metadata" style="width:100%;height:680px;display:block;background:#0d0d18"></video>`
+      : `<iframe src="${v.src}" loading="lazy" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share" title="${p.title}"></iframe>`) + `</div>`;
+  }).join('');
+  if(typeof updateReelsArrows === 'function') updateReelsArrows();
+}
+
 fetch('projects.json?v=' + Date.now())
   .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
   .then(data=>{
     PROJECTS = data.projects || [];
     formation = buildFormation();
+    renderVideos();
     /* refresh every cached measurement (doc height, dots offsets, stage size) */
     window.dispatchEvent(new Event('resize'));
     setTimeout(()=>window.dispatchEvent(new Event('resize')), 1000);
@@ -1096,13 +1535,52 @@ mTrack.addEventListener('scroll', ()=>{
   });
 }, {passive:true});
 
+/* turn a pasted video URL (Instagram / YouTube / direct .mp4) into an embeddable source */
+function toEmbed(u){
+  try{
+    const url = new URL(u);
+    const host = url.hostname.replace(/^www\./,'');
+    if(host.includes('instagram.com')){
+      let path = url.pathname;
+      if(!path.endsWith('/')) path += '/';
+      if(!path.endsWith('embed/')) path += 'embed/';
+      return {kind:'iframe', src:'https://www.instagram.com'+path};
+    }
+    if(host === 'youtu.be')
+      return {kind:'iframe', src:'https://www.youtube.com/embed/'+url.pathname.slice(1)};
+    if(host.includes('youtube.com')){
+      const id = url.searchParams.get('v');
+      if(id) return {kind:'iframe', src:'https://www.youtube.com/embed/'+id};
+      if(url.pathname.startsWith('/shorts/'))
+        return {kind:'iframe', src:'https://www.youtube.com/embed/'+url.pathname.split('/')[2]};
+    }
+    if(/\.(mp4|webm|mov)(\?|$)/i.test(url.pathname))
+      return {kind:'video', src:u};
+  }catch(e){}
+  return {kind:'iframe', src:u};
+}
+function videoSlideHTML(v, i, eager){
+  return v.kind === 'video'
+    ? `<div class="swipe-slide video-slide" data-i="${i}"><video src="${v.src}" controls playsinline preload="metadata"></video></div>`
+    : `<div class="swipe-slide video-slide" data-i="${i}"><iframe src="${v.src}" loading="${eager?'eager':'lazy'}" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share"></iframe></div>`;
+}
+
 function openModal(p){
-  galShots = Array.from({length:p.shots}, (_,i)=>shot(p,i));
-  mTrack.innerHTML = galShots.map((s,i)=>`<div class="swipe-slide" data-i="${i}"><img src="${s}" alt="${p.title} — ${i+1}" loading="${i<2?'eager':'lazy'}" draggable="false"></div>`).join('');
-  mGallery.innerHTML = galShots.map((s,i)=>`<img src="${s}" alt="${p.title} — ${i+1}" loading="lazy" data-i="${i}" draggable="false">`).join('');
+  /* slides = [video first, if the album has one] + image shots */
+  const slides = [];
+  if(p.video) slides.push({type:'video', v:toEmbed(p.video)});
+  for(let i=0;i<p.shots;i++) slides.push({type:'img', src:shot(p,i)});
+  galShots = slides;
+
+  mTrack.innerHTML = slides.map((s,i)=> s.type==='video'
+    ? videoSlideHTML(s.v, i, i<2)
+    : `<div class="swipe-slide" data-i="${i}"><img src="${s.src}" alt="${p.title} — ${i+1}" loading="${i<2?'eager':'lazy'}" draggable="false"></div>`).join('');
+  mGallery.innerHTML = slides.map((s,i)=> s.type==='video'
+    ? `<button class="g-vid" data-i="${i}" aria-label="Play video">▶</button>`
+    : `<img src="${s.src}" alt="${p.title} — ${i+1}" loading="lazy" data-i="${i}" draggable="false">`).join('');
   [...mGallery.children].forEach(t=>t.addEventListener('click',()=>snapTo(+t.dataset.i)));
 
-  const multi = p.shots > 1;
+  const multi = slides.length > 1;
   mGallery.style.display = multi ? 'flex' : 'none';
   document.getElementById('m-prev').style.display = multi ? 'flex' : 'none';
   document.getElementById('m-next').style.display = multi ? 'flex' : 'none';
@@ -1338,8 +1816,12 @@ if(fine){
     {id:'studio', label:'Home'},
     {id:'work', label:'Work'},
     {id:'services', label:'Services'},
+    {id:'clients', label:'Clients'},
     {id:'reels', label:'Reels'},
     {id:'process', label:'Process'},
+    {id:'about', label:'Studio'},
+    {id:'pricing', label:'Pricing'},
+    {id:'faq', label:'FAQ'},
     {id:'contact', label:'Contact'}
   ];
   const dots = document.createElement('nav');
