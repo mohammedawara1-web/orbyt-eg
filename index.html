@@ -430,16 +430,8 @@ footer{border-top:1px solid var(--ink-15);padding:90px 32px 56px;position:relati
   transform:translateY(46px) scale(.97) rotate(var(--sec-rot,0deg));
   transition:opacity .6s var(--ease),transform .75s var(--ease)}
 .sec-reveal.in{opacity:1;transform:none}  /* release the layer once settled */
-
-/* ===== lazy rendering: off-screen sections cost ~nothing during scroll ===== */
-#services,#clients,#about,#pricing,#faq,footer{content-visibility:auto}
-#services{contain-intrinsic-size:auto 1300px}
-#clients{contain-intrinsic-size:auto 950px}
-#about{contain-intrinsic-size:auto 850px}
-#pricing{contain-intrinsic-size:auto 1000px}
-#faq{contain-intrinsic-size:auto 950px}
-footer{contain-intrinsic-size:auto 620px}
-.pf-wrap{content-visibility:auto;contain-intrinsic-size:auto 1900px}
+/* NOTE: no content-visibility here — its placeholder→real height swaps caused
+   visible hitching while scrolling down. Layout must stay stable. */
 
 /* ===== stacked-card section rhythm (rounded tops + slight overlap) ===== */
 .work,.services,.tst,.reels-section,.process,.about,.pricing,.faq,footer{
@@ -642,8 +634,10 @@ footer{margin-top:-36px;z-index:11;border-top:none}
   .proj .open{backdrop-filter:none}
   .hero-portrait img{will-change:auto}
   .reveal{transform:translateY(26px);transition:opacity .5s var(--ease),transform .55s var(--ease)}
-  .sec-reveal{transform:translateY(30px);transition:opacity .45s var(--ease),transform .5s var(--ease)}
-  .reveal.in,.sec-reveal.in{transform:none}
+  .reveal.in{transform:none}
+  /* phones: whole-section entrances are the biggest scroll cost — sections
+     just appear; the smaller .reveal elements inside still animate */
+  .sec-reveal{opacity:1;transform:none;transition:none}
 }
 
 @media (prefers-reduced-motion:reduce){
