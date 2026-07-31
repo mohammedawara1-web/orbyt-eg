@@ -1,25 +1,49 @@
 {
   "projects": [
     {
-      "id": 2,
-      "cat": "campaign",
-      "slug": "piano",
-      "shots": 6,
-      "tag": "Rebrand · Fashion",
-      "title": "Piano — Fashion Rebrand",
-      "desc": "Full rebrand for a fashion line — a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.",
+      "id": 11,
+      "cat": "product",
+      "slug": "ather",
+      "shots": 11,
+      "tag": "Product · New",
+      "title": "Ather — New Album",
+      "desc": "Describe this project…",
       "specs": [
         [
           "Industry",
-          "Fashion"
+          "—"
         ],
         [
           "Format",
-          "Brand Rebrand"
+          "—"
         ],
         [
-          "Scope",
-          "Identity + Visuals"
+          "Aspect",
+          "4:5"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "cat": "product",
+      "slug": "perfumes",
+      "shots": 45,
+      "video": "https://www.instagram.com/p/DXmYHoRNTdO/",
+      "tag": "Cinematic · Fragrance",
+      "title": "Torath — Cinematic Fragrance",
+      "desc": "Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
+      "specs": [
+        [
+          "Industry",
+          "Fragrance"
+        ],
+        [
+          "Format",
+          "Cinematic Product"
+        ],
+        [
+          "Aspect",
+          "4:5 · 9:16"
         ]
       ]
     },
@@ -43,6 +67,29 @@
         [
           "Aspect",
           "16:9 · 4:5"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "cat": "campaign",
+      "slug": "piano",
+      "shots": 6,
+      "tag": "Rebrand · Fashion",
+      "title": "Piano — Fashion Rebrand",
+      "desc": "Full rebrand for a fashion line — a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.",
+      "specs": [
+        [
+          "Industry",
+          "Fashion"
+        ],
+        [
+          "Format",
+          "Brand Rebrand"
+        ],
+        [
+          "Scope",
+          "Identity + Visuals"
         ]
       ]
     },
@@ -139,30 +186,6 @@
       ]
     },
     {
-      "id": 8,
-      "cat": "product",
-      "slug": "perfumes",
-      "shots": 45,
-      "video": "https://www.instagram.com/p/DXmYHoRNTdO/",
-      "tag": "Cinematic · Fragrance",
-      "title": "Torath — Cinematic Fragrance",
-      "desc": "Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
-      "specs": [
-        [
-          "Industry",
-          "Fragrance"
-        ],
-        [
-          "Format",
-          "Cinematic Product"
-        ],
-        [
-          "Aspect",
-          "4:5 · 9:16"
-        ]
-      ]
-    },
-    {
       "id": 9,
       "cat": "campaign",
       "slug": "madad",
@@ -206,29 +229,6 @@
         [
           "Aspect",
           "9:16 · 16:9"
-        ]
-      ]
-    },
-    {
-      "id": 11,
-      "cat": "product",
-      "slug": "ather",
-      "shots": 11,
-      "tag": "Product · New",
-      "title": "Ather — New Album",
-      "desc": "Describe this project…",
-      "specs": [
-        [
-          "Industry",
-          "—"
-        ],
-        [
-          "Format",
-          "—"
-        ],
-        [
-          "Aspect",
-          "4:5"
         ]
       ]
     },
