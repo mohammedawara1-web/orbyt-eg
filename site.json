@@ -1,4 +1,14 @@
 {
+  "header": {
+    "kicker": "— by Mohammed H. Awara",
+    "title": "ORBYT",
+    "tagline": "AI Visual Studio · We render the impossible — cinema-grade shots and motion for brands moving at the speed of AI.",
+    "media": {
+      "type": "image",
+      "src": "images/founder.jpg",
+      "poster": ""
+    }
+  },
   "pricing": [
     {
       "name": "Starter Shoot",
