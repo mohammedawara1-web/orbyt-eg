@@ -157,7 +157,7 @@ nav.scrolled .bar{padding:12px 32px}
 .hero{position:relative;min-height:100vh;overflow:hidden;background:#000;
   display:flex;flex-direction:column;justify-content:flex-end;padding:140px 32px 56px}
 .hero-portrait{position:absolute;inset:0;z-index:0;overflow:hidden}
-.hero-portrait picture,.hero-portrait img{display:block;width:100%;height:114%;object-fit:cover;object-position:50% 22%;
+.hero-portrait picture,.hero-portrait img,.hero-portrait video{display:block;width:100%;height:114%;object-fit:cover;object-position:50% 22%;
   will-change:transform;transform:translate3d(0,0,0);filter:saturate(.92) contrast(1.04)}
 .hero-shade{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:
@@ -1294,6 +1294,37 @@ function rearmReveals(scope){
 }
 
 function renderSiteContent(S){
+  /* header — text + background media (image or video) */
+  if(S.header){
+    const H = S.header;
+    const kick = document.querySelector('.hero-by');
+    const tag  = document.querySelector('.hero-tag');
+    const ttl  = document.querySelector('.hero-title');
+    if(kick && H.kicker) kick.textContent = H.kicker;
+    if(tag  && H.tagline) tag.textContent = H.tagline;
+    if(ttl && H.title && H.title !== (ttl.dataset.text || '')){
+      ttl.dataset.text = H.title;
+      ttl.innerHTML = [...H.title].map((c,i)=>
+        `<span class="l" style="transition-delay:${120+i*95}ms">${c===' '?'&nbsp;':esc(c)}</span>`).join('');
+      requestAnimationFrame(()=>ttl.classList.add('in'));
+      setTimeout(()=>ttl.classList.add('in'), 60);
+    }
+    const holder = document.querySelector('.hero-portrait');
+    const M = H.media || {};
+    if(holder && M.src){
+      if(M.type === 'video'){
+        holder.innerHTML =
+          `<video src="${esc(M.src)}" ${M.poster?`poster="${esc(M.poster)}"`:''}
+                  autoplay muted loop playsinline preload="metadata"></video>`;
+      }else{
+        const cur = holder.querySelector('img');
+        if(!cur || !cur.src.endsWith(M.src)){
+          holder.innerHTML = `<img src="${esc(M.src)}" alt="" loading="eager" fetchpriority="high">`;
+        }
+      }
+    }
+  }
+
   /* pricing — an empty list hides the whole section */
   const pg = document.querySelector('.price-grid');
   const pricingSec = document.getElementById('pricing');
