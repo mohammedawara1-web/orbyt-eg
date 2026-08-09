@@ -48,6 +48,29 @@
       ]
     },
     {
+      "id": 13,
+      "cat": "product",
+      "slug": "zena-wear",
+      "shots": 8,
+      "tag": "Product · New",
+      "title": "Zena-wear — New Album",
+      "desc": "All the Website Product Images were made by us.",
+      "specs": [
+        [
+          "Industry",
+          "—"
+        ],
+        [
+          "Format",
+          "—"
+        ],
+        [
+          "Aspect",
+          "4:5"
+        ]
+      ]
+    },
+    {
       "id": 3,
       "cat": "campaign",
       "slug": "dubetta",
