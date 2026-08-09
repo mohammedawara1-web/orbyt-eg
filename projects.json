@@ -24,26 +24,25 @@
       ]
     },
     {
-      "id": 8,
-      "cat": "product",
-      "slug": "perfumes",
-      "shots": 45,
-      "video": "https://www.instagram.com/p/DXmYHoRNTdO/",
-      "tag": "Cinematic · Fragrance",
-      "title": "Torath — Cinematic Fragrance",
-      "desc": "Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
+      "id": 14,
+      "cat": "campaign",
+      "slug": "torath-retro",
+      "shots": 10,
+      "tag": "Product · New",
+      "title": "Torath-retro — New Album",
+      "desc": "Describe this project…",
       "specs": [
         [
           "Industry",
-          "Fragrance"
+          "Fragrances"
         ],
         [
           "Format",
-          "Cinematic Product"
+          "—"
         ],
         [
           "Aspect",
-          "4:5 · 9:16"
+          "4:5"
         ]
       ]
     },
@@ -67,6 +66,30 @@
         [
           "Aspect",
           "4:5"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "cat": "product",
+      "slug": "perfumes",
+      "shots": 45,
+      "video": "https://www.instagram.com/p/DXmYHoRNTdO/",
+      "tag": "Cinematic · Fragrance",
+      "title": "Torath — Cinematic Fragrance",
+      "desc": "Cinematic fragrance shoot — warm light on marble, golden reflections, and a story in every bottle.",
+      "specs": [
+        [
+          "Industry",
+          "Fragrance"
+        ],
+        [
+          "Format",
+          "Cinematic Product"
+        ],
+        [
+          "Aspect",
+          "4:5 · 9:16"
         ]
       ]
     },
