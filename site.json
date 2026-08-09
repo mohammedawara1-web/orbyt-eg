@@ -4,61 +4,12 @@
     "title": "ORBYT",
     "tagline": "AI Visual Studio · We render the impossible — cinema-grade shots and motion for brands moving at the speed of AI.",
     "media": {
-      "type": "image",
-      "src": "images/founder.jpg",
+      "type": "video",
+      "src": "images/site/header.mp4",
       "poster": ""
     }
   },
-  "pricing": [
-    {
-      "name": "Starter Shoot",
-      "badge": "Basic Starting point",
-      "featured": true,
-      "prefix": "from",
-      "amount": "3,000",
-      "unit": "EGP",
-      "per": "",
-      "features": [
-        "15 finished shots",
-        "Hero + lifestyle angles",
-        "Store & ad-ready exports",
-        "48-hour delivery"
-      ],
-      "cta": "Start a shoot"
-    },
-    {
-      "name": "Premium Package",
-      "badge": "",
-      "featured": false,
-      "prefix": "",
-      "amount": "5400",
-      "unit": "EGP",
-      "per": "",
-      "features": [
-        "30 finished shots",
-        "Hero + lifestyle angles",
-        "Store & ad-ready exports",
-        "48-hour delivery"
-      ],
-      "cta": "Talk to us"
-    },
-    {
-      "name": "Elite Package",
-      "badge": "",
-      "featured": false,
-      "prefix": "",
-      "amount": "custom",
-      "unit": "",
-      "per": "",
-      "features": [
-        "Key visual + every cut-down",
-        "Editorial photography + motion",
-        "Rollout kit for your team",
-        "Scoped to your launch timeline"
-      ],
-      "cta": "Plan a campaign"
-    }
-  ],
+  "pricing": [],
   "reviews": [],
   "faq": [
     {
@@ -91,8 +42,9 @@
     }
   ],
   "marquee": [
+    "E-Cart",
     "Piano",
-    "Dubetta",
+    "Coatology",
     "Grill X",
     "Grande",
     "Lucinte",
@@ -104,11 +56,11 @@
     "fact1Note": "Every frame reviewed by a person",
     "fact2": "Egypt-based",
     "fact2Note": "Working with brands across MENA",
-    "since": "Since 2024",
-    "sinceNote": "Founded in Cairo"
+    "since": "Since 2025",
+    "sinceNote": "Founded in Alexanderia"
   },
   "social": {
-    "instagram": "REPLACE_WITH_REAL_HANDLE",
-    "email": "hello@orbyt-eg.org"
+    "instagram": "https://www.instagram.com/orbyt_eg/",
+    "email": "akvision.ceo@gmail.com"
   }
 }
