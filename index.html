@@ -241,13 +241,22 @@ nav.scrolled .bar{padding:12px 32px}
   scroll-padding:32px;padding:8px 32px 24px;-webkit-overflow-scrolling:touch;cursor:grab;scrollbar-width:none}
 .reels-carousel::-webkit-scrollbar{display:none}
 .reels-carousel.dragging{cursor:grabbing;scroll-snap-type:none}
-.reel{flex:none;width:min(86vw,380px);scroll-snap-align:center;border-radius:22px;overflow:hidden;
+.reel{flex:none;width:min(74vw,300px);aspect-ratio:9/16;scroll-snap-align:center;
+  border-radius:22px;overflow:hidden;cursor:pointer;
   background:#0d0d18;border:1px solid var(--ink-15);position:relative;
   box-shadow:0 18px 48px rgba(0,0,0,.4);transition:transform .4s var(--ease),border-color .4s}
 .reel:hover{border-color:var(--lime);transform:translateY(-3px)}
-.reel iframe{width:100%;height:680px;border:0;display:block;background:#0d0d18}
+.reel video{width:100%;height:100%;object-fit:cover;display:block;background:#0d0d18}
+.reel iframe{width:100%;height:100%;border:0;display:block;background:#0d0d18}
+.reel-sound{position:absolute;top:12px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;
+  background:rgba(0,0,0,.55);border:1px solid var(--ink-15);color:#fff;font-size:14px;line-height:1;
+  display:flex;align-items:center;justify-content:center;transition:background .25s}
+.reel-sound:hover{background:var(--lime);color:#000}
+.reel-cap{position:absolute;left:14px;right:14px;bottom:14px;z-index:2;pointer-events:none;
+  font-family:var(--body);font-size:13px;font-weight:500;color:#fff;line-height:1.35;
+  text-shadow:0 2px 12px rgba(0,0,0,.9)}
 @media (max-width:680px){
-  .reel iframe{height:640px}
+  .reel{width:min(70vw,260px)}
   .reels-section{padding:90px 0 80px}
 }
 
@@ -776,91 +785,10 @@ footer{margin-top:-36px;z-index:11;border-top:none}
   <div class="wrap pf-wrap">
     <div class="pf-subhead">
       <span class="mono">The case work</span>
-      <span class="mono">/ 09 selected projects</span>
+      <span class="mono" id="pf-count">/ selected projects</span>
     </div>
-    <div class="pf-grid">
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/piano/01.jpg" alt="Piano fashion rebrand visuals" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Rebrand · Fashion</span>
-          <h3>Piano — Fashion Rebrand</h3>
-          <p>Full rebrand for a fashion line: a new visual grammar, soft-lit fabric closeups, and a warm color story that lets the cloth speak.</p>
-          <div class="pf-specs"><span>Fashion</span><span>Brand Rebrand</span><span>Identity + Visuals</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/dubetta/01.jpg" alt="Dubetta luxury modest-fashion visuals" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Luxury · Rebrand</span>
-          <h3>Dubetta — Luxury</h3>
-          <p>Luxury identity for a modest fashion house. Quiet, deliberate model shots with premium framing on every frame.</p>
-          <div class="pf-specs"><span>Modest Fashion</span><span>Luxury Rebrand</span><span>16:9 · 4:5</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/grillx/01.jpg" alt="Grill X industrial product shots" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Product · Industrial</span>
-          <h3>Grill X — Product Shots</h3>
-          <p>Industrial product shoot for a stainless grill. Multiple angles in clean studio light, engineered to make hardware look beautiful.</p>
-          <div class="pf-specs"><span>Product</span><span>5 angles</span><span>Store + Ads</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/grande/01.jpg" alt="Grande fragrance packshots" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Product · Fragrance</span>
-          <h3>Grande — Fragrance</h3>
-          <p>Fragrance shoot for Grande. Bottles framed against bronze silk and a clean palette, ready for storefront and catalog.</p>
-          <div class="pf-specs"><span>Fragrance</span><span>Packshot</span><span>1:1 · 4:5</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/fashion/01.jpg" alt="Menswear editorial lookbook" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Editorial · Menswear</span>
-          <h3>Fashion — Lookbook</h3>
-          <p>Menswear lookbook with a model in studio under dramatic light. Editorial frames that set the mood and own the channel.</p>
-          <div class="pf-specs"><span>Menswear</span><span>Lookbook</span><span>4:5 · 9:16</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/lucinte/01.jpg" alt="Lucinte apparel catalog shots" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Product · Apparel</span>
-          <h3>Lucinte — Catalog</h3>
-          <p>Catalog for a polo brand: clean shots across colorways and textures, built for e-commerce and ready to ship.</p>
-          <div class="pf-specs"><span>Apparel</span><span>50+ pieces</span><span>E-commerce</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/perfumes/01.jpg" alt="Torath cinematic fragrance visuals" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Cinematic · Fragrance</span>
-          <h3>Torath — Cinematic Fragrance</h3>
-          <p>Cinematic fragrance shoot. Warm light on marble, golden reflections, and a story in every bottle.</p>
-          <div class="pf-specs"><span>Fragrance</span><span>Cinematic Product</span><span>4:5 · 9:16</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/madad/01.jpg" alt="Madad Al-Huda brand and content" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Brand · Content</span>
-          <h3>Madad Al-Huda — Brand &amp; Content</h3>
-          <p>Identity and content for a Qur'an publisher. Product frames and infographics with a quiet, reverent tone.</p>
-          <div class="pf-specs"><span>Publishing</span><span>Identity + Content</span><span>Social + Product</span></div>
-        </div>
-      </article>
-      <article class="pf-card reveal">
-        <div class="pf-media"><img src="images/storytelling/01.jpg" alt="Episodic brand motion series" loading="lazy" decoding="async"></div>
-        <div class="pf-body">
-          <span class="pf-cat mono">Motion · Story</span>
-          <h3>Storytelling — Motion Series</h3>
-          <p>Episodic motion series: cinematic frames cut on the beat, telling brand stories in chapters.</p>
-          <div class="pf-specs"><span>Motion</span><span>Story Series</span><span>9:16 · 16:9</span></div>
-        </div>
-      </article>
-    </div>
+    <!-- rendered from projects.json in the Admin Studio order -->
+    <div class="pf-grid" id="pf-grid"></div>
   </div>
 </section>
 
@@ -1250,21 +1178,145 @@ let formation = null;
 const shot = (p,i)=>`images/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`;
 const frameNo = (p)=>String(PROJECTS.indexOf(p)+1).padStart(2,'0');
 
-/* videos strip — every album with a Video URL gets a card here */
-function renderVideos(){
+/* case grid — every project, in the Admin Studio order (also what Google reads) */
+function renderCaseGrid(){
+  const grid = document.getElementById('pf-grid');
+  if(!grid) return;
+  grid.innerHTML = PROJECTS.map((p,i)=>`
+    <article class="pf-card reveal" data-id="${p.id}">
+      <div class="pf-media"><img src="${shot(p,0)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></div>
+      <div class="pf-body">
+        <span class="pf-cat mono">${esc(p.tag)}</span>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.desc)}</p>
+        <div class="pf-specs">${(p.specs||[]).map(s=>`<span>${esc(s[1])}</span>`).join('')}</div>
+      </div>
+    </article>`).join('');
+  const cnt = document.getElementById('pf-count');
+  if(cnt) cnt.textContent = `/ ${String(PROJECTS.length).padStart(2,'0')} selected projects`;
+  /* clicking a case card opens the same project modal */
+  grid.querySelectorAll('.pf-card').forEach(card=>{
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', ()=>{
+      const p = PROJECTS.find(x=>x.id == card.dataset.id);
+      if(p) openModal(p);
+    });
+  });
+  grid.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.setProperty('--rev-rot', ((i%2?1:-1)*(1.4+(i%3)*.7)).toFixed(1)+'deg');
+    io.observe(el);
+  });
+}
+
+/* ============================================================
+   REELS — self-hosted vertical videos, uploaded from the Admin.
+   The reel nearest the centre plays automatically while you scroll;
+   everything else pauses. Tap a reel to toggle sound.
+   ============================================================ */
+let reelObserver = null;
+function renderReels(list){
   const strip = document.getElementById('reels-carousel');
   const section = document.getElementById('reels');
   if(!strip || !section) return;
-  const vids = PROJECTS.filter(p=>p.video);
-  if(!vids.length){ section.style.display = 'none'; return; }
+  const reels = (list || []).filter(r=>r && r.src);
+  if(!reels.length){ section.style.display = 'none'; return; }
   section.style.display = '';
-  strip.innerHTML = vids.map(p=>{
-    const v = toEmbed(p.video);
-    return `<div class="reel" data-id="${p.id}">` + (v.kind === 'video'
-      ? `<video src="${v.src}" controls playsinline preload="metadata" style="width:100%;height:680px;display:block;background:#0d0d18"></video>`
-      : `<iframe src="${v.src}" loading="lazy" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; web-share" title="${p.title}"></iframe>`) + `</div>`;
-  }).join('');
+
+  strip.innerHTML = reels.map((r,i)=>`
+    <div class="reel" data-i="${i}">
+      <video src="${esc(r.src)}"${r.poster?` poster="${esc(r.poster)}"`:''}
+             muted loop playsinline preload="metadata" aria-label="${esc(r.caption||('Reel '+(i+1)))}"></video>
+      <button class="reel-sound" aria-label="Toggle sound">🔇</button>
+      ${r.caption?`<span class="reel-cap">${esc(r.caption)}</span>`:''}
+    </div>`).join('');
+
+  const vids = [...strip.querySelectorAll('video')];
+
+  /* play only what is on screen */
+  if(reelObserver) reelObserver.disconnect();
+  reelObserver = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      const v = en.target.querySelector('video');
+      if(!v) return;
+      if(en.isIntersecting && en.intersectionRatio > 0.6){
+        v.play().catch(()=>{});
+      }else{
+        v.pause();
+      }
+    });
+  },{threshold:[0,0.6,1], root:null});
+  strip.querySelectorAll('.reel').forEach(el=>reelObserver.observe(el));
+
+  /* swiping sideways: play whichever reel is nearest the centre of the rail */
+  let railPending = false;
+  function playCentred(){
+    railPending = false;
+    const box = strip.getBoundingClientRect();
+    const mid = box.left + box.width/2;
+    let best = null, bestDist = Infinity;
+    strip.querySelectorAll('.reel').forEach(card=>{
+      const r = card.getBoundingClientRect();
+      const d = Math.abs((r.left + r.width/2) - mid);
+      if(d < bestDist){ bestDist = d; best = card; }
+    });
+    strip.querySelectorAll('.reel').forEach(card=>{
+      const v = card.querySelector('video');
+      if(!v) return;
+      if(card === best) v.play().catch(()=>{});
+      else { v.pause(); v.muted = true; }
+    });
+    strip.querySelectorAll('.reel-sound').forEach(b=>{
+      if(!b.closest('.reel').querySelector('video').muted) return;
+      b.textContent = '🔇';
+    });
+  }
+  strip.addEventListener('scroll', ()=>{
+    if(railPending) return;
+    railPending = true;
+    requestAnimationFrame(playCentred);
+  }, {passive:true});
+
+  /* page scroll drives it too: geometry-based, so it works even where
+     IntersectionObserver is unreliable. Only runs near the reels section. */
+  let pagePending = false;
+  function onPageScroll(){
+    pagePending = false;
+    const box = section.getBoundingClientRect();
+    const near = box.top < innerHeight * 1.2 && box.bottom > -innerHeight * 0.2;
+    if(near) playCentred();
+    else strip.querySelectorAll('video').forEach(v=>{ if(!v.paused) v.pause(); });
+  }
+  window.addEventListener('scroll', ()=>{
+    if(pagePending) return;
+    pagePending = true;
+    requestAnimationFrame(onPageScroll);
+    setTimeout(()=>{ if(pagePending) onPageScroll(); }, 120);
+  }, {passive:true});
+  onPageScroll();
+
+  /* tap toggles sound — only one reel audible at a time */
+  strip.querySelectorAll('.reel').forEach(card=>{
+    const v = card.querySelector('video');
+    const btn = card.querySelector('.reel-sound');
+    const toggle = e=>{
+      e.stopPropagation();
+      const turningOn = v.muted;
+      vids.forEach(o=>{ o.muted = true; });
+      strip.querySelectorAll('.reel-sound').forEach(b=>b.textContent = '🔇');
+      v.muted = !turningOn;
+      btn.textContent = v.muted ? '🔇' : '🔊';
+      if(!v.muted) v.play().catch(()=>{});
+    };
+    btn.addEventListener('click', toggle);
+    card.addEventListener('click', toggle);
+  });
+
   if(typeof updateReelsArrows === 'function') updateReelsArrows();
+}
+
+/* legacy: albums that carry a Video URL still work as reels if no reels[] set */
+function reelsFromProjects(){
+  return PROJECTS.filter(p=>p.video).map(p=>({src:p.video, caption:p.title}));
 }
 
 fetch('projects.json?v=' + Date.now())
@@ -1272,7 +1324,8 @@ fetch('projects.json?v=' + Date.now())
   .then(data=>{
     PROJECTS = data.projects || [];
     formation = buildFormation();
-    renderVideos();
+    renderCaseGrid();
+    if(!SITE_REELS) renderReels(reelsFromProjects());   /* fallback until site.json lands */
     /* refresh every cached measurement (doc height, dots offsets, stage size) */
     window.dispatchEvent(new Event('resize'));
     setTimeout(()=>window.dispatchEvent(new Event('resize')), 1000);
@@ -1285,6 +1338,7 @@ fetch('projects.json?v=' + Date.now())
    The static HTML stays as the crawlable default; JSON wins.
    ============================================================ */
 const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+let SITE_REELS = null;   /* set once site.json loads; null = not loaded yet */
 
 function rearmReveals(scope){
   scope.querySelectorAll('.reveal').forEach((el,i)=>{
@@ -1294,6 +1348,10 @@ function rearmReveals(scope){
 }
 
 function renderSiteContent(S){
+  /* reels — uploaded videos take over; otherwise fall back to album video links */
+  SITE_REELS = Array.isArray(S.reels) ? S.reels : [];
+  renderReels(SITE_REELS.length ? SITE_REELS : reelsFromProjects());
+
   /* header — text + background media (image or video) */
   if(S.header){
     const H = S.header;
