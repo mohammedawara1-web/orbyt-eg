@@ -72,7 +72,8 @@
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+/* No global smooth-scroll: it makes the page animate whenever any script
+   calls scrollTo/scrollIntoView, which fights the user's own scrolling. */
 html,body{background:var(--obsidian);color:var(--white);font-family:var(--body);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body{position:relative}
 ::selection{background:var(--lime);color:var(--obsidian)}
@@ -237,7 +238,7 @@ nav.scrolled .bar{padding:12px 32px}
 .reels-rail::before,.reels-rail::after{content:"";position:absolute;top:0;bottom:0;width:32px;z-index:3;pointer-events:none}
 .reels-rail::before{left:0;background:linear-gradient(90deg,#06060a,transparent)}
 .reels-rail::after{right:0;background:linear-gradient(-90deg,#06060a,transparent)}
-.reels-carousel{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+.reels-carousel{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;
   scroll-padding:32px;padding:8px 32px 24px;-webkit-overflow-scrolling:touch;cursor:grab;scrollbar-width:none}
 .reels-carousel::-webkit-scrollbar{display:none}
 .reels-carousel.dragging{cursor:grabbing;scroll-snap-type:none}
@@ -1160,6 +1161,23 @@ footer{margin-top:-36px;z-index:11;border-top:none}
 
 <script>
 /* ============================================================
+   ONE scroll loop for the whole page.
+   Every scroll-driven effect registers here instead of adding its
+   own listener + its own rAF — that is what made scrolling heavy.
+   ============================================================ */
+const scrollTasks = [];
+let scrollTicking = false;
+function addScrollTask(fn){ scrollTasks.push(fn); fn(); }
+window.addEventListener('scroll', ()=>{
+  if(scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(()=>{
+    scrollTicking = false;
+    for(let i=0;i<scrollTasks.length;i++){ try{ scrollTasks[i](); }catch(e){} }
+  });
+}, {passive:true});
+
+/* ============================================================
    ⚙️ Config
    ============================================================ */
 const WHATSAPP_NUMBER = "201229726229";
@@ -1213,7 +1231,7 @@ function renderCaseGrid(){
    The reel nearest the centre plays automatically while you scroll;
    everything else pauses. Tap a reel to toggle sound.
    ============================================================ */
-let reelObserver = null;
+let reelObserver = null, reelsScrollTask = null, reelsTaskAdded = false;
 function renderReels(list){
   const strip = document.getElementById('reels-carousel');
   const section = document.getElementById('reels');
@@ -1276,23 +1294,16 @@ function renderReels(list){
     requestAnimationFrame(playCentred);
   }, {passive:true});
 
-  /* page scroll drives it too: geometry-based, so it works even where
-     IntersectionObserver is unreliable. Only runs near the reels section. */
-  let pagePending = false;
-  function onPageScroll(){
-    pagePending = false;
+  /* Page scroll drives playback too (geometry-based, so it works even where
+     IntersectionObserver is unreliable). Registered ONCE — renderReels may run
+     again when site.json arrives, and duplicate tasks would stack up. */
+  reelsScrollTask = ()=>{
     const box = section.getBoundingClientRect();
-    const near = box.top < innerHeight * 1.2 && box.bottom > -innerHeight * 0.2;
-    if(near) playCentred();
+    if(box.top < innerHeight * 1.2 && box.bottom > -innerHeight * 0.2) playCentred();
     else strip.querySelectorAll('video').forEach(v=>{ if(!v.paused) v.pause(); });
-  }
-  window.addEventListener('scroll', ()=>{
-    if(pagePending) return;
-    pagePending = true;
-    requestAnimationFrame(onPageScroll);
-    setTimeout(()=>{ if(pagePending) onPageScroll(); }, 120);
-  }, {passive:true});
-  onPageScroll();
+  };
+  if(!reelsTaskAdded){ reelsTaskAdded = true; addScrollTask(()=>reelsScrollTask && reelsScrollTask()); }
+  else reelsScrollTask();
 
   /* tap toggles sound — only one reel audible at a time */
   strip.querySelectorAll('.reel').forEach(card=>{
@@ -1538,7 +1549,7 @@ function buildFormation(){
 
   /* while the page itself is scrolling, give the main thread to the scroll */
   let scrollHold = 0;
-  window.addEventListener('scroll', ()=>{ scrollHold = performance.now() + 140; }, {passive:true});
+  addScrollTask(()=>{ scrollHold = performance.now() + 140; });
 
   let raf = null;
   function frame(){
@@ -1584,21 +1595,35 @@ function buildFormation(){
   }
   snap(); kick(2500);
 
-  /* drag to spin — horizontal only; vertical swipes keep scrolling the page */
-  let lastX = 0, movedPx = 0;
+  /* Drag to spin — but ONLY once the gesture is clearly horizontal.
+     A vertical swipe must stay a plain page scroll and must never wake
+     the 3D loop, otherwise scrolling over this section feels heavy. */
+  let lastX = 0, movedPx = 0, startX = 0, startY = 0, pending = false;
   stage.addEventListener('pointerdown', e=>{
-    dragging = true; movedPx = 0; lastX = e.clientX; vel = 0;
-    stage.classList.add('dragging'); kick();
+    pending = true; dragging = false; movedPx = 0;
+    startX = lastX = e.clientX; startY = e.clientY; vel = 0;
   });
   window.addEventListener('pointermove', e=>{
-    if(!dragging) return;
+    if(!pending && !dragging) return;
+    if(pending){
+      const dx = Math.abs(e.clientX - startX), dy = Math.abs(e.clientY - startY);
+      if(dx < 8 && dy < 8) return;          /* not enough movement to judge yet */
+      if(dy > dx){ pending = false; return; } /* vertical → leave it to the page */
+      pending = false; dragging = true;      /* horizontal → take the gesture */
+      lastX = e.clientX;
+      stage.classList.add('dragging');
+    }
     const dx = e.clientX - lastX; lastX = e.clientX;
     movedPx += Math.abs(dx);
     rot += dx*.0045; vel = dx*.0009; kick();
-  });
+  }, {passive:true});
   window.addEventListener('pointerup', ()=>{
+    pending = false;
     if(!dragging) return;
     dragging = false; stage.classList.remove('dragging'); kick();
+  });
+  window.addEventListener('pointercancel', ()=>{
+    pending = false; dragging = false; stage.classList.remove('dragging');
   });
   /* a real drag must not open a card */
   center.addEventListener('click', e=>{
@@ -1823,10 +1848,9 @@ document.querySelectorAll('[data-wa="general"]').forEach(el=>{
 const nav = document.getElementById('nav');
 const progress = document.getElementById('progress');
 const waFloat = document.getElementById('wa-float');
-let docH = 1, navOn = null, waOn = null, scrollPending = false;
+let docH = 1, navOn = null, waOn = null;
 function measureDoc(){ docH = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); }
 function onScroll(){
-  scrollPending = false;
   const y = window.scrollY;
   const nOn = y > 30;
   if(nOn !== navOn){ navOn = nOn; nav.classList.toggle('scrolled', nOn); }
@@ -1834,14 +1858,10 @@ function onScroll(){
   const wOn = y > 500;
   if(wOn !== waOn){ waOn = wOn; waFloat.classList.toggle('show', wOn); }
 }
-window.addEventListener('scroll', ()=>{
-  if(scrollPending) return;
-  scrollPending = true;
-  requestAnimationFrame(onScroll);
-}, {passive:true});
+addScrollTask(onScroll);
 window.addEventListener('resize', measureDoc);
 window.addEventListener('load', ()=>{ measureDoc(); onScroll(); });
-measureDoc(); onScroll();
+measureDoc();
 
 /* ---- mobile menu ---- */
 const burger = document.getElementById('burger');
@@ -1944,11 +1964,7 @@ if(fine){
       hc.style.opacity = String(Math.max(0.2, 1 - (past/h) * 0.55));
     }
   }
-  window.addEventListener('scroll', () => {
-    if(pending) return;
-    pending = true;
-    requestAnimationFrame(update);
-  }, {passive:true});
+  addScrollTask(update);
   window.addEventListener('resize', ()=>{ measure(); update(); });
   window.addEventListener('load',   ()=>{ measure(); update(); });
   measure(); update();
@@ -2049,16 +2065,23 @@ if(fine){
       allDots.forEach(d=>d.classList.toggle('active', d.dataset.id===active));
     }
   }
-  let pending = false;
-  window.addEventListener('scroll', ()=>{
-    if(pending || mobile()) return;
-    pending = true;
-    requestAnimationFrame(()=>{ update(); pending = false; });
-  }, {passive:true});
+  addScrollTask(()=>{ if(!mobile()) update(); });
   window.addEventListener('resize', ()=>{ measure(); update(); });
   window.addEventListener('load', ()=>{ measure(); update(); });
   measure(); update();
 })();
+
+/* ---- smooth glide for in-page links only (deliberate clicks, never during scroll) ---- */
+document.addEventListener('click', e=>{
+  const a = e.target.closest('a[href^="#"]');
+  if(!a) return;
+  const id = a.getAttribute('href').slice(1);
+  if(!id) return;
+  const target = document.getElementById(id);
+  if(!target) return;
+  e.preventDefault();
+  window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY, behavior:'smooth'});
+});
 
 /* ---- pause the marquee animation while it is off-screen ---- */
 (function(){
