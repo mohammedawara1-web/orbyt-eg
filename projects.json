@@ -70,6 +70,29 @@
       ]
     },
     {
+      "id": 15,
+      "cat": "product",
+      "slug": "torath-product",
+      "shots": 28,
+      "tag": "Product · New",
+      "title": "Torath-product — New Album",
+      "desc": "Describe this project…",
+      "specs": [
+        [
+          "Industry",
+          "Fragrances"
+        ],
+        [
+          "Format",
+          "—"
+        ],
+        [
+          "Aspect",
+          "4:5"
+        ]
+      ]
+    },
+    {
       "id": 8,
       "cat": "product",
       "slug": "perfumes",
